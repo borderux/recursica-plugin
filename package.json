@@ -1,9 +1,29 @@
 {
   "name": "recursica-plugin",
-  "private": true,
+  "private": false,
   "version": "0.0.7",
+  "description": "The Figma plugin for Recursica",
   "type": "module",
   "packageManager": "pnpm@8.10.0",
+  "license": "MIT",
+  "author": {
+    "name": "Border UX",
+    "url": "https://borderux.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/recursica/recursica-plugin"
+  },
+  "keywords": [
+    "figma",
+    "plugin",
+    "recursica",
+    "design"
+  ],
+  "bugs": {
+    "url": "https://github.com/recursica/recursica-plugin/issues"
+  },
+  "homepage": "https://github.com/recursica/recursica-plugin#readme",
   "scripts": {
     "dev": "vite",
     "build": "pnpm build:ui && pnpm build:code",
