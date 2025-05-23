@@ -1,0 +1,80 @@
+# Release Workflow
+# This workflow handles the release process for the Recursica Figma plugin.
+#
+# Process:
+# 1. Triggered by pushing a version tag (e.g., v0.0.8)
+# 2. Updates package.json version to match the tag
+# 3. Builds the plugin and creates a zip file
+# 4. Uploads the zip as a GitHub Actions artifact
+#
+# The workflow will automatically:
+# - Extract version from tag (removes 'v' prefix)
+# - Update version in package.json
+# - Install dependencies
+# - Build the plugin
+# - Create a zip file in the release/ directory
+# - Upload the zip as an artifact named 'recursica-plugin.zip'
+#
+# Artifacts:
+# - The built plugin zip file will be available in the GitHub Actions run summary
+# - Artifacts are retained for 30 days
+# - Location: release/recursica-plugin.zip
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags (e.g., v0.0.8)
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository with full history for release notes
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Setup Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Setup pnpm package manager
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.10.0
+
+      # Extract version from tag
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Update version in package.json
+        run: |
+          # Get version from release tag (removes 'v' prefix if present)
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          # Update package.json version
+          pnpm version $VERSION --no-git-tag-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Install project dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Build the plugin
+      - name: Build
+        run: pnpm build && pnpm zip
+
+      # Upload build artifact
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: recursica-plugin.zip
+          path: release/recursica-plugin.zip
+          retention-days: 30
