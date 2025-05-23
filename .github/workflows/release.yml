@@ -49,6 +49,20 @@ jobs:
         with:
           version: 8.10.0
 
+      # Get pnpm store directory
+      - shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      # Cache pnpm store
+      - uses: actions/cache@v4
+        name: Cache pnpm store
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       # Install project dependencies
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -72,7 +86,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            release/recursica-plugin.zip
+            releases/recursica-plugin.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -82,5 +96,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: recursica-plugin.zip
-          path: release/recursica-plugin.zip
+          path: releases/recursica-plugin.zip
           retention-days: 30
