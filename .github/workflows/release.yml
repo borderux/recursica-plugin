@@ -8,8 +8,7 @@
 # 4. Uploads the zip as a GitHub Actions artifact
 #
 # The workflow will automatically:
-# - Extract version from tag (removes 'v' prefix)
-# - Update version in package.json
+# - Update version in package.json from the tag
 # - Install dependencies
 # - Build the plugin
 # - Create a zip file in the release/ directory
@@ -48,10 +47,9 @@ jobs:
         with:
           version: 8.10.0
 
-      # Extract version from tag
-      - name: Get version from tag
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      # Install project dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Update version in package.json
         run: |
@@ -62,10 +60,6 @@ jobs:
           pnpm version $VERSION --no-git-tag-version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Install project dependencies
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       # Build the plugin
       - name: Build
