@@ -70,5 +70,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: recursica-plugin.zip
-          path: release/recursica-plugin.zip
+          path: releases/recursica-plugin.zip
           retention-days: 30
