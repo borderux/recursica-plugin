@@ -1,7 +1,6 @@
 {
   "name": "recursica-plugin",
   "private": false,
-  "version": "0.0.7",
   "description": "The Figma plugin for Recursica",
   "type": "module",
   "packageManager": "pnpm@8.10.0",
@@ -34,8 +33,6 @@
     "watch:code": "vite build --watch --config vite.config.lib.ts",
     "lint": "eslint ./src",
     "zip": "node scripts/zip.mjs",
-    "version": "pnpm build && pnpm zip && git add -A",
-    "postversion": "git push && git push --tags",
     "preview": "vite preview",
     "prepare": "husky",
     "check-types": "tsc --noEmit",
