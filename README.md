@@ -23,17 +23,6 @@ This will start a development server that will watch for changes in the `src` di
 
 To install the plugin locally read this [guide](/PLUGIN.MD/).
 
-## Publishing
-
-To distribute the plugin internally all you need to do is run the following command:
-
-```bash
-pnpm version vX.X.X
-```
-
-This will update the version in the `package.json` file and create a new version tag in the repository. By doing this, a zip file will be created in the `releases` directory with the plugin files. The releases directory only includes the latest version of the plugin, so make sure to keep the version updated.
-Note that the plugin is not published to the Figma community, it is only available for internal use.
-
 ## Structure
 
 The plugin is using [React](https://reactjs.org/) for the UI and [TypeScript](https://www.typescriptlang.org/) for the logic.
