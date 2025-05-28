@@ -78,7 +78,7 @@ function createNewBranch() {
 
 async function handleExistingDesignReviewBranch(branchName: string) {
   const answer: string = await question(
-    'You are in a design-review branch. Do you want to create a new review process? (y/n): ',
+    'You are in a design-review branch. Do you want to create a new review process? (y/n): '
   );
 
   if (answer.toLowerCase() === 'y') {
@@ -148,7 +148,7 @@ function runChromatic() {
     console.log('Chromatic build completed successfully');
   } catch (error: unknown) {
     const chromaticLink = /https:\/\/www\.chromatic\.com\/build\?appId=[\w-]+&number=[\d]+/.exec(
-      (error as Error).message,
+      (error as Error).message
     )?.[0];
     if (chromaticLink) {
       console.info(`New changes are available at ${chromaticLink} to be reviewed.`);
@@ -212,7 +212,7 @@ async function main() {
     if (!initialStatus) {
       if (currentBranch.startsWith('design-review/')) {
         const answer = await question(
-          'No changed files detected in a design review branch. Have you already reviewed the changes in Chromatic? (y/n): ',
+          'No changed files detected in a design review branch. Have you already reviewed the changes in Chromatic? (y/n): '
         );
         if (answer.toLowerCase() === 'y') {
           runChromatic();
@@ -221,7 +221,7 @@ async function main() {
         }
       } else {
         console.log(
-          'No files changed. Please add modified Recursica JSON files before running this. Exiting...',
+          'No files changed. Please add modified Recursica JSON files before running this. Exiting...'
         );
       }
       process.exit(1);
