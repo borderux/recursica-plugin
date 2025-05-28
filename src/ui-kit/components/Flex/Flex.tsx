@@ -1,5 +1,4 @@
 import { Flex as ManFlex, FlexProps as ManFlexProps } from '@mantine/core';
-import styles from './Flex.styles.module.scss';
 import { OmitStyles } from '@/ui-kit/utils';
 
 export interface FlexProps extends OmitStyles<ManFlexProps> {
@@ -11,7 +10,6 @@ export interface FlexProps extends OmitStyles<ManFlexProps> {
 export function Flex({ children, overFlow, overFlowX, overFlowY, ...props }: FlexProps) {
   return (
     <ManFlex
-      className={styles.flex}
       style={{
         overflow: overFlow,
         overflowX: overFlowX,

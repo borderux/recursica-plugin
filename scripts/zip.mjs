@@ -16,7 +16,7 @@ if (!fs.existsSync(releasesDir)) {
   fs.mkdirSync(releasesDir);
 } else {
   // clear the releases directory
-  fs.rmSync(releasesDir, { recursive: true, force: true });
+  fs.rmdirSync(releasesDir, { recursive: true });
   fs.mkdirSync(releasesDir);
 }
 

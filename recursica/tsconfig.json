@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "rootDir": ".",
+    "outDir": "../dist/recursica"
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.mts", "adapter/**/*", "utils/**/*", "schemas/**/*"]
+}

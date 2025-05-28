@@ -1,4 +1,5 @@
-import { CollectionMode, CollectionType, VariableCastedValue } from './types';
+import { GenericVariables } from './exportToJSON';
+import { VariableCastedValue } from './types';
 import { rgbToHex } from './utils';
 
 export async function processVariableCollection({
@@ -6,21 +7,7 @@ export async function processVariableCollection({
   modes,
   variableIds,
 }: VariableCollection) {
-  const collections: CollectionType = {
-    name: collectionName,
-    modes: [],
-  };
-
-  const collectionModes: CollectionMode[] = [];
-
-  modes.forEach((mode) => {
-    const modeJson = {
-      id: mode.modeId,
-      name: mode.name,
-      variables: [],
-    };
-    collectionModes.push(modeJson);
-  });
+  const variables: GenericVariables = {};
 
   for (const variableId of variableIds) {
     const variable = await figma.variables.getVariableByIdAsync(variableId);
@@ -28,7 +15,8 @@ export async function processVariableCollection({
     const { valuesByMode, name: variableName, resolvedType, description } = variable;
 
     for (const modeId in valuesByMode) {
-      const mode = collectionModes.find((m) => m.id === modeId);
+      const mode = modes.find((md) => md.modeId === modeId);
+      if (!mode) continue;
 
       const rawValue = valuesByMode[modeId];
       let value;
@@ -52,15 +40,18 @@ export async function processVariableCollection({
       }
 
       if (value !== undefined) {
-        mode!.variables.push({
+        const idValue = `[${collectionName}][${mode.name}][${variableName}]`;
+        const safeParsedIdValue = idValue.split(' ').join('-');
+        variables[safeParsedIdValue] = {
+          collection: collectionName,
+          mode: mode.name,
           name: variableName,
           type: resolvedType.toLowerCase(),
           description: description,
           value,
-        });
+        };
       }
     }
   }
-  collections.modes = collectionModes;
-  return collections;
+  return variables;
 }
