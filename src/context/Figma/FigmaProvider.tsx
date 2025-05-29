@@ -13,10 +13,10 @@ export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
 
   useEffect(() => {
     window.onmessage = ({ data: { pluginMessage } }) => {
-      if (pluginMessage.type === 'VARIABLES_CODE') {
+      if (pluginMessage?.type === 'VARIABLES_CODE') {
         setVariables(pluginMessage.json);
       }
-      if (pluginMessage.type === 'METADATA') {
+      if (pluginMessage?.type === 'METADATA') {
         setMetadata({
           projectId: pluginMessage.metadata.projectId,
           theme: pluginMessage.metadata.theme,
@@ -24,7 +24,7 @@ export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
           pluginVersion: pluginMessage.metadata.pluginVersion,
         });
       }
-      if (pluginMessage.type === 'EXPORT_SVG_ICONS') setSvgIcons(pluginMessage.svgIcons);
+      if (pluginMessage?.type === 'EXPORT_SVG_ICONS') setSvgIcons(pluginMessage.svgIcons);
     };
     return () => {
       window.onmessage = null;

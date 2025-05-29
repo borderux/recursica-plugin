@@ -17,6 +17,8 @@ export interface RecursicaConfigOverrides {
  */
 export interface RecursicaConfigIcons {
   output?: string;
+  names?: string[];
+  variants?: string[];
 }
 /**
  * Represents a basic design token with common properties

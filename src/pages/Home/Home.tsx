@@ -1,6 +1,6 @@
 import { useFigma } from '@/hooks/useFigma';
 import { Flex, Tabs } from '@/ui-kit';
-import { DisplayVariables, DisplayIcons } from '@/views';
+import { DisplayVariables, DisplayIcons, AuthorizeRepo } from '@/views';
 import { useEffect, useState } from 'react';
 
 export function Home() {
@@ -12,11 +12,16 @@ export function Home() {
   }, [metadata]);
   return (
     <Flex direction={'column'} h='100vh' overFlow='hidden'>
-      <Tabs value={tabState} onChange={setTabState} variant='pills'>
+      <Tabs value={tabState} onChange={setTabState}>
         <Tabs.List justify='center' p='xs' pb={0}>
           <Tabs.Tab value='variables'>Variables</Tabs.Tab>
           <Tabs.Tab value='icons'>Icons</Tabs.Tab>
+          <Tabs.Tab value='authorize'>Authorize</Tabs.Tab>
         </Tabs.List>
+
+        <Tabs.Panel value='authorize'>
+          <AuthorizeRepo />
+        </Tabs.Panel>
 
         <Tabs.Panel
           style={{
