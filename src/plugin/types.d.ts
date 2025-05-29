@@ -4,14 +4,31 @@ export interface VariableReferenceValue {
   name: string;
 }
 
+export interface VariableValue {
+  collection: string;
+  description: string;
+  mode: string;
+  name: string;
+  type: string;
+  value: VariableCastedValue | VariableReferenceValue;
+}
+
 export interface TypographyValue {
+  variableName: string;
   fontFamily: string;
   fontSize: number;
-  fontWeight: number;
-  fontWeightAlias: string;
+  fontWeight: {
+    value: number;
+    alias: string;
+  };
+  letterSpacing: LetterSpacing;
+  lineHeight: LineHeight;
+  textCase: string;
+  textDecoration: string;
 }
 
 export interface EffectValue {
+  variableName: string;
   effects: {
     type: string;
     color: {
@@ -29,42 +46,15 @@ export interface EffectValue {
   }[];
 }
 
-export interface CollectionVariable {
-  name: string;
-  type: string;
-  description: string;
-  value: VariableCastedValue | VariableReferenceValue | TypographyValue | EffectValue;
-}
-
-export interface CollectionMode {
-  id: string;
-  name: string;
-  variables: CollectionVariable[];
-}
-
 export interface CollectionType {
-  name: string;
-  modes: CollectionMode[];
+  [key: string]: EffectValue | TypographyValue | VariableValue;
 }
-
-export type ExportedVariableValue =
-  | string
-  | boolean
-  | number
-  | VariableReferenceValue
-  | TypographyValue
-  | EffectValue;
-
-export type ExportedVariable = {
-  collection: string;
-  name: string;
-  isAlias: boolean;
-  value: ExportedVariableValue;
-};
 
 export type VariableJSONCollection = {
   id: string;
-  version: string;
+  pluginVersion: string;
   generatedAt: string;
-  collections: CollectionType[];
+  variables: CollectionType;
 };
+
+export type ExportedVariableValue = EffectValue | TypographyValue | VariableValue;

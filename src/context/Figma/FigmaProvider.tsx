@@ -1,68 +1,30 @@
 import { useEffect, useState } from 'react';
-import { TokensContext, FigmaContext, MetadataContext } from './FigmaContext';
-import { ExportedVariable, VariableJSONCollection } from '@/plugin/types';
+import { FigmaContext, MetadataContext, IconsContext } from './FigmaContext';
+import { VariableJSONCollection } from '@/plugin/types';
 
 export interface TokensProvidersProps {
   children: React.ReactNode;
 }
 
-function castJson(json: VariableJSONCollection) {
-  const collections = json.collections;
-
-  const exportedVariables: {
-    [key: string]: ExportedVariable[];
-  } = {
-    STRING: [],
-    BOOLEAN: [],
-    COLOR: [],
-    FLOAT: [],
-    TYPOGRAPHY: [],
-    EFFECTS: [],
-  };
-  for (const { modes, name: collectionName } of collections) {
-    for (const { variables } of modes) {
-      for (const { name, type, value } of variables) {
-        exportedVariables[type.toUpperCase()].push({
-          collection: collectionName,
-          name,
-          isAlias: typeof value === 'object',
-          value,
-        });
-      }
-    }
-  }
-
-  return exportedVariables;
-}
-
 export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
-  const [tokens, setTokens] = useState<TokensContext>({
-    codeTokens: undefined,
-    accordionTokens: undefined,
-  });
-  const [metadata, setMetadata] = useState<MetadataContext>({
-    filename: '',
-    version: '',
-  });
+  const [variables, setVariables] = useState<VariableJSONCollection>();
+  const [metadata, setMetadata] = useState<MetadataContext>();
+  const [svgIcons, setSvgIcons] = useState<IconsContext>();
 
   useEffect(() => {
     window.onmessage = ({ data: { pluginMessage } }) => {
       if (pluginMessage.type === 'VARIABLES_CODE') {
-        const jsonTokens = pluginMessage.variables;
-        const accordionTokens = castJson(jsonTokens);
-
-        setTokens((prevTokens) => ({
-          ...prevTokens,
-          accordionTokens,
-          codeTokens: jsonTokens,
-        }));
+        setVariables(pluginMessage.json);
       }
       if (pluginMessage.type === 'METADATA') {
         setMetadata({
-          filename: pluginMessage.metadata.filename,
-          version: pluginMessage.metadata.version,
+          projectId: pluginMessage.metadata.projectId,
+          theme: pluginMessage.metadata.theme,
+          projectType: pluginMessage.metadata.projectType,
+          pluginVersion: pluginMessage.metadata.pluginVersion,
         });
       }
+      if (pluginMessage.type === 'EXPORT_SVG_ICONS') setSvgIcons(pluginMessage.svgIcons);
     };
     return () => {
       window.onmessage = null;
@@ -70,7 +32,8 @@ export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
   }, []);
 
   const values = {
-    tokens,
+    svgIcons,
+    variables,
     metadata,
   };
 

@@ -1,21 +1,22 @@
 import { createContext } from 'react';
-import { ExportedVariable } from '@/plugin/types';
-
-export interface TokensContext {
-  codeTokens?: string;
-  accordionTokens?: {
-    [key: string]: ExportedVariable[];
-  };
-}
+import { VariableJSONCollection } from '@/plugin/types';
+import { ProjectTypes } from '@/plugin/projectMetadataCollection';
 
 export interface MetadataContext {
-  filename: string;
-  version: string;
+  projectId: string;
+  projectType: ProjectTypes;
+  theme?: string;
+  pluginVersion: string;
+}
+
+export interface IconsContext {
+  [key: string]: string;
 }
 
 export interface IFigmaContext {
-  tokens: TokensContext;
-  metadata: MetadataContext;
+  variables?: VariableJSONCollection;
+  svgIcons?: IconsContext;
+  metadata?: MetadataContext;
 }
 
 export const FigmaContext = createContext<IFigmaContext>(null!);

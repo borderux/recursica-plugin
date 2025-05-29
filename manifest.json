@@ -1,5 +1,5 @@
 {
-  "name": "recursica-plugin",
+  "name": "Recursica Plugin",
   "id": "1423756449827722264",
   "api": "1.0.0",
   "main": "./dist/recursica-plugin.js",

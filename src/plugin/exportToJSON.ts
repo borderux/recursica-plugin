@@ -1,103 +1,117 @@
-import { CollectionType, CollectionVariable } from './types';
+import { PROJECT_METADATA_VARIABLE_COLLECTION } from './projectMetadataCollection';
 import { toFontWeight } from './utils';
 import { processVariableCollection } from './variables';
 
 export interface fileMetadata {
-  filetype: string;
-  filename: string;
+  projectId: string;
+  projectType: string;
   version: string;
+  theme: string | undefined;
 }
+export type GenericVariables = {
+  [key: string]: object;
+};
 
+function parseLineHeight(lineHeight: LineHeight) {
+  if (lineHeight.unit === 'AUTO') {
+    return {
+      unit: 'AUTO',
+    };
+  }
+  if (lineHeight.unit === 'PERCENT') {
+    const value = lineHeight.value;
+    const decimal = value % 1;
+    const roundedValue = decimal > 0.9 ? Math.ceil(value) : value;
+    return {
+      unit: 'PERCENT',
+      value: roundedValue,
+    };
+  }
+  return {
+    unit: lineHeight.unit,
+    value: lineHeight.value,
+  };
+}
 async function decodeVariableCollections() {
-  const parsedCollections = [];
+  const objectCollections = {};
   // Get local variable collections
   const rawVariables = await figma.variables.getLocalVariableCollectionsAsync();
   for (const variableCollection of rawVariables) {
-    parsedCollections.push(await processVariableCollection(variableCollection));
+    if (
+      variableCollection.name.toLowerCase() === PROJECT_METADATA_VARIABLE_COLLECTION.toLowerCase()
+    )
+      continue;
+    Object.assign(objectCollections, await processVariableCollection(variableCollection));
   }
-  return parsedCollections;
+  return objectCollections;
 }
 
 async function decodeTypographyStyles() {
   // Get local typographies
-  const parsedTypographies: CollectionVariable[] = [];
+  const parsedTypographies: GenericVariables = {};
   const rawTypographies = await figma.getLocalTextStylesAsync();
-  for (const {
-    name,
-    description,
-    fontName: { family: fontFamily, style: fontWeight },
-    fontSize,
-  } of rawTypographies) {
-    parsedTypographies.push({
+  for (const typography of rawTypographies) {
+    const {
       name,
-      description,
-      type: 'typography',
-      value: {
-        fontFamily,
-        fontSize,
-        fontWeight: toFontWeight(fontWeight),
-        fontWeightAlias: fontWeight,
+      fontName: { family: fontFamily, style: fontWeight },
+      fontSize,
+      lineHeight,
+      letterSpacing,
+      textCase,
+      textDecoration,
+    } = typography;
+    parsedTypographies[name] = {
+      variableName: name,
+      fontFamily,
+      fontSize,
+      fontWeight: {
+        value: toFontWeight(fontWeight),
+        alias: fontWeight,
       },
-    });
+      lineHeight: parseLineHeight(lineHeight),
+      letterSpacing,
+      textCase,
+      textDecoration,
+    };
   }
-  return {
-    name: 'typography',
-    modes: [
-      {
-        id: '',
-        name: 'local-typography-styles',
-        variables: parsedTypographies,
-      },
-    ],
-  };
+  return parsedTypographies;
 }
 
 async function decodeEffectStyles() {
   // Get local effects
-  const parsedEffects: CollectionVariable[] = [];
+  const parsedEffects: GenericVariables = {};
   const rawEffects = await figma.getLocalEffectStylesAsync();
-  for (const { name, description, effects } of rawEffects) {
-    parsedEffects.push({
-      name: name,
-      description: description,
-      type: 'effects',
-      value: {
-        effects: effects.map((eff) => ({
-          type: eff.type,
-          color: (eff as DropShadowEffect).color,
-          offset: (eff as DropShadowEffect).offset,
-          radius: eff.radius,
-          spread: (eff as DropShadowEffect).spread || 0,
-        })),
-      },
-    });
+  for (const { name, effects } of rawEffects) {
+    parsedEffects[name] = {
+      variableName: name,
+      effects: effects.map((eff) => ({
+        type: eff.type,
+        color: (eff as DropShadowEffect).color,
+        offset: (eff as DropShadowEffect).offset,
+        radius: eff.radius,
+        spread: (eff as DropShadowEffect).spread || 0,
+      })),
+    };
   }
-  return {
-    name: 'effects',
-    modes: [
-      {
-        id: '',
-        name: 'local-effect-styles',
-        variables: parsedEffects,
-      },
-    ],
-  };
+  return parsedEffects;
 }
 
-export async function exportToJSON({ filetype, version }: fileMetadata) {
+export async function exportToJSON({ projectId, projectType, version, theme }: fileMetadata) {
   const variables = await decodeVariableCollections();
   const typographies = await decodeTypographyStyles();
   const effects = await decodeEffectStyles();
 
-  const parsedCollections: CollectionType[] = [...variables, typographies, effects];
+  const parsedCollections = Object.assign({}, variables, typographies, effects);
 
   figma.ui.postMessage({
     type: 'VARIABLES_CODE',
-    variables: {
-      id: `${filetype}-file`,
-      version,
+    json: {
+      'project-id': projectId,
+      'file-type': projectType,
+      'theme-name': theme,
+      pluginVersion: version,
       generatedAt: new Date().toISOString(),
-      collections: parsedCollections,
+      variables: parsedCollections,
     },
   });
 }

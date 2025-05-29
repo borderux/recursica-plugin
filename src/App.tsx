@@ -1,13 +1,12 @@
 import { FigmaProvider } from '@/context/Figma/FigmaProvider';
 import { Home } from './pages';
+import { Themes } from './recursica/RecursicaRecursicaThemes.css';
 import { ThemeProvider } from '@/ui-kit';
-import { useThemeDetector } from './hooks/useThemeDetector';
 
 function App() {
-  const isDarkTheme = useThemeDetector();
   return (
     <FigmaProvider>
-      <ThemeProvider defaultColorScheme={isDarkTheme ? 'dark' : 'light'}>
+      <ThemeProvider themeClassname={Themes.Default.Light}>
         <Home />
       </ThemeProvider>
     </FigmaProvider>

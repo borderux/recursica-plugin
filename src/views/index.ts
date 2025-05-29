@@ -1,3 +1,2 @@
-export * from './Footer/Footer';
-export * from './DisplayAccordion/DisplayAccordion';
-export * from './DisplayCode/DisplayCode';
+export * from './DisplayVariables/DisplayVariables';
+export * from './DisplayIcons/DisplayIcons';
