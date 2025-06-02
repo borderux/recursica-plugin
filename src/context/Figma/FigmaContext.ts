@@ -13,10 +13,18 @@ export interface IconsContext {
   [key: string]: string;
 }
 
+export interface RepositoryContext {
+  platform: 'gitlab' | 'github';
+  accessToken: string;
+}
+
 export interface IFigmaContext {
   variables?: VariableJSONCollection;
   svgIcons?: IconsContext;
   metadata?: MetadataContext;
+  repository?: RepositoryContext & {
+    updateAccessToken: (platform: 'gitlab' | 'github', accessToken: string) => void;
+  };
 }
 
-export const FigmaContext = createContext<IFigmaContext>(null!);
+export const FigmaContext = createContext<IFigmaContext | null>(null);

@@ -2,7 +2,7 @@ import { useFigma } from '@/hooks/useFigma';
 import { Anchor, Flex, Title, Button } from '@/ui-kit';
 import { useMemo } from 'react';
 
-export function DisplayIcons() {
+export function IconsPanel() {
   const { svgIcons } = useFigma();
   const iconsData = useMemo(() => {
     return 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(svgIcons, null, 2));
@@ -21,6 +21,8 @@ export function DisplayIcons() {
         href={iconsData}
         download={`recursica-icons.json`}
         underline='never'
+        loading={!iconsData}
+        disabled={!iconsData}
       ></Button>
     </Flex>
   );

@@ -2,7 +2,7 @@ import { useFigma } from '@/hooks/useFigma';
 import { Flex, Title, Button, Anchor } from '@/ui-kit';
 import { useMemo } from 'react';
 
-export function DisplayVariables(): JSX.Element {
+export function VariablesPanel(): JSX.Element {
   const { variables, metadata } = useFigma();
   const variablesData = useMemo(() => {
     return 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(variables, null, 2));
@@ -33,6 +33,7 @@ export function DisplayVariables(): JSX.Element {
         download={filename}
         underline='never'
         loading={!variables}
+        disabled={!variables}
       />
     </Flex>
   );
