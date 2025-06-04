@@ -34,11 +34,12 @@ export async function exportIcons() {
   const svgIcons: SvgMetadata = {};
   await collectIconsFromNodes(figma.currentPage, svgIcons);
 
-  figma.ui.postMessage({ type: 'EXPORT_SVG_ICONS', svgIcons });
+  figma.ui.postMessage({ type: 'EXPORT_SVG_ICONS', payload: svgIcons });
+  return svgIcons;
 }
 
 export async function exportSelectedIcons(currentSelection: SceneNode[]) {
   const selectedIcons = await getSvgIconsFromNodes(currentSelection);
 
-  figma.ui.postMessage({ type: 'EXPORT_SELECTED_ICONS', selectedIcons });
+  figma.ui.postMessage({ type: 'EXPORT_SELECTED_ICONS', payload: selectedIcons });
 }

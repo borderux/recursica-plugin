@@ -6,6 +6,8 @@ import {
   Offline,
   RepositoryConnection,
   PublishFiles,
+  SelectSources,
+  FetchSources,
 } from './pages';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { Themes } from './recursica/RecursicaRecursicaThemes.css';
@@ -24,6 +26,10 @@ function App() {
                 <Route path='/' element={<Layout />}>
                   <Route path='home' element={<Home />} />
                   <Route path='offline' element={<Offline />} />
+                  <Route path='figma'>
+                    <Route path='select-sources' element={<SelectSources />} />
+                    <Route path='fetch-data' element={<FetchSources />} />
+                  </Route>
                   <Route path='recursica'>
                     <Route path='token' element={<RepositoryConnection />} />
                     <Route path='select-project' element={<SelectProject />} />

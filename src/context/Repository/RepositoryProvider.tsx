@@ -19,7 +19,17 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   const [projectBranches, setProjectBranches] = useState<string[]>([]);
   const [userProjects, setUserProjects] = useState<{ label: string; value: string }[]>([]);
   const [filesPublished, setFilesPublished] = useState<boolean>(false);
-  const { repository, variables, svgIcons, metadata } = useFigma();
+  const [prLink, setPrLink] = useState<string>('');
+
+  const [tokenCollection, setTokenCollection] = useState<string>('');
+  const [themesCollections, setThemesCollections] = useState<string[]>([]);
+
+  const {
+    repository,
+    libraries: { recursicaVariables },
+    svgIcons,
+  } = useFigma();
+
   const iconsJson = useMemo(() => {
     if (svgIcons) {
       return JSON.stringify(svgIcons, null, 2);
@@ -28,18 +38,11 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   }, [svgIcons]);
 
   const variablesJson = useMemo(() => {
-    if (variables) {
-      return JSON.stringify(variables, null, 2);
+    if (recursicaVariables) {
+      return JSON.stringify(recursicaVariables, null, 2);
     }
     return null;
-  }, [variables]);
-
-  const variablesFilename = useMemo(() => {
-    if (metadata?.projectType === 'themes') {
-      return `recursica-${metadata?.theme}-theme.json`;
-    }
-    return `recursica-${metadata?.projectType}.json`;
-  }, [metadata]);
+  }, [recursicaVariables]);
 
   useEffect(() => {
     if (repository) {
@@ -112,7 +115,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     setProjectBranches(branches);
   };
 
-  const getFiles = async (): Promise<{ name: string; path: string }[]> => {
+  const getRepositoryFiles = async (): Promise<{ name: string; path: string }[]> => {
     const response = await axios.get(
       `https://gitlab.com/api/v4/projects/${selectedProject}/repository/tree`,
       {
@@ -130,10 +133,10 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
       message: 'Files commited by Recursica',
       actions: [] as { action: string; file_path: string; content: string }[],
     };
-    const files = await getFiles();
-    console.log(variablesJson, iconsJson);
+    const files = await getRepositoryFiles();
     if (variablesJson) {
-      commit.message += `\nrecursica-variables.json`;
+      const variablesFilename = 'recursica-bundle.json';
+      commit.message += `\n${variablesFilename}`;
       const exists = files.find((file) => file.name === variablesFilename);
       commit.actions.push({
         action: exists ? 'update' : 'create',
@@ -151,7 +154,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
         content: iconsJson,
       });
     }
-    const response = await axios.post(
+    await axios.post(
       `https://gitlab.com/api/v4/projects/${selectedProject}/repository/commits`,
       {
         branch: selectedBranch,
@@ -164,9 +167,37 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
         },
       }
     );
-    const data = response.data;
-    console.log(data);
+
+    try {
+      const prResponse = await axios.post(
+        `https://gitlab.com/api/v4/projects/${selectedProject}/merge_requests`,
+        {
+          source_branch: selectedBranch,
+          target_branch: 'main',
+        }
+      );
+      const data = prResponse.data;
+      setPrLink(data.web_url);
+    } catch (error) {
+      console.error(error);
+    }
     setFilesPublished(true);
+  };
+
+  const fetchSources = async () => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'FETCH_SOURCES',
+          payload: {
+            tokenCollection,
+            themesCollections,
+          },
+        },
+        pluginId: '*',
+      },
+      '*'
+    );
   };
 
   const value = {
@@ -181,6 +212,12 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     userProjects,
     projectBranches,
     filesPublished,
+    prLink,
+    tokenCollection,
+    updateTokenCollection: setTokenCollection,
+    themesCollections,
+    updateThemesCollections: setThemesCollections,
+    fetchSources,
   };
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>;
 }

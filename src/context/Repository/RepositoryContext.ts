@@ -11,6 +11,12 @@ interface Repository {
   selectedBranch: string;
   updateSelectedBranch: (selectedBranch: string) => void;
   projectBranches: string[];
+  prLink: string;
+  tokenCollection: string;
+  updateTokenCollection: (tokenCollection: string) => void;
+  themesCollections: string[];
+  updateThemesCollections: (themesCollections: string[]) => void;
+  fetchSources: () => void;
 }
 
 export const RepositoryContext = createContext<Repository | null>(null);

@@ -53,8 +53,9 @@ export interface CollectionType {
 export type VariableJSONCollection = {
   id: string;
   pluginVersion: string;
-  generatedAt: string;
-  variables: CollectionType;
+  tokens: CollectionType;
+  themes: Record<string, CollectionType>;
+  uiKit: CollectionType;
 };
 
 export type ExportedVariableValue = EffectValue | TypographyValue | VariableValue;

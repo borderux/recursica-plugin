@@ -105,7 +105,7 @@ export async function exportToJSON({ projectId, projectType, version, theme }: f
 
   figma.ui.postMessage({
     type: 'VARIABLES_CODE',
-    json: {
+    payload: {
       'project-id': projectId,
       'file-type': projectType,
       'theme-name': theme,
@@ -114,4 +114,5 @@ export async function exportToJSON({ projectId, projectType, version, theme }: f
       variables: parsedCollections,
     },
   });
+  return parsedCollections;
 }

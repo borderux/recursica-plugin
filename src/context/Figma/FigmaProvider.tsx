@@ -14,26 +14,37 @@ export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
     platform: 'gitlab',
     accessToken: '',
   });
+  const [availableLibraries, setAvailableLibraries] =
+    useState<Record<string, { value: string; name: string }[]>>();
+  const [recursicaVariables, setRecursicaVariables] = useState<VariableJSONCollection>();
 
   useLayoutEffect(() => {
     window.onmessage = ({ data: { pluginMessage } }) => {
       if (pluginMessage?.type === 'VARIABLES_CODE') {
-        setVariables(pluginMessage.json);
+        setVariables(pluginMessage.payload);
       }
       if (pluginMessage?.type === 'METADATA') {
+        const { projectId, theme, projectType, pluginVersion } = pluginMessage.payload;
         setMetadata({
-          projectId: pluginMessage.metadata.projectId,
-          theme: pluginMessage.metadata.theme,
-          projectType: pluginMessage.metadata.projectType,
-          pluginVersion: pluginMessage.metadata.pluginVersion,
+          projectId,
+          theme,
+          projectType,
+          pluginVersion,
         });
       }
-      if (pluginMessage?.type === 'EXPORT_SVG_ICONS') setSvgIcons(pluginMessage.svgIcons);
+      if (pluginMessage?.type === 'EXPORT_SVG_ICONS') setSvgIcons(pluginMessage.payload);
       if (pluginMessage?.type === 'GET_ACCESS_TOKEN') {
+        const { platform, accessToken } = pluginMessage.payload;
         setRepository({
-          platform: pluginMessage.platform,
-          accessToken: pluginMessage.accessToken,
+          platform,
+          accessToken,
         });
+      }
+      if (pluginMessage?.type === 'TEAM_LIBRARIES') {
+        setAvailableLibraries(pluginMessage.payload);
+      }
+      if (pluginMessage?.type === 'RECURSICA_VARIABLES') {
+        setRecursicaVariables(pluginMessage.payload);
       }
     };
     return () => {
@@ -46,8 +57,10 @@ export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
       {
         pluginMessage: {
           type: 'UPDATE_ACCESS_TOKEN',
-          platform: 'gitlab',
-          accessToken: accessToken,
+          payload: {
+            platform,
+            accessToken,
+          },
         },
         pluginId: '*',
       },
@@ -67,6 +80,10 @@ export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
       platform: repository.platform,
       accessToken: repository.accessToken,
       updateAccessToken,
+    },
+    libraries: {
+      availableLibraries,
+      recursicaVariables,
     },
   };
 
