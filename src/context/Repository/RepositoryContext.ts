@@ -8,8 +8,6 @@ interface Repository {
   userProjects: { label: string; value: string }[];
   selectedProject: string;
   updateSelectedProject: (selectedProject: string) => void;
-  selectedBranch: string;
-  updateSelectedBranch: (selectedBranch: string) => void;
   projectBranches: string[];
   prLink: string;
   tokenCollection: string;
@@ -17,6 +15,8 @@ interface Repository {
   themesCollections: string[];
   updateThemesCollections: (themesCollections: string[]) => void;
   fetchSources: () => void;
+  defaultBranch?: string;
+  publishFiles: (selectedBranch: string, createNewBranch: boolean) => void;
 }
 
 export const RepositoryContext = createContext<Repository | null>(null);

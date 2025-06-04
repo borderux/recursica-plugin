@@ -15,7 +15,6 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   const [accessToken, setAccessToken] = useState('');
   const [platform, setPlatform] = useState('');
   const [selectedProject, setSelectedProject] = useState('');
-  const [selectedBranch, setSelectedBranch] = useState('');
   const [projectBranches, setProjectBranches] = useState<string[]>([]);
   const [userProjects, setUserProjects] = useState<{ label: string; value: string }[]>([]);
   const [filesPublished, setFilesPublished] = useState<boolean>(false);
@@ -27,15 +26,15 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   const {
     repository,
     libraries: { recursicaVariables },
-    svgIcons,
+    // svgIcons,
   } = useFigma();
 
-  const iconsJson = useMemo(() => {
-    if (svgIcons) {
-      return JSON.stringify(svgIcons, null, 2);
-    }
-    return null;
-  }, [svgIcons]);
+  // const iconsJson = useMemo(() => {
+  //   if (svgIcons) {
+  //     return JSON.stringify(svgIcons, null, 2);
+  //   }
+  //   return null;
+  // }, [svgIcons]);
 
   const variablesJson = useMemo(() => {
     if (recursicaVariables) {
@@ -69,11 +68,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     }
   }, [userInfo]);
 
-  useEffect(() => {
-    if (selectedProject && selectedBranch) {
-      publishFiles();
-    }
-  }, [selectedProject, selectedBranch]);
+  const defaultBranch = projectBranches.find((branch) => branch === 'main' || branch === 'master');
 
   const fetchUserInfo = async () => {
     const response = await axios.get(`https://gitlab.com/api/v4/user`, {
@@ -115,7 +110,9 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     setProjectBranches(branches);
   };
 
-  const getRepositoryFiles = async (): Promise<{ name: string; path: string }[]> => {
+  const getRepositoryFiles = async (
+    selectedBranch: string
+  ): Promise<{ name: string; path: string }[]> => {
     const response = await axios.get(
       `https://gitlab.com/api/v4/projects/${selectedProject}/repository/tree`,
       {
@@ -128,12 +125,30 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     return response.data;
   };
 
-  const publishFiles = async () => {
+  const publishFiles = async (selectedBranch: string, createNewBranch: boolean) => {
     const commit = {
       message: 'Files commited by Recursica',
       actions: [] as { action: string; file_path: string; content: string }[],
     };
-    const files = await getRepositoryFiles();
+    let targetBranch = selectedBranch;
+    if (createNewBranch) {
+      const timestamp = Math.floor(Date.now() / 1000).toString();
+      const newBranchName = `recursica-${userInfo?.username}-${timestamp}`;
+      const newBranch = await axios.post(
+        `https://gitlab.com/api/v4/projects/${selectedProject}/repository/branches`,
+        {
+          branch: newBranchName,
+          ref: 'main',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      targetBranch = newBranch.data.name;
+    }
+    const files = await getRepositoryFiles(targetBranch);
     if (variablesJson) {
       const variablesFilename = 'recursica-bundle.json';
       commit.message += `\n${variablesFilename}`;
@@ -144,20 +159,20 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
         content: variablesJson,
       });
     }
-    if (iconsJson) {
-      const iconFilename = 'recursica-icons.json';
-      const exists = files.find((file) => file.name === iconFilename);
-      commit.message += `\n${iconFilename}`;
-      commit.actions.push({
-        action: exists ? 'update' : 'create',
-        file_path: iconFilename,
-        content: iconsJson,
-      });
-    }
+    // if (iconsJson) {
+    //   const iconFilename = 'recursica-icons.json';
+    //   const exists = files.find((file) => file.name === iconFilename);
+    //   commit.message += `\n${iconFilename}`;
+    //   commit.actions.push({
+    //     action: exists ? 'update' : 'create',
+    //     file_path: iconFilename,
+    //     content: iconsJson,
+    //   });
+    // }
     await axios.post(
       `https://gitlab.com/api/v4/projects/${selectedProject}/repository/commits`,
       {
-        branch: selectedBranch,
+        branch: targetBranch,
         commit_message: commit.message,
         actions: commit.actions,
       },
@@ -172,8 +187,14 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
       const prResponse = await axios.post(
         `https://gitlab.com/api/v4/projects/${selectedProject}/merge_requests`,
         {
-          source_branch: selectedBranch,
-          target_branch: 'main',
+          source_branch: targetBranch,
+          target_branch: defaultBranch,
+          title: 'New recursica tokens release',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
       const data = prResponse.data;
@@ -204,11 +225,9 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     accessToken,
     platform,
     selectedProject,
-    selectedBranch,
     updateAccessToken: setAccessToken,
     updatePlatform: setPlatform,
     updateSelectedProject: setSelectedProject,
-    updateSelectedBranch: setSelectedBranch,
     userProjects,
     projectBranches,
     filesPublished,
@@ -218,6 +237,8 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     themesCollections,
     updateThemesCollections: setThemesCollections,
     fetchSources,
+    publishFiles,
+    defaultBranch,
   };
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>;
 }

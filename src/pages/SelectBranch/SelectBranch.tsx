@@ -3,29 +3,27 @@ import { Typography } from '@/ui-kit/components/Typography/Typography';
 import { Flex } from '@/ui-kit/components/Flex/Flex';
 import { Checkbox, Select } from '@mantine/core';
 import { Button } from '@/ui-kit/components/Button/Button';
-import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import { NavLink } from 'react-router';
+import { useEffect, useState } from 'react';
 
 export function SelectBranch() {
-  const { projectBranches, selectedBranch, updateSelectedBranch } = useRepository();
-  const navigate = useNavigate();
-  const [useDefaultBranch, setUseDefaultBranch] = useState(false);
+  const { projectBranches, publishFiles, defaultBranch } = useRepository();
 
-  const navigateToPublishFiles = () => {
-    navigate('/recursica/publish-files');
+  const [isNewRelease, setIsNewRelease] = useState(true);
+  const [selectedBranch, setSelectedBranch] = useState('');
+
+  useEffect(() => {
+    if (isNewRelease) {
+      setSelectedBranch(defaultBranch || '');
+    }
+  }, [isNewRelease]);
+
+  const handlePublishFiles = () => {
+    publishFiles(selectedBranch, isNewRelease);
   };
 
-  const defaultBranch = projectBranches.find((branch) => branch === 'main');
-
   const handleDefaultBranchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      console.log(projectBranches);
-      updateSelectedBranch(defaultBranch || '');
-      setUseDefaultBranch(true);
-    } else {
-      updateSelectedBranch(selectedBranch);
-      setUseDefaultBranch(false);
-    }
+    setIsNewRelease(event.target.checked);
   };
 
   return (
@@ -34,19 +32,22 @@ export function SelectBranch() {
       <Select
         data={projectBranches}
         value={selectedBranch}
-        disabled={useDefaultBranch}
+        disabled={isNewRelease}
         onChange={(value) => {
           if (value) {
-            updateSelectedBranch(value);
+            setSelectedBranch(value);
           }
         }}
       />
-      <Checkbox
-        label='Use default branch'
-        checked={useDefaultBranch}
-        onChange={handleDefaultBranchChange}
-      />
-      {selectedBranch && <Button label='Publish Files' onClick={navigateToPublishFiles} />}
+      <Checkbox label='New release' checked={isNewRelease} onChange={handleDefaultBranchChange} />
+      {selectedBranch && (
+        <Button
+          component={NavLink}
+          to='/recursica/publish-files'
+          label='Publish Files'
+          onClick={handlePublishFiles}
+        />
+      )}
     </Flex>
   );
 }
