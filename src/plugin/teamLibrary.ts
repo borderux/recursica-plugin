@@ -58,7 +58,6 @@ export async function getRemoteVariables(
       uiKit,
     },
   };
-  console.log('response', response);
 
   figma.ui.postMessage(response);
 }

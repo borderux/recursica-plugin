@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { RepositoryContext } from './RepositoryContext';
 import { useFigma } from '@/hooks/useFigma';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 interface UserInfo {
   id: number;
@@ -200,7 +200,22 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
       const data = prResponse.data;
       setPrLink(data.web_url);
     } catch (error) {
-      console.error(error);
+      if (error instanceof AxiosError) {
+        const response = await axios.get(
+          `https://gitlab.com/api/v4/projects/${selectedProject}/merge_requests`,
+          {
+            params: {
+              source_branch: targetBranch,
+              target_branch: defaultBranch,
+            },
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        const data = response.data;
+        setPrLink(data[0].web_url);
+      } else {
+        console.error(error);
+      }
     }
     setFilesPublished(true);
   };
