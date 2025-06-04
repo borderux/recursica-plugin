@@ -1,5 +1,4 @@
 export * from './Home/Home';
-export * from './Offline/Offline';
 export * from './RepositoryConnection/RepositoryConnection';
 export * from './SelectProject/SelectProject';
 export * from './SelectBranch/SelectBranch';
