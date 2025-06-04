@@ -7,7 +7,7 @@ export function FetchSources() {
     libraries: { recursicaVariables },
   } = useFigma();
   return (
-    <div>
+    <>
       {recursicaVariables ? (
         <Typography>Recursica Variables</Typography>
       ) : (
@@ -16,6 +16,6 @@ export function FetchSources() {
       {recursicaVariables && (
         <Button label='Publish Variables' component={NavLink} to='/recursica/token' />
       )}
-    </div>
+    </>
   );
 }

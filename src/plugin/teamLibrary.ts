@@ -4,8 +4,10 @@ import { VariableCastedValue } from './types';
 import { rgbToHex } from './utils/rgbToHex';
 
 export async function getTeamLibrary() {
+  // Get the team library from the figma api
   const teamLibrary = await figma.teamLibrary.getAvailableLibraryVariableCollectionsAsync();
 
+  // Create a record of the libraries
   const libraries: Record<string, { value: string; name: string }[]> = {};
   for (const library of teamLibrary) {
     if (!libraries[library.libraryName]) libraries[library.libraryName] = [];
@@ -15,6 +17,7 @@ export async function getTeamLibrary() {
     });
   }
 
+  // Send the libraries to the main thread
   figma.ui.postMessage({
     type: 'TEAM_LIBRARIES',
     payload: libraries,
@@ -25,35 +28,40 @@ export async function getTeamLibrary() {
 
 export async function getRemoteVariables(
   projectId: string,
-  projectType: string,
-  version: string,
+  pluginVersion: string,
   tokenCollection: string,
   themesCollections: string[],
   uiKit: GenericVariables
 ) {
+  // Get the team library from the figma api
   const libraries = await getTeamLibrary();
-  const [tokenVariables] = await decodeFileVariables(libraries[tokenCollection]);
+  // Decode the token collection
+  const [tokens] = await decodeFileVariables(libraries[tokenCollection]);
+  // Decode the themes collections
   const themes: Record<string, GenericVariables> = {};
   for (const theme of themesCollections) {
     const [themeValues, metadata] = await decodeFileVariables(libraries[theme]);
     const filetype = Object.values(
       metadata as Record<string, { name: string; value: string }>
     ).find((m) => m.name === 'project-type')?.value;
+    // If the filetype is not themes, continue
     if (filetype !== 'themes') continue;
+    // Get the theme name
     const themeName = Object.values(
       metadata as Record<string, { name: string; value: string }>
     ).find((m) => m.name === 'theme')?.value;
+    // If the theme values or theme name is not found, continue
     if (!themeValues || !themeName) continue;
+    // Add the theme to the themes object
     themes[themeName] = themeValues;
   }
-
+  // Send the variables to the main thread
   const response = {
     type: 'RECURSICA_VARIABLES',
     payload: {
-      'project-id': projectId,
-      'file-type': projectType,
-      pluginVersion: version,
-      tokens: tokenVariables,
+      projectId,
+      pluginVersion,
+      tokens,
       themes,
       uiKit,
     },
@@ -83,6 +91,7 @@ async function decodeFileVariables(
   return [variables, metadataVariables];
 }
 
+// Decode the remote variables
 export async function decodeRemoteVariables(collection: string) {
   const variables: GenericVariables = {};
   const tokenVariables = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(collection);

@@ -1,9 +1,8 @@
-import { FigmaProvider, RecursicaProvider } from '@/context';
+import { FigmaProvider } from '@/context';
 import {
   SelectProject,
   SelectBranch,
   Home,
-  Offline,
   RepositoryConnection,
   PublishFiles,
   SelectSources,
@@ -20,28 +19,25 @@ function App() {
     <ThemeProvider themeClassname={Themes.Default.Light}>
       <FigmaProvider>
         <RepositoryProvider>
-          <RecursicaProvider>
-            <MemoryRouter initialEntries={['/home']}>
-              <Routes>
-                <Route path='/' element={<Layout />}>
-                  <Route path='home' element={<Home />} />
-                  <Route path='offline' element={<Offline />} />
-                  <Route path='figma'>
-                    <Route path='select-sources' element={<SelectSources />} />
-                    <Route path='fetch-data' element={<FetchSources />} />
-                  </Route>
-                  <Route path='recursica'>
-                    <Route path='token' element={<RepositoryConnection />} />
-                    <Route path='select-project' element={<SelectProject />} />
-                    <Route path='select-branch' element={<SelectBranch />} />
-                    <Route path='publish-files' element={<PublishFiles />} />
-                    {/* <Route path='success' element={<RecursicaSuccess />} /> */}
-                    {/* <Route path='error' element={<RecursicaError />} /> */}
-                  </Route>
+          <MemoryRouter initialEntries={['/home']}>
+            <Routes>
+              <Route path='/' element={<Layout />}>
+                <Route path='home' element={<Home />} />
+                <Route path='figma'>
+                  <Route path='select-sources' element={<SelectSources />} />
+                  <Route path='fetch-data' element={<FetchSources />} />
                 </Route>
-              </Routes>
-            </MemoryRouter>
-          </RecursicaProvider>
+                <Route path='recursica'>
+                  <Route path='token' element={<RepositoryConnection />} />
+                  <Route path='select-project' element={<SelectProject />} />
+                  <Route path='select-branch' element={<SelectBranch />} />
+                  <Route path='publish-files' element={<PublishFiles />} />
+                  {/* <Route path='success' element={<RecursicaSuccess />} /> */}
+                  {/* <Route path='error' element={<RecursicaError />} /> */}
+                </Route>
+              </Route>
+            </Routes>
+          </MemoryRouter>
         </RepositoryProvider>
       </FigmaProvider>
     </ThemeProvider>

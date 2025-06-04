@@ -16,8 +16,11 @@ export interface RecursicaConfigOverrides {
  * Recursica config icons
  */
 export interface RecursicaConfigIcons {
+  /** The path to the output file */
   output?: string;
+  /** The names of the icons */
   names?: string[];
+  /** The variants of the icons */
   variants?: string[];
 }
 /**
@@ -143,8 +146,14 @@ export type JsonContentIcons = Record<string, string>;
  */
 export type Themes = Record<string, Record<string, ThemeTokens>>;
 
+/**
+ * Represents the properties required for exporting tokens
+ */
 export interface ExportingProps {
+  /** The path to the output file */
   outputPath: string;
+  /** The project name */
   project: string;
+  /** The root path of the project */
   rootPath?: string;
 }

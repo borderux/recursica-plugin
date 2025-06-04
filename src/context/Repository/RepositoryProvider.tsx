@@ -26,15 +26,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   const {
     repository,
     libraries: { recursicaVariables },
-    // svgIcons,
   } = useFigma();
-
-  // const iconsJson = useMemo(() => {
-  //   if (svgIcons) {
-  //     return JSON.stringify(svgIcons, null, 2);
-  //   }
-  //   return null;
-  // }, [svgIcons]);
 
   const variablesJson = useMemo(() => {
     if (recursicaVariables) {
@@ -159,16 +151,6 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
         content: variablesJson,
       });
     }
-    // if (iconsJson) {
-    //   const iconFilename = 'recursica-icons.json';
-    //   const exists = files.find((file) => file.name === iconFilename);
-    //   commit.message += `\n${iconFilename}`;
-    //   commit.actions.push({
-    //     action: exists ? 'update' : 'create',
-    //     file_path: iconFilename,
-    //     content: iconsJson,
-    //   });
-    // }
     await axios.post(
       `https://gitlab.com/api/v4/projects/${selectedProject}/repository/commits`,
       {

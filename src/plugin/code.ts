@@ -1,10 +1,9 @@
 import { exportToJSON } from './exportToJSON';
 import packageInfo from '../../package.json' with { type: 'json' };
-import { exportIcons } from './exportIcons';
 import { decodeProjectMetadataCollection } from './projectMetadataCollection';
 import { getAccessTokens, updateAccessTokens } from './accessTokens';
 import { getRemoteVariables, getTeamLibrary } from './teamLibrary';
-const version = packageInfo.version;
+const pluginVersion = packageInfo.version;
 
 async function main() {
   figma.showUI(`<script>window.location.href ="http://localhost:5173"</script>`, {
@@ -13,10 +12,8 @@ async function main() {
     themeColors: true,
   });
 
-  const { projectId, projectType, theme } = await decodeProjectMetadataCollection(version);
-  // Load the local variable collections
-  const localVariables = await exportToJSON({ projectId, projectType, version, theme });
-  await exportIcons();
+  const { projectId } = await decodeProjectMetadataCollection(pluginVersion);
+  const localVariables = await exportToJSON();
   getAccessTokens();
   getTeamLibrary();
 
@@ -29,8 +26,7 @@ async function main() {
       const { tokenCollection, themesCollections } = e.payload;
       await getRemoteVariables(
         projectId,
-        projectType,
-        version,
+        pluginVersion,
         tokenCollection,
         themesCollections,
         localVariables

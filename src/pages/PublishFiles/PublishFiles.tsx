@@ -1,5 +1,4 @@
-import { Typography } from '@/ui-kit/components/Typography/Typography';
-import { Flex } from '@/ui-kit/components/Flex/Flex';
+import { Typography, Flex } from '@/ui-kit';
 import { useRepository } from '@/hooks/useRepository';
 
 export function PublishFiles() {

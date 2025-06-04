@@ -1,7 +1,5 @@
 import { Flex } from '@/ui-kit/components/Flex/Flex';
-import { Button } from '@/ui-kit/components/Button/Button';
-import { Typography } from '@/ui-kit/components/Typography/Typography';
-import { MultiSelect, Select } from '@mantine/core';
+import { Button, Typography, MultiSelect, Select } from '@/ui-kit';
 import { useRepository } from '@/hooks/useRepository';
 import { useFigma } from '@/hooks/useFigma';
 import { NavLink } from 'react-router';

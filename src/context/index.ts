@@ -1,2 +1,2 @@
 export * from './Figma';
-export * from './Recursica';
+export * from './Repository';

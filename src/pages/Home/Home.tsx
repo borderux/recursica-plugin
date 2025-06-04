@@ -6,7 +6,6 @@ export function Home() {
     <Flex direction={'column'} justify={'center'} align={'center'} gap={20}>
       <Typography>Home</Typography>
       <Button component={NavLink} to='/figma/select-sources' label='Get Started' />
-      <Button component={NavLink} to='/offline' label='Offline' />
     </Flex>
   );
 }

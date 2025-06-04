@@ -1,8 +1,5 @@
 import { useRepository } from '@/hooks/useRepository';
-import { Typography } from '@/ui-kit/components/Typography/Typography';
-import { Flex } from '@/ui-kit/components/Flex/Flex';
-import { Checkbox, Select } from '@mantine/core';
-import { Button } from '@/ui-kit/components/Button/Button';
+import { Typography, Flex, Checkbox, Select, Button } from '@/ui-kit';
 import { NavLink } from 'react-router';
 import { useEffect, useState } from 'react';
 

@@ -1,5 +1,4 @@
-import { Flex, Title, Button, Typography } from '@/ui-kit';
-import { Select, TextInput } from '@mantine/core';
+import { Flex, Title, Button, Typography, TextInput, Select } from '@/ui-kit';
 import { useFigma } from '@/hooks/useFigma';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';

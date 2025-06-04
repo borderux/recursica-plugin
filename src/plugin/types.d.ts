@@ -49,9 +49,11 @@ export interface EffectValue {
 export interface CollectionType {
   [key: string]: EffectValue | TypographyValue | VariableValue;
 }
-
+/**
+ * Represents the variable JSON collection
+ */
 export type VariableJSONCollection = {
-  id: string;
+  projectId: string;
   pluginVersion: string;
   tokens: CollectionType;
   themes: Record<string, CollectionType>;
