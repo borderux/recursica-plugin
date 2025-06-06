@@ -1,27 +1,27 @@
 import { useEffect, useMemo, useState } from 'react';
 import { RepositoryContext } from './RepositoryContext';
 import { useFigma } from '@/hooks/useFigma';
-import axios, { AxiosError } from 'axios';
-
-interface UserInfo {
-  id: number;
-  username?: string;
-  name?: string;
-  email?: string;
-}
+import {
+  BaseRepository,
+  GitLabRepository,
+  GitHubRepository,
+  type UserInfo,
+  type Project,
+  type Branch,
+  type FileInfo,
+  type CommitAction,
+} from '@/services/repository';
 
 export function RepositoryProvider({ children }: { children: React.ReactNode }) {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [accessToken, setAccessToken] = useState('');
   const [platform, setPlatform] = useState('');
   const [selectedProject, setSelectedProject] = useState('');
-  const [projectBranches, setProjectBranches] = useState<string[]>([]);
-  const [userProjects, setUserProjects] = useState<{ label: string; value: string }[]>([]);
+  const [projectBranches, setProjectBranches] = useState<Branch[]>([]);
+  const [userProjects, setUserProjects] = useState<Project[]>([]);
   const [filesPublished, setFilesPublished] = useState<boolean>(false);
   const [prLink, setPrLink] = useState<string>('');
   const [adapterResponse, setAdapterResponse] = useState<string>('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [targetBranch, setTargetBranch] = useState<string>('');
 
   const [tokenCollection, setTokenCollection] = useState<string>('');
   const [themesCollections, setThemesCollections] = useState<string[]>([]);
@@ -38,6 +38,20 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     return null;
   }, [recursicaVariables]);
 
+  // Create repository instance based on platform
+  const repositoryInstance = useMemo((): BaseRepository | null => {
+    if (!accessToken || !platform) return null;
+
+    switch (platform.toLowerCase()) {
+      case 'gitlab':
+        return new GitLabRepository(accessToken);
+      case 'github':
+        return new GitHubRepository(accessToken);
+      default:
+        return null;
+    }
+  }, [accessToken, platform]);
+
   useEffect(() => {
     if (repository) {
       setAccessToken(repository.accessToken);
@@ -46,164 +60,133 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   }, [repository]);
 
   useEffect(() => {
-    if (accessToken) {
+    if (repositoryInstance) {
       fetchUserInfo();
     }
-  }, [accessToken]);
+  }, [repositoryInstance]);
 
   useEffect(() => {
-    if (selectedProject) {
+    if (selectedProject && repositoryInstance) {
       getProjectBranches();
     }
-  }, [selectedProject]);
+  }, [selectedProject, repositoryInstance]);
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && repositoryInstance) {
       getUserProjects();
     }
-  }, [userInfo]);
+  }, [userInfo, repositoryInstance]);
 
-  const defaultBranch = projectBranches.find((branch) => branch === 'main' || branch === 'master');
+  const defaultBranch = projectBranches.find(
+    (branch) => branch.name === 'main' || branch.name === 'master'
+  )?.name;
 
   const fetchUserInfo = async () => {
-    const response = await axios.get(`https://gitlab.com/api/v4/user`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    const data = await response.data;
-    setUserInfo(data);
+    if (!repositoryInstance) return;
+
+    try {
+      const data = await repositoryInstance.getUserInfo();
+      setUserInfo(data);
+    } catch (error) {
+      console.error('Failed to fetch user info:', error);
+    }
   };
 
   const getUserProjects = async () => {
-    const response = await axios.get<{ name: string; id: number }[]>(
-      `https://gitlab.com/api/v4/users/${userInfo?.id}/contributed_projects`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    const data = response.data;
-    const projects = data.map((project: { name: string; id: number }) => {
-      return { label: project.name, value: project.id.toString() };
-    });
-    setUserProjects(projects);
+    if (!repositoryInstance) return;
+
+    try {
+      const projects = await repositoryInstance.getUserProjects();
+      setUserProjects(projects);
+    } catch (error) {
+      console.error('Failed to fetch user projects:', error);
+    }
   };
 
   const getProjectBranches = async () => {
-    const response = await axios.get<{ name: string; id: number }[]>(
-      `https://gitlab.com/api/v4/projects/${selectedProject}/repository/branches`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    const data = response.data;
-    const branches = data.map((branch: { name: string; id: number }) => branch.name);
-    setProjectBranches(branches);
+    if (!repositoryInstance || !selectedProject) return;
+
+    try {
+      const branches = await repositoryInstance.getProjectBranches(selectedProject);
+      setProjectBranches(branches);
+    } catch (error) {
+      console.error('Failed to fetch project branches:', error);
+    }
   };
 
-  const getRepositoryFiles = async (
-    selectedBranch: string
-  ): Promise<{ name: string; path: string }[]> => {
-    const response = await axios.get(
-      `https://gitlab.com/api/v4/projects/${selectedProject}/repository/tree`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-        params: {
-          ref: selectedBranch,
-        },
-      }
-    );
-    return response.data;
+  const getRepositoryFiles = async (selectedBranch: string): Promise<FileInfo[]> => {
+    if (!repositoryInstance || !selectedProject) return [];
+
+    try {
+      return await repositoryInstance.getRepositoryFiles(selectedProject, selectedBranch);
+    } catch (error) {
+      console.error('Failed to fetch repository files:', error);
+      return [];
+    }
   };
 
   const publishFiles = async (selectedBranch: string, createNewBranch: boolean) => {
-    const commit = {
-      message: 'Files commited by Recursica',
-      actions: [] as { action: string; file_path: string; content: string }[],
-    };
-    let targetBranch = selectedBranch;
-    if (createNewBranch) {
-      const timestamp = Math.floor(Date.now() / 1000).toString();
-      const newBranchName = `recursica-${userInfo?.username}-${timestamp}`;
-      const newBranch = await axios.post(
-        `https://gitlab.com/api/v4/projects/${selectedProject}/repository/branches`,
-        {
-          branch: newBranchName,
-          ref: 'main',
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      targetBranch = newBranch.data.name;
-    }
-    setTargetBranch(targetBranch);
-    const files = await getRepositoryFiles(targetBranch);
-    if (variablesJson) {
-      const variablesFilename = 'recursica-bundle.json';
-      commit.message += `\n${variablesFilename}`;
-      const exists = files.find((file) => file.name === variablesFilename);
-      commit.actions.push({
-        action: exists ? 'update' : 'create',
-        file_path: variablesFilename,
-        content: variablesJson,
-      });
-    }
-    await axios.post(
-      `https://gitlab.com/api/v4/projects/${selectedProject}/repository/commits`,
-      {
-        branch: targetBranch,
-        commit_message: commit.message,
-        actions: commit.actions,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    if (!repositoryInstance || !selectedProject || !userInfo || !variablesJson) return;
 
     try {
-      const prResponse = await axios.post(
-        `https://gitlab.com/api/v4/projects/${selectedProject}/merge_requests`,
-        {
-          source_branch: targetBranch,
-          target_branch: defaultBranch,
-          title: 'New recursica tokens release',
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      const data = prResponse.data;
-      setPrLink(data.web_url);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        const response = await axios.get(
-          `https://gitlab.com/api/v4/projects/${selectedProject}/merge_requests`,
-          {
-            params: {
-              source_branch: targetBranch,
-              target_branch: defaultBranch,
-            },
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
+      let targetBranch = selectedBranch;
+
+      if (createNewBranch) {
+        const newBranchName = `recursica-${userInfo.username}-${Math.floor(Date.now() / 1000)}`;
+        const branch = await repositoryInstance.createBranch(
+          selectedProject,
+          newBranchName,
+          'main'
         );
-        const data = response.data;
-        setPrLink(data[0].web_url);
-      } else {
-        console.error(error);
+        targetBranch = branch.name;
       }
+
+      const files = await getRepositoryFiles(targetBranch);
+      const variablesFilename = 'recursica-bundle.json';
+
+      const exists = files.find((file) => file.name === variablesFilename);
+      const actions: CommitAction[] = [
+        {
+          action: exists ? 'update' : 'create',
+          file_path: variablesFilename,
+          content: variablesJson,
+        },
+      ];
+
+      await repositoryInstance.commitFiles(
+        selectedProject,
+        targetBranch,
+        `Files committed by Recursica\n${variablesFilename}`,
+        actions
+      );
+
+      try {
+        const pullRequest = await repositoryInstance.createPullRequest(
+          selectedProject,
+          targetBranch,
+          defaultBranch || 'main',
+          'New recursica tokens release'
+        );
+        setPrLink(pullRequest.url);
+      } catch (error) {
+        console.error('Failed to create pull request, trying to find existing one:', error);
+
+        // Check if there's already an open PR/MR for this branch
+        const hasOpenPR = await repositoryInstance.hasOpenPullRequest(
+          selectedProject,
+          targetBranch,
+          defaultBranch || 'main'
+        );
+
+        if (hasOpenPR) {
+          console.log('Pull request already exists for this branch');
+        }
+      }
+
+      setFilesPublished(true);
+    } catch (error) {
+      console.error('Failed to publish files:', error);
     }
-    setFilesPublished(true);
   };
 
   const fetchSources = async () => {
@@ -223,20 +206,24 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   };
 
   const runAdapter = async () => {
-    const adapterFilename = 'helloworld.js';
-    const targetBranch = 'recursica/v2';
-    const response = await axios.get(
-      `https://gitlab.com/api/v4/projects/${selectedProject}/repository/files/${adapterFilename}`,
-      {
-        params: {
-          ref: targetBranch,
-        },
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-    const adapterCode = window.atob(response.data.content);
-    const adapter = eval(adapterCode);
-    setAdapterResponse(`adapter ran successfully: ${adapter}`);
+    if (!repositoryInstance || !selectedProject) return;
+
+    try {
+      const adapterFilename = 'helloworld.js';
+      const targetBranch = 'recursica/v2';
+
+      const fileContent = await repositoryInstance.getSingleFile(
+        selectedProject,
+        adapterFilename,
+        targetBranch
+      );
+
+      const adapter = eval(fileContent.content);
+      setAdapterResponse(`adapter ran successfully: ${adapter}`);
+    } catch (error) {
+      console.error('Failed to run adapter:', error);
+      setAdapterResponse('Failed to run adapter');
+    }
   };
 
   const value = {
@@ -247,7 +234,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     updatePlatform: setPlatform,
     updateSelectedProject: setSelectedProject,
     userProjects,
-    projectBranches,
+    projectBranches: projectBranches.map((branch) => branch.name), // Convert back to strings for compatibility
     filesPublished,
     prLink,
     tokenCollection,
@@ -260,5 +247,6 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     runAdapter,
     adapterResponse,
   };
+
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>;
 }
