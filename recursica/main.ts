@@ -6,6 +6,7 @@ import type {
   Themes,
   ThemeTokens,
   RecursicaConfigOverrides,
+  CollectionToken,
 } from './types';
 import { isFontFamilyToken, isEffectToken, isColorOrFloatToken } from './utils/helpers';
 import { loadConfig } from './utils/loadConfig';
@@ -31,7 +32,6 @@ function processTokenValue(token: Token, modeName: string, jsonThemeName: string
       return true;
     }
     if (typeof token.value === 'number') {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       target[token.name] = `${token.value}px`;
       return true;
     }
@@ -60,15 +60,18 @@ function processTokenValue(token: Token, modeName: string, jsonThemeName: string
   } else if (token.collection === 'Tokens') {
     processValue(tokens);
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!themes[jsonThemeName]) themes[jsonThemeName] = {};
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
     if (!themes[jsonThemeName][modeName]) themes[jsonThemeName][modeName] = {};
     processValue(themes[jsonThemeName][modeName]);
   }
 }
-
 interface ProcessTokensParams {
+  tokens: ThemeTokens;
+  themes: Themes;
+  overrides: RecursicaConfigOverrides | undefined;
+}
+interface ProcessJsonParams extends ProcessTokensParams {
   jsonPath: string;
   tokens: ThemeTokens;
   themes: Themes;
@@ -76,11 +79,10 @@ interface ProcessTokensParams {
   overrides: RecursicaConfigOverrides | undefined;
 }
 
-function processTokens({ jsonPath, tokens, themes, project, overrides }: ProcessTokensParams) {
+function readJson({ jsonPath, tokens, themes, project, overrides }: ProcessJsonParams) {
   const jsonContent: JsonContent = JSON.parse(fs.readFileSync(jsonPath, 'utf-8')) as JsonContent;
 
   const jsonProjectId = jsonContent['project-id'];
-  const jsonThemeName = jsonContent['theme-name'];
   if (!jsonProjectId) {
     throw new Error('project-id is required in the json file');
   }
@@ -88,9 +90,24 @@ function processTokens({ jsonPath, tokens, themes, project, overrides }: Process
     throw new Error('project-id does not match the project in the config file');
   }
 
+  processTokens(jsonContent.tokens, { tokens, themes, overrides });
+  for (const theme of Object.keys(jsonContent.themes)) {
+    processTokens(jsonContent.themes[theme], { tokens, themes, overrides }, theme);
+  }
+  processTokens(jsonContent.uiKit, { tokens, themes, overrides });
+
+  return jsonContent;
+}
+
+function processTokens(
+  variables: Record<string, CollectionToken>,
+  { tokens, themes, overrides }: ProcessTokensParams,
+  jsonThemeName?: string
+) {
   // Process tokens collection
-  for (const token of Object.values(jsonContent.variables)) {
+  for (const token of Object.values(variables)) {
     if (isFontFamilyToken(token)) {
+      console.log(token);
       if (!tokens[jsonThemeName]) tokens[jsonThemeName] = {} as Record<string, string>;
       if (typeof tokens[jsonThemeName] !== 'object')
         tokens[jsonThemeName] = {} as Record<string, string>;
@@ -179,12 +196,14 @@ try {
       icons[iconName] = iconPath;
     }
   }
-
   // Read and parse JSON files
   for (const jsonPath of jsons) {
-    processTokens({ jsonPath, tokens, themes, project, overrides });
+    readJson({ jsonPath, tokens, themes, project, overrides });
   }
 
+  // console.log(tokens)
+  // console.log(Object.keys(themes))
+  // console.log(uiKit)
   runAdapter({
     overrides,
     srcPath,

@@ -8,7 +8,5 @@
   "documentAccess": "dynamic-page",
   "editorType": ["figma"],
   "ui": "./dist/index.html",
-  "networkAccess": {
-    "allowedDomains": ["none"]
-  }
+  "permissions": ["teamlibrary"]
 }

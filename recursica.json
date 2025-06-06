@@ -2,7 +2,9 @@
   "$schema": "./recursica/schemas/config-schema.json",
   "project": "Recursica",
   "icons": {
-    "output": "ui-kit/components/Icons"
+    "output": "ui-kit/components/Icons",
+    "names": ["cached"],
+    "variants": ["Outlined", "Filled"]
   },
   "overrides": {
     "mantineTheme": {

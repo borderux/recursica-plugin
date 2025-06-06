@@ -18,11 +18,7 @@ export function hasThemeOrKitFiles(directoryPath: string): FileCheckResult {
     const matchingFiles = files
       .filter((file) => {
         const fileName = file.toLowerCase();
-        return (
-          fileName === 'recursica-tokens.json' ||
-          fileName === 'recursica-ui-kit.json' ||
-          fileName.includes('-theme.json')
-        );
+        return fileName === 'recursica-bundle.json';
       })
       .map((file) => path.join(directoryPath, file));
 

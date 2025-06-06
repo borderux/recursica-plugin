@@ -1,33 +1,38 @@
 import { exportToJSON } from './exportToJSON';
 import packageInfo from '../../package.json' with { type: 'json' };
-import { exportIcons, exportSelectedIcons } from './exportIcons';
 import { decodeProjectMetadataCollection } from './projectMetadataCollection';
-const version = packageInfo.version;
+import { getAccessTokens, updateAccessTokens } from './accessTokens';
+import { getRemoteVariables, getTeamLibrary } from './teamLibrary';
+const pluginVersion = packageInfo.version;
 
 async function main() {
-  const { projectId, projectType, theme } = await decodeProjectMetadataCollection();
-
-  figma.showUI(__html__, {
-    width: 350,
-    height: 200,
+  figma.showUI(`<script>window.location.href ="http://localhost:5173"</script>`, {
+    width: 450,
+    height: 600,
     themeColors: true,
   });
 
-  figma.ui.postMessage({
-    type: 'METADATA',
-    metadata: {
-      projectId,
-      projectType,
-      theme,
-      pluginVersion: version,
-    },
-  });
-  // Load the local variable collections
-  exportToJSON({ projectId, projectType, version, theme });
-  exportIcons();
-  figma.on('selectionchange', () => {
-    exportSelectedIcons([...figma.currentPage.selection]);
-  });
+  const { projectId } = await decodeProjectMetadataCollection(pluginVersion);
+  const localVariables = await exportToJSON();
+  getAccessTokens();
+  getTeamLibrary();
+
+  figma.ui.onmessage = async (e) => {
+    if (e.type === 'UPDATE_ACCESS_TOKEN') {
+      const { platform, accessToken } = e.payload;
+      await updateAccessTokens(platform, accessToken);
+    }
+    if (e.type === 'FETCH_SOURCES') {
+      const { tokenCollection, themesCollections } = e.payload;
+      await getRemoteVariables(
+        projectId,
+        pluginVersion,
+        tokenCollection,
+        themesCollections,
+        localVariables
+      );
+    }
+  };
 }
 
 main();

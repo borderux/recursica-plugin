@@ -21,7 +21,7 @@ export type ProjectMetadata = {
   projectType: ProjectTypes;
 };
 
-export async function decodeProjectMetadataCollection(): Promise<ProjectMetadata> {
+export async function decodeProjectMetadataCollection(version: string): Promise<ProjectMetadata> {
   const projectData: Partial<ProjectMetadata> = {};
   // Get local variable collections
   const rawVariables = await figma.variables.getLocalVariableCollectionsAsync();
@@ -50,5 +50,15 @@ export async function decodeProjectMetadataCollection(): Promise<ProjectMetadata
   if (projectData.projectType === 'themes' && !projectData.theme)
     throw new PluginError('Missing theme name in metadata');
   if (!projectData.projectType) throw new PluginError('Missing project type in metadata');
+
+  figma.ui.postMessage({
+    type: 'METADATA',
+    payload: {
+      projectId: projectData.projectId,
+      projectType: projectData.projectType,
+      theme: projectData.theme,
+      pluginVersion: version,
+    },
+  });
   return projectData as ProjectMetadata;
 }

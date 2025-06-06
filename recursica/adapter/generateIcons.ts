@@ -31,12 +31,20 @@ export function generateIcons(
   for (const [rawIconName, iconPath] of Object.entries(icons)) {
     const [iconName, variant] = rawIconName.split('[');
     let cleanIconName = iconName.replaceAll('-', '_');
+    // check if the iconName is in the names array, if not, skip
+    if (!config?.names?.includes(cleanIconName)) {
+      continue;
+    }
     // detect if the iconName starts with a number, if so, add an underscore to the beginning
     if (cleanIconName.match(/^\d/)) {
       cleanIconName = `_${cleanIconName}`;
     }
     const cleanVariant = variant.replace(']', '').replace('Style=', '');
     const codedVariant = cleanVariant.replaceAll(' ', '_');
+    // check if the codedVariant is in the variants array, if not, skip
+    if (!config?.variants?.includes(codedVariant)) {
+      continue;
+    }
     const finalIconName = `${cleanIconName}_${codedVariant}`;
     iconNames.push(finalIconName);
     fs.writeFileSync(

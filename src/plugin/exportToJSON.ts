@@ -96,22 +96,12 @@ async function decodeEffectStyles() {
   return parsedEffects;
 }
 
-export async function exportToJSON({ projectId, projectType, version, theme }: fileMetadata) {
+export async function exportToJSON() {
   const variables = await decodeVariableCollections();
   const typographies = await decodeTypographyStyles();
   const effects = await decodeEffectStyles();
 
   const parsedCollections = Object.assign({}, variables, typographies, effects);
 
-  figma.ui.postMessage({
-    type: 'VARIABLES_CODE',
-    json: {
-      'project-id': projectId,
-      'file-type': projectType,
-      'theme-name': theme,
-      pluginVersion: version,
-      generatedAt: new Date().toISOString(),
-      variables: parsedCollections,
-    },
-  });
+  return parsedCollections;
 }

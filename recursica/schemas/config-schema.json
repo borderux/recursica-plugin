@@ -19,6 +19,20 @@
           "type": "string",
           "description": "Path to the output file for the icons",
           "examples": ["components/Icons"]
+        },
+        "names": {
+          "type": "array",
+          "description": "Names of the icons to transform",
+          "items": {
+            "type": "string"
+          }
+        },
+        "variants": {
+          "type": "array",
+          "description": "Variants of the icons to transform",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false

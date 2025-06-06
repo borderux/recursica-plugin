@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { FigmaContext, MetadataContext, IconsContext } from './FigmaContext';
+import { useLayoutEffect, useState } from 'react';
+import { FigmaContext, RepositoryContext } from './FigmaContext';
 import { VariableJSONCollection } from '@/plugin/types';
 
 export interface TokensProvidersProps {
@@ -7,34 +7,65 @@ export interface TokensProvidersProps {
 }
 
 export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
-  const [variables, setVariables] = useState<VariableJSONCollection>();
-  const [metadata, setMetadata] = useState<MetadataContext>();
-  const [svgIcons, setSvgIcons] = useState<IconsContext>();
+  const [repository, setRepository] = useState<RepositoryContext>({
+    platform: 'gitlab',
+    accessToken: '',
+  });
+  const [availableLibraries, setAvailableLibraries] =
+    useState<Record<string, { value: string; name: string }[]>>();
+  const [recursicaVariables, setRecursicaVariables] = useState<VariableJSONCollection>();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.onmessage = ({ data: { pluginMessage } }) => {
-      if (pluginMessage.type === 'VARIABLES_CODE') {
-        setVariables(pluginMessage.json);
-      }
-      if (pluginMessage.type === 'METADATA') {
-        setMetadata({
-          projectId: pluginMessage.metadata.projectId,
-          theme: pluginMessage.metadata.theme,
-          projectType: pluginMessage.metadata.projectType,
-          pluginVersion: pluginMessage.metadata.pluginVersion,
+      if (pluginMessage?.type === 'GET_ACCESS_TOKEN') {
+        const { platform, accessToken } = pluginMessage.payload;
+        setRepository({
+          platform,
+          accessToken,
         });
       }
-      if (pluginMessage.type === 'EXPORT_SVG_ICONS') setSvgIcons(pluginMessage.svgIcons);
+      if (pluginMessage?.type === 'TEAM_LIBRARIES') {
+        setAvailableLibraries(pluginMessage.payload);
+      }
+      if (pluginMessage?.type === 'RECURSICA_VARIABLES') {
+        setRecursicaVariables(pluginMessage.payload);
+      }
     };
     return () => {
       window.onmessage = null;
     };
   }, []);
 
+  const updateAccessToken = (platform: 'gitlab' | 'github', accessToken: string) => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'UPDATE_ACCESS_TOKEN',
+          payload: {
+            platform,
+            accessToken,
+          },
+        },
+        pluginId: '*',
+      },
+      '*'
+    );
+    setRepository({
+      platform,
+      accessToken,
+    });
+  };
+
   const values = {
-    svgIcons,
-    variables,
-    metadata,
+    repository: {
+      platform: repository.platform,
+      accessToken: repository.accessToken,
+      updateAccessToken,
+    },
+    libraries: {
+      availableLibraries,
+      recursicaVariables,
+    },
   };
 
   return <FigmaContext.Provider value={values}>{children}</FigmaContext.Provider>;

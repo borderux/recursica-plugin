@@ -1,15 +1,46 @@
-import { FigmaProvider } from '@/context/Figma/FigmaProvider';
-import { Home } from './pages';
+import { FigmaProvider } from '@/context';
+import {
+  SelectProject,
+  SelectBranch,
+  Home,
+  RepositoryConnection,
+  PublishFiles,
+  SelectSources,
+  FetchSources,
+} from './pages';
+import { MemoryRouter, Route, Routes } from 'react-router';
 import { Themes } from './recursica/RecursicaRecursicaThemes.css';
 import { ThemeProvider } from '@/ui-kit';
+import { Layout } from '@/components';
+import { RepositoryProvider } from './context/Repository/RepositoryProvider';
 
 function App() {
   return (
-    <FigmaProvider>
-      <ThemeProvider themeClassname={Themes.Default.Light}>
-        <Home />
-      </ThemeProvider>
-    </FigmaProvider>
+    <ThemeProvider themeClassname={Themes.Default.Light}>
+      <FigmaProvider>
+        <RepositoryProvider>
+          <MemoryRouter initialEntries={['/home']}>
+            <Routes>
+              <Route path='/' element={<Layout />}>
+                <Route path='home' element={<Home />} />
+                <Route path='figma'>
+                  <Route path='select-sources' element={<SelectSources />} />
+                  <Route path='fetch-data' element={<FetchSources />} />
+                </Route>
+                <Route path='recursica'>
+                  <Route path='token' element={<RepositoryConnection />} />
+                  <Route path='select-project' element={<SelectProject />} />
+                  <Route path='select-branch' element={<SelectBranch />} />
+                  <Route path='publish-files' element={<PublishFiles />} />
+                  {/* <Route path='success' element={<RecursicaSuccess />} /> */}
+                  {/* <Route path='error' element={<RecursicaError />} /> */}
+                </Route>
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </RepositoryProvider>
+      </FigmaProvider>
+    </ThemeProvider>
   );
 }
 
