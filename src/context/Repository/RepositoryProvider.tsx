@@ -19,6 +19,9 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   const [userProjects, setUserProjects] = useState<{ label: string; value: string }[]>([]);
   const [filesPublished, setFilesPublished] = useState<boolean>(false);
   const [prLink, setPrLink] = useState<string>('');
+  const [adapterResponse, setAdapterResponse] = useState<string>('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [targetBranch, setTargetBranch] = useState<string>('');
 
   const [tokenCollection, setTokenCollection] = useState<string>('');
   const [themesCollections, setThemesCollections] = useState<string[]>([]);
@@ -140,6 +143,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
       );
       targetBranch = newBranch.data.name;
     }
+    setTargetBranch(targetBranch);
     const files = await getRepositoryFiles(targetBranch);
     if (variablesJson) {
       const variablesFilename = 'recursica-bundle.json';
@@ -218,6 +222,23 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     );
   };
 
+  const runAdapter = async () => {
+    const adapterFilename = 'helloworld.js';
+    const targetBranch = 'recursica/v2';
+    const response = await axios.get(
+      `https://gitlab.com/api/v4/projects/${selectedProject}/repository/files/${adapterFilename}`,
+      {
+        params: {
+          ref: targetBranch,
+        },
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    const adapterCode = window.atob(response.data.content);
+    const adapter = eval(adapterCode);
+    setAdapterResponse(`adapter ran successfully: ${adapter}`);
+  };
+
   const value = {
     accessToken,
     platform,
@@ -236,6 +257,8 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     fetchSources,
     publishFiles,
     defaultBranch,
+    runAdapter,
+    adapterResponse,
   };
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>;
 }

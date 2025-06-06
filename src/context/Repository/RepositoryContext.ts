@@ -15,6 +15,8 @@ interface Repository {
   themesCollections: string[];
   updateThemesCollections: (themesCollections: string[]) => void;
   fetchSources: () => void;
+  runAdapter: () => void;
+  adapterResponse: string;
   defaultBranch?: string;
   publishFiles: (selectedBranch: string, createNewBranch: boolean) => void;
 }

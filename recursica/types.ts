@@ -136,7 +136,9 @@ export interface JsonContent {
   /** The theme name */
   'theme-name': string;
   /** Nested record structure containing collections of tokens, organized by collection name and token name */
-  variables: Record<string, CollectionToken>;
+  tokens: Record<string, CollectionToken>;
+  themes: Record<string, Record<string, CollectionToken>>;
+  uiKit: Record<string, CollectionToken>;
 }
 
 export type JsonContentIcons = Record<string, string>;

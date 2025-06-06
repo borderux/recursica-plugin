@@ -1,8 +1,8 @@
-import { Typography, Flex } from '@/ui-kit';
+import { Typography, Flex, Button } from '@/ui-kit';
 import { useRepository } from '@/hooks/useRepository';
 
 export function PublishFiles() {
-  const { prLink } = useRepository();
+  const { prLink, runAdapter, adapterResponse } = useRepository();
   return (
     <Flex direction='column' gap={16}>
       <Typography>Publish Files</Typography>
@@ -15,6 +15,8 @@ export function PublishFiles() {
       ) : (
         <Typography> Loading...</Typography>
       )}
+      {adapterResponse && <Typography>{adapterResponse}</Typography>}
+      {prLink && <Button label='Run Adapter' onClick={runAdapter} />}
     </Flex>
   );
 }

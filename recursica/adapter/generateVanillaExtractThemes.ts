@@ -68,7 +68,7 @@ export const ${themeName} = createTheme(themeVars,{
       return `"${key}": ${parseValue(value as ValueToken | string, recursicaTokens)}`;
     })
     .join(',\n\t')},
-  ${Object.entries(tokens[rawThemeName])
+  ${Object.entries(tokens?.[rawThemeName] ?? {})
     .map(([key, value]) => {
       contractTokens[key] = null;
       return `"${key}": ${parseValue(value as ValueToken | string, recursicaTokens)}`;
