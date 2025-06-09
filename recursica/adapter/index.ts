@@ -19,7 +19,6 @@ import { generateIcons, GenerateIconsOutput } from './generateIcons';
 interface GenerateThemeFileParams {
   overrides: RecursicaConfigOverrides | undefined;
   srcPath: string;
-  rootPath: string;
   tokens: ThemeTokens;
   themes: Themes;
   project: string;
@@ -55,7 +54,6 @@ interface RunAdapterOutput {
 export function runAdapter({
   overrides,
   srcPath,
-  rootPath,
   tokens,
   themes,
   project,
@@ -90,7 +88,6 @@ export function runAdapter({
     exportingProps: {
       outputPath,
       project,
-      rootPath,
     },
   });
 

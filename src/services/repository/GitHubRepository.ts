@@ -10,6 +10,17 @@ import {
   PullRequest,
 } from './BaseRepository';
 
+interface GitHubProject {
+  name: string;
+  id: number;
+  full_name: string;
+  owner: {
+    login: string;
+    type: string;
+  };
+  default_branch: string;
+}
+
 export class GitHubRepository extends BaseRepository {
   private readonly baseUrl = 'https://api.github.com';
 
@@ -30,26 +41,28 @@ export class GitHubRepository extends BaseRepository {
   }
 
   async getUserProjects(): Promise<Project[]> {
-    const response = await this.httpClient.get<{ name: string; id: number; full_name: string }[]>(
-      `${this.baseUrl}/user/repos`,
-      {
-        params: {
-          type: 'all',
-          sort: 'updated',
-          per_page: 100,
-        },
-      }
-    );
+    const response = await this.httpClient.get<GitHubProject[]>(`${this.baseUrl}/user/repos`, {
+      params: {
+        type: 'all',
+        sort: 'updated',
+        per_page: 100,
+      },
+    });
 
-    return response.data.map((repo: { name: string; id: number; full_name: string }) => ({
-      label: repo.name,
-      value: repo.full_name, // GitHub uses owner/repo format
+    return response.data.map((repo: GitHubProject) => ({
+      name: repo.name,
+      id: repo.id.toString(),
+      defaultBranch: repo.default_branch,
+      owner: {
+        name: repo.owner.login,
+        type: repo.owner.type,
+      },
     }));
   }
 
-  async getProjectBranches(projectId: string): Promise<Branch[]> {
+  async getProjectBranches(selectedProject: Project): Promise<Branch[]> {
     const response = await this.httpClient.get<{ name: string; commit: { sha: string } }[]>(
-      `${this.baseUrl}/repos/${projectId}/branches`
+      `${this.baseUrl}/repos/${selectedProject.owner.name}/${selectedProject.name}/branches`
     );
 
     return response.data.map((branch: { name: string; commit: { sha: string } }) => ({
@@ -74,9 +87,9 @@ export class GitHubRepository extends BaseRepository {
       }));
   }
 
-  async getSingleFile(projectId: string, filePath: string, branch: string): Promise<FileContent> {
+  async getSingleFile(project: Project, filePath: string, branch: string): Promise<FileContent> {
     const response = await this.httpClient.get(
-      `${this.baseUrl}/repos/${projectId}/contents/${filePath}`,
+      `${this.baseUrl}/repos/${project.owner.name}/${project.name}/contents/${filePath}`,
       {
         params: { ref: branch },
       }
@@ -89,6 +102,20 @@ export class GitHubRepository extends BaseRepository {
       path: response.data.path,
       content: content,
     };
+  }
+
+  async fileExists(project: Project, filePath: string, branch: string): Promise<boolean> {
+    try {
+      const response = await this.httpClient.head(
+        `${this.baseUrl}/repos/${project.owner.name}/${project.name}/contents/${filePath}`,
+        { params: { ref: branch } }
+      );
+
+      return response.status === 200;
+    } catch (error) {
+      console.error('Error checking if file exists:', error);
+      return false;
+    }
   }
 
   async createBranch(projectId: string, branchName: string, sourceBranch: string): Promise<Branch> {
@@ -266,8 +293,8 @@ export class GitHubRepository extends BaseRepository {
   }
 
   // Override calculateMainBranch to set it immediately after getting branches
-  protected async calculateMainBranch(projectId: string): Promise<string> {
-    const mainBranch = await super.calculateMainBranch(projectId);
+  protected async calculateMainBranch(project: Project): Promise<string> {
+    const mainBranch = await super.calculateMainBranch(project);
     return mainBranch;
   }
 }

@@ -186,8 +186,7 @@ function readJson({ jsonPath, tokens, themes, project, overrides }: ProcessJsonP
 
 // Run the script
 try {
-  const { bundledJson, srcPath, project, iconsJson, overrides, iconsConfig, rootPath } =
-    loadConfig();
+  const { bundledJson, srcPath, project, iconsJson, overrides, iconsConfig } = loadConfig();
 
   if (iconsJson) {
     const iconsJsonContent: JsonContentIcons = JSON.parse(
@@ -204,7 +203,6 @@ try {
   const files = runAdapter({
     overrides,
     srcPath,
-    rootPath,
     tokens,
     icons,
     colors: colorTokens,
@@ -240,9 +238,7 @@ try {
   }
 
   fs.writeFileSync(mantineTheme.mantineTheme.path, mantineTheme.mantineTheme.content);
-  if (mantineTheme.postCss) {
-    fs.writeFileSync(mantineTheme.postCss.path, mantineTheme.postCss.content);
-  }
+  fs.writeFileSync(mantineTheme.postCss.path, mantineTheme.postCss.content);
 
   fs.writeFileSync(uiKitObject.path, uiKitObject.content);
 

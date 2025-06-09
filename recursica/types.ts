@@ -154,8 +154,6 @@ export interface ExportingProps {
   outputPath: string;
   /** The project name */
   project: string;
-  /** The root path of the project */
-  rootPath?: string;
 }
 
 export interface ExportingResult {

@@ -205,7 +205,6 @@ self.onmessage = (event) => {
     const files = runAdapter({
       overrides,
       srcPath,
-      rootPath: '.',
       tokens,
       icons,
       colors: colorTokens,

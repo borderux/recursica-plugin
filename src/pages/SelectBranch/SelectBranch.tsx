@@ -4,7 +4,7 @@ import { NavLink } from 'react-router';
 import { useEffect, useState } from 'react';
 
 export function SelectBranch() {
-  const { projectBranches, publishFiles, defaultBranch } = useRepository();
+  const { projectBranches, defaultBranch, runAdapter } = useRepository();
 
   const [isNewRelease, setIsNewRelease] = useState(true);
   const [selectedBranch, setSelectedBranch] = useState('');
@@ -14,10 +14,6 @@ export function SelectBranch() {
       setSelectedBranch(defaultBranch || '');
     }
   }, [isNewRelease]);
-
-  const handlePublishFiles = () => {
-    publishFiles(selectedBranch, isNewRelease);
-  };
 
   const handleDefaultBranchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsNewRelease(event.target.checked);
@@ -40,9 +36,9 @@ export function SelectBranch() {
       {selectedBranch && (
         <Button
           component={NavLink}
-          to='/recursica/publish-files'
-          label='Publish Files'
-          onClick={handlePublishFiles}
+          to='/recursica/run-adapter'
+          label='Run Adapter'
+          onClick={() => runAdapter()}
         />
       )}
     </Flex>
