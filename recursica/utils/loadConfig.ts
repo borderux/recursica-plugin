@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 interface RecursicaConfig {
   iconsJson: string | undefined;
-  jsons: string[];
+  bundledJson: string | undefined;
   srcPath: string;
   project: string;
   iconsConfig: RecursicaConfigIcons | undefined;
@@ -40,27 +40,8 @@ export function loadConfig(): RecursicaConfig {
 
   const config = JSON.parse(fs.readFileSync(configPath, 'utf-8')) as RecursicaConfigContent;
 
-  let jsons: string[];
-  let iconsJson: string | undefined;
-  if (!config.jsonsPath) {
-    const { hasFiles, matchingFiles } = hasThemeOrKitFiles(rootPath);
-    if (hasFiles) {
-      iconsJson = hasIconsJsonFiles(rootPath);
-      jsons = matchingFiles;
-    } else {
-      throw new Error('jsonsPath is required in config file');
-    }
-  } else {
-    const jsonsPath = path.join(rootPath, config.jsonsPath);
-
-    const { hasFiles, matchingFiles } = hasThemeOrKitFiles(jsonsPath);
-    if (hasFiles) {
-      iconsJson = hasIconsJsonFiles(jsonsPath);
-      jsons = matchingFiles;
-    } else {
-      throw new Error('jsonsPath does not contain any theme-tokens or ui-kit files');
-    }
-  }
+  const bundledJson = hasThemeOrKitFiles(rootPath);
+  const iconsJson = hasIconsJsonFiles(rootPath);
 
   const project = config.project;
   if (!project) {
@@ -70,7 +51,7 @@ export function loadConfig(): RecursicaConfig {
   return {
     srcPath: path.join(rootPath, 'src'),
     project,
-    jsons,
+    bundledJson,
     iconsJson,
     overrides: config.overrides,
     iconsConfig: config.icons,

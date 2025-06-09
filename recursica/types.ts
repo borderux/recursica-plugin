@@ -132,9 +132,7 @@ export type CollectionToken = Token | FontFamilyToken | EffectToken;
  */
 export interface JsonContent {
   /** The project ID */
-  'project-id': string;
-  /** The theme name */
-  'theme-name': string;
+  projectId: string;
   /** Nested record structure containing collections of tokens, organized by collection name and token name */
   tokens: Record<string, CollectionToken>;
   themes: Record<string, Record<string, CollectionToken>>;
@@ -158,4 +156,10 @@ export interface ExportingProps {
   project: string;
   /** The root path of the project */
   rootPath?: string;
+}
+
+export interface ExportingResult {
+  content: string;
+  path: string;
+  filename: string;
 }
