@@ -9,7 +9,7 @@ For more information about Recursica, go to https://recursica.com
 */
 
 import { themeVars } from './RecursicaRecursicaContractTheme.css'
-import { RecursicaRecursicaTokens } from './C:UsersjafetDesktop\recursica\recursica-pluginsrc\recursicaRecursicaRecursicaTokens';
+import { RecursicaRecursicaTokens } from './RecursicaRecursicaTokens';
 
 export const uiKit = {
   'accordion/color/lavel': themeVars['color-on/background/high-emphasis'],

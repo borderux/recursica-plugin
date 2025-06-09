@@ -1,4 +1,3 @@
-import path from 'path';
 import type {
   Themes,
   ThemeTokens,
@@ -20,6 +19,7 @@ import { generateIcons, GenerateIconsOutput } from './generateIcons';
 interface GenerateThemeFileParams {
   overrides: RecursicaConfigOverrides | undefined;
   srcPath: string;
+  rootPath: string;
   tokens: ThemeTokens;
   themes: Themes;
   project: string;
@@ -55,6 +55,7 @@ interface RunAdapterOutput {
 export function runAdapter({
   overrides,
   srcPath,
+  rootPath,
   tokens,
   themes,
   project,
@@ -64,14 +65,19 @@ export function runAdapter({
   breakpoints,
   iconsConfig,
 }: GenerateThemeFileParams): RunAdapterOutput {
-  const outputPath = path.join(srcPath, 'recursica');
+  const outputPath = srcPath + '/recursica';
 
   const recursicaTokens = generateRecursicaTokens(tokens, { outputPath, project });
 
-  const vanillaExtractThemes = generateVanillaExtractThemes(tokens, themes, recursicaTokens.path, {
-    outputPath,
-    project,
-  });
+  const vanillaExtractThemes = generateVanillaExtractThemes(
+    tokens,
+    themes,
+    recursicaTokens.filename,
+    {
+      outputPath,
+      project,
+    }
+  );
 
   const mantineTheme = generateMantineTheme({
     mantineThemeOverride: overrides?.mantineTheme,
@@ -84,14 +90,14 @@ export function runAdapter({
     exportingProps: {
       outputPath,
       project,
-      rootPath: path.join(srcPath, '..'),
+      rootPath,
     },
   });
 
   const uiKitObject = generateUiKit(
     uiKit,
     {
-      recursicaTokensFilename: recursicaTokens.path,
+      recursicaTokensFilename: recursicaTokens.filename,
       themeContractFilename: vanillaExtractThemes.themeContract.filename,
     },
     { outputPath, project }

@@ -8,7 +8,6 @@ import type {
   CollectionToken,
 } from './types';
 import { isFontFamilyToken, isEffectToken, isColorOrFloatToken } from './utils/helpers';
-import { loadConfig } from './utils/loadConfig';
 import { runAdapter } from './adapter';
 import { capitalize } from './utils/capitalize';
 
@@ -191,7 +190,7 @@ self.onmessage = (event) => {
   const params = event.data;
 
   try {
-    const { bundledJson, srcPath, project, iconsJson, overrides, iconsConfig } = loadConfig();
+    const { bundledJson, srcPath, project, iconsJson, overrides, iconsConfig } = params;
 
     if (iconsJson) {
       const iconsJsonContent: JsonContentIcons = JSON.parse(params.iconsJson) as JsonContentIcons;
@@ -206,6 +205,7 @@ self.onmessage = (event) => {
     const files = runAdapter({
       overrides,
       srcPath,
+      rootPath: '.',
       tokens,
       icons,
       colors: colorTokens,
@@ -258,6 +258,5 @@ self.onmessage = (event) => {
     }
   } catch (error) {
     console.error('Error generating theme:', error);
-    process.exit(1);
   }
 };

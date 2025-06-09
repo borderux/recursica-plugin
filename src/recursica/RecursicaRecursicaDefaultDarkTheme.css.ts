@@ -11,7 +11,7 @@ For more information about Recursica, go to https://recursica.com
 import { createTheme } from '@vanilla-extract/css';
 
 import { themeVars } from './RecursicaRecursicaContractTheme.css';
-import { RecursicaRecursicaTokens } from './C:UsersjafetDesktop\recursica\recursica-pluginsrc\recursicaRecursicaRecursicaTokens';
+import { RecursicaRecursicaTokens } from './RecursicaRecursicaTokens';
 
 export const DefaultDarkTheme = createTheme(themeVars, {
   'color-on/3-scale/200/high-emphasis': RecursicaRecursicaTokens['color/white/100'],

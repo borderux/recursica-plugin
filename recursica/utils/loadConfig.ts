@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 interface RecursicaConfig {
   iconsJson: string | undefined;
   bundledJson: string | undefined;
+  rootPath: string;
   srcPath: string;
   project: string;
   iconsConfig: RecursicaConfigIcons | undefined;
@@ -49,6 +50,7 @@ export function loadConfig(): RecursicaConfig {
   }
 
   return {
+    rootPath,
     srcPath: path.join(rootPath, 'src'),
     project,
     bundledJson,

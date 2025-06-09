@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { RepositoryContext } from './RepositoryContext';
 import { useFigma } from '@/hooks/useFigma';
 import {
@@ -25,6 +25,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
 
   const [tokenCollection, setTokenCollection] = useState<string>('');
   const [themesCollections, setThemesCollections] = useState<string[]>([]);
+  const workerRef = useRef<Worker | null>(null);
 
   const {
     repository,
@@ -218,8 +219,30 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
         targetBranch
       );
 
-      const adapter = eval(fileContent.content);
-      setAdapterResponse(`adapter ran successfully: ${adapter}`);
+      // Step 2: Create a Blob from the code string
+      const blob = new Blob([fileContent.content], { type: 'application/javascript' });
+      console.log('2. Blob created.');
+
+      // Step 3: Create a temporary URL for the Blob
+      const objectURL = URL.createObjectURL(blob);
+      console.log('3. Object URL created:', objectURL);
+
+      // The new URL(..., import.meta.url) syntax is the standard way to load workers
+      // in modern JavaScript projects (supported by Vite, Create React App, etc.)
+      const worker = new Worker(new URL(objectURL, import.meta.url));
+      workerRef.current = worker;
+
+      // Listener for messages coming FROM the worker
+      worker.onmessage = (event) => {
+        console.log('✅ Response received from worker:', event.data);
+        setAdapterResponse(`adapter ran successfully: ${event.data}`);
+      };
+
+      // Listener for any errors that might occur inside the worker
+      worker.onerror = (error) => {
+        console.error('❌ Error in worker:', error);
+        setAdapterResponse(`Error: ${error.message}`);
+      };
     } catch (error) {
       console.error('Failed to run adapter:', error);
       setAdapterResponse('Failed to run adapter');

@@ -5,11 +5,10 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 
 export default defineConfig({
-  input: './recursica/main.ts',
+  input: './recursica/plugin.ts',
   output: {
     dir: './dist',
     format: 'cjs',
-    sourcemap: true,
     exports: 'auto',
   },
   plugins: [

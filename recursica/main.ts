@@ -186,7 +186,8 @@ function readJson({ jsonPath, tokens, themes, project, overrides }: ProcessJsonP
 
 // Run the script
 try {
-  const { bundledJson, srcPath, project, iconsJson, overrides, iconsConfig } = loadConfig();
+  const { bundledJson, srcPath, project, iconsJson, overrides, iconsConfig, rootPath } =
+    loadConfig();
 
   if (iconsJson) {
     const iconsJsonContent: JsonContentIcons = JSON.parse(
@@ -203,6 +204,7 @@ try {
   const files = runAdapter({
     overrides,
     srcPath,
+    rootPath,
     tokens,
     icons,
     colors: colorTokens,
