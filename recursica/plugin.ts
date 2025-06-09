@@ -215,47 +215,9 @@ self.onmessage = (event) => {
       project,
       iconsConfig,
     });
-    const {
-      recursicaTokens,
-      vanillaExtractThemes,
-      mantineTheme,
-      uiKitObject,
-      recursicaObject,
-      colorsType,
-      iconsObject,
-    } = files;
-
-    console.log(recursicaTokens.path);
-
-    const {
-      availableThemes,
-      themeContract,
-      themesFileContent,
-      vanillaExtractThemes: subThemes,
-    } = vanillaExtractThemes;
-    console.log(availableThemes.path);
-    console.log(themeContract.path);
-    console.log(themesFileContent.path);
-    for (const theme of subThemes) {
-      console.log(theme.path);
-    }
-
-    console.log(mantineTheme.mantineTheme.path);
-    console.log(mantineTheme.postCss?.path);
-
-    console.log(uiKitObject.path);
-
-    console.log(recursicaObject.path);
-
-    console.log(colorsType.path);
-
-    if (iconsObject) {
-      console.log(iconsObject.iconExports.path);
-      console.log(iconsObject.iconResourceMap.path);
-      for (const icon of iconsObject.exportedIcons) {
-        console.log(icon.path);
-      }
-    }
+    // 3. Send the response back to the main thread
+    console.log('...Worker sending response back:', files);
+    self.postMessage(files);
   } catch (error) {
     console.error('Error generating theme:', error);
   }
