@@ -8,12 +8,7 @@ Do NOT edit these files directly
 For more information about Recursica, go to https://recursica.com
 */
 
-module.exports = {
-  plugins: {
-    'postcss-preset-mantine': {},
-    'postcss-simple-vars': {
-      variables: {
-      }
-    }
-  }
-}
+import * as IconExports from './icon_exports';
+
+export const IconResourceMap = {
+};
