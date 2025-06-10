@@ -111,24 +111,24 @@ export abstract class BaseRepository {
   abstract getRepositoryFiles(projectId: string, branch: string): Promise<FileInfo[]>;
   abstract getSingleFile(project: Project, filePath: string, branch: string): Promise<FileContent>;
   abstract createBranch(
-    projectId: string,
+    project: Project,
     branchName: string,
     sourceBranch: string
   ): Promise<Branch>;
   abstract commitFiles(
-    projectId: string,
+    project: Project,
     branch: string,
     message: string,
     actions: CommitAction[]
   ): Promise<void>;
   abstract createPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string,
     title: string
   ): Promise<PullRequest>;
   abstract hasOpenPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string
   ): Promise<boolean>;

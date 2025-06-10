@@ -92,9 +92,9 @@ export class GitLabRepository extends BaseRepository {
     };
   }
 
-  async createBranch(projectId: string, branchName: string, sourceBranch: string): Promise<Branch> {
+  async createBranch(project: Project, branchName: string, sourceBranch: string): Promise<Branch> {
     const response = await this.httpClient.post(
-      `${this.baseUrl}/projects/${projectId}/repository/branches`,
+      `${this.baseUrl}/projects/${project.id}/repository/branches`,
       {
         branch: branchName,
         ref: sourceBranch,
@@ -121,12 +121,12 @@ export class GitLabRepository extends BaseRepository {
   }
 
   async commitFiles(
-    projectId: string,
+    project: Project,
     branch: string,
     message: string,
     actions: CommitAction[]
   ): Promise<void> {
-    await this.httpClient.post(`${this.baseUrl}/projects/${projectId}/repository/commits`, {
+    await this.httpClient.post(`${this.baseUrl}/projects/${project.id}/repository/commits`, {
       branch: branch,
       commit_message: message,
       actions: actions,
@@ -134,14 +134,14 @@ export class GitLabRepository extends BaseRepository {
   }
 
   async createPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string,
     title: string
   ): Promise<PullRequest> {
     try {
       const response = await this.httpClient.post(
-        `${this.baseUrl}/projects/${projectId}/merge_requests`,
+        `${this.baseUrl}/projects/${project.id}/merge_requests`,
         {
           source_branch: sourceBranch,
           target_branch: targetBranch,
@@ -158,11 +158,7 @@ export class GitLabRepository extends BaseRepository {
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 409) {
         // Merge request already exists, fetch it
-        const existingMR = await this.getExistingMergeRequest(
-          projectId,
-          sourceBranch,
-          targetBranch
-        );
+        const existingMR = await this.getExistingMergeRequest(project, sourceBranch, targetBranch);
         if (existingMR) {
           return existingMR;
         }
@@ -172,13 +168,13 @@ export class GitLabRepository extends BaseRepository {
   }
 
   async hasOpenPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string
   ): Promise<boolean> {
     try {
       const response = await this.httpClient.get(
-        `${this.baseUrl}/projects/${projectId}/merge_requests`,
+        `${this.baseUrl}/projects/${project.id}/merge_requests`,
         {
           params: {
             source_branch: sourceBranch,
@@ -196,13 +192,13 @@ export class GitLabRepository extends BaseRepository {
   }
 
   private async getExistingMergeRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string
   ): Promise<PullRequest | null> {
     try {
       const response = await this.httpClient.get(
-        `${this.baseUrl}/projects/${projectId}/merge_requests`,
+        `${this.baseUrl}/projects/${project.id}/merge_requests`,
         {
           params: {
             source_branch: sourceBranch,

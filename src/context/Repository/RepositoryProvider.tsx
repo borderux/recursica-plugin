@@ -140,7 +140,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
       }
 
       await repositoryInstance.commitFiles(
-        selectedProjectId,
+        selectedProject,
         targetBranch,
         `Files committed by Recursica\n${variablesFilename}`,
         actions
@@ -148,7 +148,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
 
       try {
         const pullRequest = await repositoryInstance.createPullRequest(
-          selectedProjectId,
+          selectedProject,
           targetBranch,
           selectedProject.defaultBranch,
           'New recursica tokens release'
@@ -159,7 +159,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
 
         // Check if there's already an open PR/MR for this branch
         const hasOpenPR = await repositoryInstance.hasOpenPullRequest(
-          selectedProjectId,
+          selectedProject,
           targetBranch,
           selectedProject.defaultBranch
         );
@@ -194,7 +194,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   const createBranch = async (project: Project) => {
     if (!repositoryInstance || !selectedProjectId) return;
     const branch = await repositoryInstance.createBranch(
-      project.id,
+      project,
       `recursica-${userInfo?.username}-${Date.now()}`,
       project.defaultBranch
     );

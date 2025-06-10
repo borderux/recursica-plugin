@@ -118,19 +118,22 @@ export class GitHubRepository extends BaseRepository {
     }
   }
 
-  async createBranch(projectId: string, branchName: string, sourceBranch: string): Promise<Branch> {
+  async createBranch(project: Project, branchName: string, sourceBranch: string): Promise<Branch> {
     // First, get the SHA of the source branch
     const sourceBranchResponse = await this.httpClient.get(
-      `${this.baseUrl}/repos/${projectId}/git/refs/heads/${sourceBranch}`
+      `${this.baseUrl}/repos/${project.owner.name}/${project.name}/git/refs/heads/${sourceBranch}`
     );
 
     const sourceSha = sourceBranchResponse.data.object.sha;
 
     // Create the new branch
-    await this.httpClient.post(`${this.baseUrl}/repos/${projectId}/git/refs`, {
-      ref: `refs/heads/${branchName}`,
-      sha: sourceSha,
-    });
+    await this.httpClient.post(
+      `${this.baseUrl}/repos/${project.owner.name}/${project.name}/git/refs`,
+      {
+        ref: `refs/heads/${branchName}`,
+        sha: sourceSha,
+      }
+    );
 
     return {
       name: branchName,
@@ -139,20 +142,20 @@ export class GitHubRepository extends BaseRepository {
   }
 
   async commitFiles(
-    projectId: string,
+    project: Project,
     branch: string,
     message: string,
     actions: CommitAction[]
   ): Promise<void> {
     // Get the current commit SHA
     const branchResponse = await this.httpClient.get(
-      `${this.baseUrl}/repos/${projectId}/git/refs/heads/${branch}`
+      `${this.baseUrl}/repos/${project.owner.name}/${project.name}/git/refs/heads/${branch}`
     );
     const parentSha = branchResponse.data.object.sha;
 
     // Get the current tree
     const parentCommitResponse = await this.httpClient.get(
-      `${this.baseUrl}/repos/${projectId}/git/commits/${parentSha}`
+      `${this.baseUrl}/repos/${project.owner.name}/${project.name}/git/commits/${parentSha}`
     );
     const baseTreeSha = parentCommitResponse.data.tree.sha;
 
@@ -161,7 +164,7 @@ export class GitHubRepository extends BaseRepository {
     for (const action of actions) {
       if (action.action !== 'delete') {
         const blobResponse = await this.httpClient.post(
-          `${this.baseUrl}/repos/${projectId}/git/blobs`,
+          `${this.baseUrl}/repos/${project.owner.name}/${project.name}/git/blobs`,
           {
             content: action.content,
             encoding: 'utf-8',
@@ -186,7 +189,7 @@ export class GitHubRepository extends BaseRepository {
 
     // Create a new tree
     const treeResponse = await this.httpClient.post(
-      `${this.baseUrl}/repos/${projectId}/git/trees`,
+      `${this.baseUrl}/repos/${project.owner.name}/${project.name}/git/trees`,
       {
         base_tree: baseTreeSha,
         tree: tree,
@@ -195,7 +198,7 @@ export class GitHubRepository extends BaseRepository {
 
     // Create a new commit
     const commitResponse = await this.httpClient.post(
-      `${this.baseUrl}/repos/${projectId}/git/commits`,
+      `${this.baseUrl}/repos/${project.owner.name}/${project.name}/git/commits`,
       {
         message: message,
         tree: treeResponse.data.sha,
@@ -204,23 +207,29 @@ export class GitHubRepository extends BaseRepository {
     );
 
     // Update the branch reference
-    await this.httpClient.patch(`${this.baseUrl}/repos/${projectId}/git/refs/heads/${branch}`, {
-      sha: commitResponse.data.sha,
-    });
+    await this.httpClient.patch(
+      `${this.baseUrl}/repos/${project.owner.name}/${project.name}/git/refs/heads/${branch}`,
+      {
+        sha: commitResponse.data.sha,
+      }
+    );
   }
 
   async createPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string,
     title: string
   ): Promise<PullRequest> {
     try {
-      const response = await this.httpClient.post(`${this.baseUrl}/repos/${projectId}/pulls`, {
-        title: title,
-        head: sourceBranch,
-        base: targetBranch,
-      });
+      const response = await this.httpClient.post(
+        `${this.baseUrl}/repos/${project.owner.name}/${project.name}/pulls`,
+        {
+          title: title,
+          head: sourceBranch,
+          base: targetBranch,
+        }
+      );
 
       return {
         id: response.data.number,
@@ -231,7 +240,7 @@ export class GitHubRepository extends BaseRepository {
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 422) {
         // Pull request already exists, fetch it
-        const existingPR = await this.getExistingPullRequest(projectId, sourceBranch, targetBranch);
+        const existingPR = await this.getExistingPullRequest(project, sourceBranch, targetBranch);
         if (existingPR) {
           return existingPR;
         }
@@ -241,18 +250,21 @@ export class GitHubRepository extends BaseRepository {
   }
 
   async hasOpenPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string
   ): Promise<boolean> {
     try {
-      const response = await this.httpClient.get(`${this.baseUrl}/repos/${projectId}/pulls`, {
-        params: {
-          head: sourceBranch,
-          base: targetBranch,
-          state: 'open',
-        },
-      });
+      const response = await this.httpClient.get(
+        `${this.baseUrl}/repos/${project.owner.name}/${project.name}/pulls`,
+        {
+          params: {
+            head: sourceBranch,
+            base: targetBranch,
+            state: 'open',
+          },
+        }
+      );
 
       return response.data.length > 0;
     } catch (error) {
@@ -262,18 +274,21 @@ export class GitHubRepository extends BaseRepository {
   }
 
   private async getExistingPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string
   ): Promise<PullRequest | null> {
     try {
-      const response = await this.httpClient.get(`${this.baseUrl}/repos/${projectId}/pulls`, {
-        params: {
-          head: sourceBranch,
-          base: targetBranch,
-          state: 'all',
-        },
-      });
+      const response = await this.httpClient.get(
+        `${this.baseUrl}/repos/${project.owner.name}/${project.name}/pulls`,
+        {
+          params: {
+            head: sourceBranch,
+            base: targetBranch,
+            state: 'all',
+          },
+        }
+      );
 
       if (response.data.length > 0) {
         const pr = response.data[0];
