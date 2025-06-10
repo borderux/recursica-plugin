@@ -1,5 +1,4 @@
 import { GenericVariables } from './exportToJSON';
-import { mockedResponse } from './mockResponse';
 import { VariableCastedValue } from './types';
 import { rgbToHex } from './utils/rgbToHex';
 
@@ -33,9 +32,6 @@ export async function getRemoteVariables(
   themesCollections: string[],
   uiKit: GenericVariables
 ) {
-  figma.ui.postMessage(mockedResponse);
-  return;
-
   // Get the team library from the figma api
   const libraries = await getTeamLibrary();
   // Decode the token collection
