@@ -3,6 +3,7 @@ import packageInfo from '../../package.json' with { type: 'json' };
 import { decodeProjectMetadataCollection } from './projectMetadataCollection';
 import { getAccessTokens, updateAccessTokens } from './accessTokens';
 import { getRemoteVariables, getTeamLibrary } from './teamLibrary';
+import { saveEffectsIdToVariables } from './saveEffectsIdToVariables';
 const pluginVersion = packageInfo.version;
 
 async function main() {
@@ -31,6 +32,9 @@ async function main() {
         themesCollections,
         localVariables
       );
+    }
+    if (e.type === 'SAVE_EFFECTS_ID_TO_VARIABLES') {
+      saveEffectsIdToVariables();
     }
   };
 }

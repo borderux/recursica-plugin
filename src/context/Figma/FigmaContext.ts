@@ -14,6 +14,7 @@ export interface IFigmaContext {
     availableLibraries?: Record<string, { value: string; name: string }[]>;
     recursicaVariables?: VariableJSONCollection;
   };
+  saveEffectsIdToVariables: () => void;
 }
 
 export const FigmaContext = createContext<IFigmaContext | null>(null);

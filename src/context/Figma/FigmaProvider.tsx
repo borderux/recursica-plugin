@@ -56,6 +56,18 @@ export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
     });
   };
 
+  const saveEffectsIdToVariables = () => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'SAVE_EFFECTS_ID_TO_VARIABLES',
+        },
+        pluginId: '*',
+      },
+      '*'
+    );
+  };
+
   const values = {
     repository: {
       platform: repository.platform,
@@ -66,6 +78,7 @@ export function FigmaProvider({ children }: TokensProvidersProps): JSX.Element {
       availableLibraries,
       recursicaVariables,
     },
+    saveEffectsIdToVariables,
   };
 
   return <FigmaContext.Provider value={values}>{children}</FigmaContext.Provider>;

@@ -1,5 +1,7 @@
 import { GenericVariables } from './exportToJSON';
 import { VariableCastedValue } from './types';
+import { toFontWeight } from './utils';
+import { parseLineHeight } from './utils/parseLineHeight';
 import { rgbToHex } from './utils/rgbToHex';
 
 export async function getTeamLibrary() {
@@ -80,9 +82,60 @@ async function decodeFileVariables(
   }
   const metadataVariables = await decodeRemoteVariables(metadataCollection.value);
 
-  const remainingCollections = fileCollections.filter((f) => f.name !== 'ID variables');
+  const parsedTypographies: GenericVariables = {};
+  const parsedEffects: GenericVariables = {};
+  const styleVariablesCollection = fileCollections.find((f) => f.name === 'style-variables-keys');
+  if (styleVariablesCollection) {
+    const tokenVariables = await figma.teamLibrary.getVariablesInLibraryCollectionAsync(
+      styleVariablesCollection.value
+    );
+    for (const { name } of tokenVariables) {
+      const variable = await figma.importStyleByKeyAsync(name);
+      if (variable.type === 'TEXT') {
+        const {
+          name,
+          fontName: { family: fontFamily, style: fontWeight },
+          fontSize,
+          lineHeight,
+          letterSpacing,
+          textCase,
+          textDecoration,
+        } = variable;
+        parsedTypographies[name] = {
+          variableName: name,
+          fontFamily,
+          fontSize,
+          fontWeight: {
+            value: toFontWeight(fontWeight),
+            alias: fontWeight,
+          },
+          lineHeight: parseLineHeight(lineHeight),
+          letterSpacing,
+          textCase,
+          textDecoration,
+        };
+      }
+      if (variable.type === 'EFFECT') {
+        const { name, effects } = variable;
+        parsedEffects[name] = {
+          variableName: name,
+          effects: effects.map((eff) => ({
+            type: eff.type,
+            color: (eff as DropShadowEffect).color,
+            offset: (eff as DropShadowEffect).offset,
+            radius: eff.radius,
+            spread: (eff as DropShadowEffect).spread || 0,
+          })),
+        };
+      }
+    }
+  }
 
-  const variables: GenericVariables = {};
+  const remainingCollections = fileCollections.filter(
+    (f) => f.name !== 'ID variables' && f.name !== 'style-variables-keys'
+  );
+
+  const variables: GenericVariables = Object.assign({}, parsedTypographies, parsedEffects);
   for (const variable of remainingCollections) {
     const variableData = await decodeRemoteVariables(variable.value);
     Object.assign(variables, variableData);
