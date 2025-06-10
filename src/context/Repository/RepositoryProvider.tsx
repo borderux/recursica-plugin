@@ -7,7 +7,6 @@ import {
   GitHubRepository,
   type UserInfo,
   type Project,
-  type Branch,
   type CommitAction,
 } from '@/services/repository';
 
@@ -27,11 +26,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   const [adapterResponse, setAdapterResponse] = useState<string>('');
   const [adapterFiles, setAdapterFiles] = useState<AdapterFile[]>([]);
 
-  const [targetBranchId, setTargetBranchId] = useState<number | undefined>(undefined);
-  const [projectBranches, setProjectBranches] = useState<Branch[]>([]);
-  const selectedBranch = useMemo(() => {
-    return projectBranches.find((branch) => branch.id === targetBranchId);
-  }, [projectBranches, targetBranchId]);
+  const [selectedTargetBranch, setSelectedTargetBranch] = useState<string | undefined>(undefined);
 
   const selectedProject = useMemo(() => {
     return userProjects.find((project) => project.id === selectedProjectId);
@@ -80,20 +75,10 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   }, [repositoryInstance]);
 
   useEffect(() => {
-    if (selectedProjectId && repositoryInstance) {
-      getProjectBranches();
-    }
-  }, [selectedProjectId, repositoryInstance]);
-
-  useEffect(() => {
     if (userInfo && repositoryInstance) {
       getUserProjects();
     }
   }, [userInfo, repositoryInstance]);
-
-  const defaultBranch = projectBranches.find(
-    (branch) => branch.name === 'main' || branch.name === 'master'
-  )?.name;
 
   const fetchUserInfo = async () => {
     if (!repositoryInstance) return;
@@ -117,23 +102,12 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     }
   };
 
-  const getProjectBranches = async () => {
-    if (!repositoryInstance || !selectedProject) return;
-
-    try {
-      const branches = await repositoryInstance.getProjectBranches(selectedProject);
-      setProjectBranches(branches);
-    } catch (error) {
-      console.error('Failed to fetch project branches:', error);
-    }
-  };
-
   const publishFiles = async () => {
     if (!repositoryInstance || !selectedProjectId || !userInfo || !variablesJson) return;
 
     try {
-      if (!selectedBranch) return;
-      const targetBranch = selectedBranch.name;
+      if (!selectedTargetBranch) return;
+      const targetBranch = selectedTargetBranch;
 
       if (!selectedProject) return;
       const variablesFilename = 'recursica-bundle.json';
@@ -217,23 +191,35 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     );
   };
 
-  const runAdapter = async () => {
+  const createBranch = async (project: Project) => {
     if (!repositoryInstance || !selectedProjectId) return;
+    const branch = await repositoryInstance.createBranch(
+      project.id,
+      `recursica-${userInfo?.username}-${Date.now()}`,
+      project.defaultBranch
+    );
+    setSelectedTargetBranch(branch.name);
+    return branch.name;
+  };
+
+  const runAdapter = async () => {
+    if (!repositoryInstance || !selectedProjectId || !selectedProject) return;
 
     try {
+      const targetBranch = await createBranch(selectedProject);
       const adapterFilename = 'recursica/adapter.js';
-      if (!selectedProject || !selectedBranch) return;
+      if (!selectedProject || !targetBranch) return;
 
       const fileContent = await repositoryInstance.getSingleFile(
         selectedProject,
         adapterFilename,
-        selectedBranch?.name
+        targetBranch
       );
 
       const configFile = await repositoryInstance.getSingleFile(
         selectedProject,
         'recursica.json',
-        selectedBranch?.name
+        targetBranch
       );
 
       const config = JSON.parse(configFile.content);
@@ -377,7 +363,6 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     updatePlatform: setPlatform,
     updateSelectedProjectId: setselectedProjectId,
     userProjects,
-    projectBranches: projectBranches.map((branch) => branch.name), // Convert back to strings for compatibility
     filesPublished,
     prLink,
     tokenCollection,
@@ -386,10 +371,8 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     updateThemesCollections: setThemesCollections,
     fetchSources,
     publishFiles,
-    defaultBranch,
     runAdapter,
     adapterResponse,
-    updateTargetBranchId: setTargetBranchId,
   };
 
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>;

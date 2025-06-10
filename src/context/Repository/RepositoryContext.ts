@@ -12,10 +12,6 @@ interface Repository {
   selectedProjectId: string;
   updateSelectedProjectId: (selectedProjectId: string) => void;
 
-  defaultBranch?: string;
-  projectBranches: string[];
-  updateTargetBranchId: (targetBranchId: number) => void;
-
   prLink: string;
 
   fetchSources: () => void;

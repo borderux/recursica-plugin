@@ -1,14 +1,9 @@
 import { useRepository } from '@/hooks/useRepository';
 import { Typography, Flex, Select, Button } from '@/ui-kit';
-import { useNavigate } from 'react-router';
+import { NavLink } from 'react-router';
 
 export function SelectProject() {
-  const { userProjects, selectedProjectId, updateSelectedProjectId } = useRepository();
-  const navigate = useNavigate();
-
-  const navigateToBranches = () => {
-    navigate('/recursica/select-branch');
-  };
+  const { userProjects, selectedProjectId, updateSelectedProjectId, runAdapter } = useRepository();
 
   return (
     <Flex direction='column' gap={16} justify='center'>
@@ -25,7 +20,14 @@ export function SelectProject() {
           }
         }}
       />
-      {selectedProjectId && <Button label='Select Branch' onClick={navigateToBranches} />}
+      {selectedProjectId && (
+        <Button
+          label='Run adapter'
+          onClick={runAdapter}
+          component={NavLink}
+          to='/recursica/run-adapter'
+        />
+      )}
     </Flex>
   );
 }
