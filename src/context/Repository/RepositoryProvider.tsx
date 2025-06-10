@@ -7,21 +7,30 @@ import {
   GitHubRepository,
   type UserInfo,
   type Project,
-  type Branch,
-  type FileInfo,
   type CommitAction,
 } from '@/services/repository';
+
+interface AdapterFile {
+  path: string;
+  content: string;
+}
 
 export function RepositoryProvider({ children }: { children: React.ReactNode }) {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [accessToken, setAccessToken] = useState('');
   const [platform, setPlatform] = useState('');
-  const [selectedProject, setSelectedProject] = useState('');
-  const [projectBranches, setProjectBranches] = useState<Branch[]>([]);
+  const [selectedProjectId, setselectedProjectId] = useState('');
   const [userProjects, setUserProjects] = useState<Project[]>([]);
   const [filesPublished, setFilesPublished] = useState<boolean>(false);
   const [prLink, setPrLink] = useState<string>('');
   const [adapterResponse, setAdapterResponse] = useState<string>('');
+  const [adapterFiles, setAdapterFiles] = useState<AdapterFile[]>([]);
+
+  const [selectedTargetBranch, setSelectedTargetBranch] = useState<string | undefined>(undefined);
+
+  const selectedProject = useMemo(() => {
+    return userProjects.find((project) => project.id === selectedProjectId);
+  }, [userProjects, selectedProjectId]);
 
   const [tokenCollection, setTokenCollection] = useState<string>('');
   const [themesCollections, setThemesCollections] = useState<string[]>([]);
@@ -66,20 +75,10 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   }, [repositoryInstance]);
 
   useEffect(() => {
-    if (selectedProject && repositoryInstance) {
-      getProjectBranches();
-    }
-  }, [selectedProject, repositoryInstance]);
-
-  useEffect(() => {
     if (userInfo && repositoryInstance) {
       getUserProjects();
     }
   }, [userInfo, repositoryInstance]);
-
-  const defaultBranch = projectBranches.find(
-    (branch) => branch.name === 'main' || branch.name === 'master'
-  )?.name;
 
   const fetchUserInfo = async () => {
     if (!repositoryInstance) return;
@@ -103,48 +102,21 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     }
   };
 
-  const getProjectBranches = async () => {
-    if (!repositoryInstance || !selectedProject) return;
+  const publishFiles = async () => {
+    if (!repositoryInstance || !selectedProjectId || !userInfo || !variablesJson) return;
 
     try {
-      const branches = await repositoryInstance.getProjectBranches(selectedProject);
-      setProjectBranches(branches);
-    } catch (error) {
-      console.error('Failed to fetch project branches:', error);
-    }
-  };
+      if (!selectedTargetBranch) return;
+      const targetBranch = selectedTargetBranch;
 
-  const getRepositoryFiles = async (selectedBranch: string): Promise<FileInfo[]> => {
-    if (!repositoryInstance || !selectedProject) return [];
-
-    try {
-      return await repositoryInstance.getRepositoryFiles(selectedProject, selectedBranch);
-    } catch (error) {
-      console.error('Failed to fetch repository files:', error);
-      return [];
-    }
-  };
-
-  const publishFiles = async (selectedBranch: string, createNewBranch: boolean) => {
-    if (!repositoryInstance || !selectedProject || !userInfo || !variablesJson) return;
-
-    try {
-      let targetBranch = selectedBranch;
-
-      if (createNewBranch) {
-        const newBranchName = `recursica-${userInfo.username}-${Math.floor(Date.now() / 1000)}`;
-        const branch = await repositoryInstance.createBranch(
-          selectedProject,
-          newBranchName,
-          'main'
-        );
-        targetBranch = branch.name;
-      }
-
-      const files = await getRepositoryFiles(targetBranch);
+      if (!selectedProject) return;
       const variablesFilename = 'recursica-bundle.json';
 
-      const exists = files.find((file) => file.name === variablesFilename);
+      const exists = await repositoryInstance.fileExists(
+        selectedProject,
+        variablesFilename,
+        targetBranch
+      );
       const actions: CommitAction[] = [
         {
           action: exists ? 'update' : 'create',
@@ -152,6 +124,20 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
           content: variablesJson,
         },
       ];
+
+      for (const file of adapterFiles) {
+        if (!selectedProject) return;
+        const exists = await repositoryInstance.fileExists(
+          selectedProject,
+          file.path,
+          targetBranch
+        );
+        actions.push({
+          action: exists ? 'update' : 'create',
+          file_path: file.path,
+          content: file.content,
+        });
+      }
 
       await repositoryInstance.commitFiles(
         selectedProject,
@@ -164,7 +150,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
         const pullRequest = await repositoryInstance.createPullRequest(
           selectedProject,
           targetBranch,
-          defaultBranch || 'main',
+          selectedProject.defaultBranch,
           'New recursica tokens release'
         );
         setPrLink(pullRequest.url);
@@ -175,7 +161,7 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
         const hasOpenPR = await repositoryInstance.hasOpenPullRequest(
           selectedProject,
           targetBranch,
-          defaultBranch || 'main'
+          selectedProject.defaultBranch
         );
 
         if (hasOpenPR) {
@@ -205,12 +191,24 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     );
   };
 
+  const createBranch = async (project: Project) => {
+    if (!repositoryInstance || !selectedProjectId) return;
+    const branch = await repositoryInstance.createBranch(
+      project,
+      `recursica-${userInfo?.username}-${Date.now()}`,
+      project.defaultBranch
+    );
+    setSelectedTargetBranch(branch.name);
+    return branch.name;
+  };
+
   const runAdapter = async () => {
-    if (!repositoryInstance || !selectedProject) return;
+    if (!repositoryInstance || !selectedProjectId || !selectedProject) return;
 
     try {
-      const adapterFilename = 'helloworld.js';
-      const targetBranch = 'recursica/v2';
+      const targetBranch = await createBranch(selectedProject);
+      const adapterFilename = 'recursica/adapter.js';
+      if (!selectedProject || !targetBranch) return;
 
       const fileContent = await repositoryInstance.getSingleFile(
         selectedProject,
@@ -218,8 +216,139 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
         targetBranch
       );
 
-      const adapter = eval(fileContent.content);
-      setAdapterResponse(`adapter ran successfully: ${adapter}`);
+      const configFile = await repositoryInstance.getSingleFile(
+        selectedProject,
+        'recursica.json',
+        targetBranch
+      );
+
+      const config = JSON.parse(configFile.content);
+
+      // The new URL(..., import.meta.url) syntax is the standard way to load workers
+      // in modern JavaScript projects (supported by Vite, Create React App, etc.)
+      const worker = new Worker(
+        URL.createObjectURL(new Blob([fileContent.content], { type: 'text/javascript' }))
+      );
+      worker.postMessage({
+        bundledJson: variablesJson,
+        srcPath: 'src',
+        project: 'recursica',
+        iconsJson: '',
+        overrides: config.overrides,
+        iconsConfig: config.iconsConfig,
+      });
+
+      // Listener for messages coming FROM the worker
+      worker.onmessage = (event) => {
+        console.log('✅ Response received from worker:', event.data);
+        const {
+          recursicaTokens,
+          vanillaExtractThemes,
+          mantineTheme,
+          uiKitObject,
+          recursicaObject,
+          colorsType,
+          iconsObject,
+        } = event.data;
+        const newAdapterFiles: AdapterFile[] = [];
+
+        if (recursicaTokens) {
+          newAdapterFiles.push({
+            path: recursicaTokens.path,
+            content: recursicaTokens.content,
+          });
+        }
+
+        const {
+          availableThemes,
+          themeContract,
+          themesFileContent,
+          vanillaExtractThemes: subThemes,
+        } = vanillaExtractThemes;
+        if (availableThemes) {
+          newAdapterFiles.push({
+            path: availableThemes.path,
+            content: availableThemes.content,
+          });
+        }
+        if (themeContract) {
+          newAdapterFiles.push({
+            path: themeContract.path,
+            content: themeContract.content,
+          });
+        }
+        if (themesFileContent) {
+          newAdapterFiles.push({
+            path: themesFileContent.path,
+            content: themesFileContent.content,
+          });
+        }
+        for (const theme of subThemes) {
+          newAdapterFiles.push({
+            path: theme.path,
+            content: theme.content,
+          });
+        }
+
+        if (mantineTheme.mantineTheme) {
+          newAdapterFiles.push({
+            path: mantineTheme.mantineTheme.path,
+            content: mantineTheme.mantineTheme.content,
+          });
+        }
+        if (mantineTheme.postCss) {
+          newAdapterFiles.push({
+            path: mantineTheme.postCss.path,
+            content: mantineTheme.postCss.content,
+          });
+        }
+
+        if (uiKitObject) {
+          newAdapterFiles.push({
+            path: uiKitObject.path,
+            content: uiKitObject.content,
+          });
+        }
+
+        if (recursicaObject) {
+          newAdapterFiles.push({
+            path: recursicaObject.path,
+            content: recursicaObject.content,
+          });
+        }
+
+        if (colorsType) {
+          newAdapterFiles.push({
+            path: colorsType.path,
+            content: colorsType.content,
+          });
+        }
+
+        if (iconsObject) {
+          newAdapterFiles.push({
+            path: iconsObject.iconExports.path,
+            content: iconsObject.iconExports.content,
+          });
+          newAdapterFiles.push({
+            path: iconsObject.iconResourceMap.path,
+            content: iconsObject.iconResourceMap.content,
+          });
+          for (const icon of iconsObject.exportedIcons) {
+            newAdapterFiles.push({
+              path: icon.path,
+              content: icon.content,
+            });
+          }
+        }
+        setAdapterFiles(newAdapterFiles);
+        setAdapterResponse(`adapter ran successfully: ${event.data}`);
+      };
+
+      // Listener for any errors that might occur inside the worker
+      worker.onerror = (error) => {
+        console.error('❌ Error in worker:', error);
+        setAdapterResponse(`Error: ${error.message}`);
+      };
     } catch (error) {
       console.error('Failed to run adapter:', error);
       setAdapterResponse('Failed to run adapter');
@@ -229,12 +358,11 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
   const value = {
     accessToken,
     platform,
-    selectedProject,
+    selectedProjectId,
     updateAccessToken: setAccessToken,
     updatePlatform: setPlatform,
-    updateSelectedProject: setSelectedProject,
+    updateSelectedProjectId: setselectedProjectId,
     userProjects,
-    projectBranches: projectBranches.map((branch) => branch.name), // Convert back to strings for compatibility
     filesPublished,
     prLink,
     tokenCollection,
@@ -243,7 +371,6 @@ export function RepositoryProvider({ children }: { children: React.ReactNode }) 
     updateThemesCollections: setThemesCollections,
     fetchSources,
     publishFiles,
-    defaultBranch,
     runAdapter,
     adapterResponse,
   };

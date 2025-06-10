@@ -1,4 +1,3 @@
-import fs from 'fs';
 import type {
   JsonContent,
   JsonContentIcons,
@@ -9,7 +8,6 @@ import type {
   CollectionToken,
 } from './types';
 import { isFontFamilyToken, isEffectToken, isColorOrFloatToken } from './utils/helpers';
-import { loadConfig } from './utils/loadConfig';
 import { runAdapter } from './adapter';
 import { capitalize } from './utils/capitalize';
 
@@ -73,7 +71,6 @@ interface ProcessTokensParams {
   overrides: RecursicaConfigOverrides | undefined;
 }
 interface ProcessJsonParams extends ProcessTokensParams {
-  jsonPath: string;
   tokens: ThemeTokens;
   themes: Themes;
   project: string;
@@ -164,8 +161,11 @@ function processTokens(
   }
 }
 
-function readJson({ jsonPath, tokens, themes, project, overrides }: ProcessJsonParams) {
-  const jsonContent: JsonContent = JSON.parse(fs.readFileSync(jsonPath, 'utf-8')) as JsonContent;
+function readJson(
+  jsonFileContent: string,
+  { tokens, themes, project, overrides }: ProcessJsonParams
+) {
+  const jsonContent: JsonContent = JSON.parse(jsonFileContent) as JsonContent;
 
   const jsonProjectId = jsonContent.projectId;
   if (!jsonProjectId) {
@@ -183,78 +183,41 @@ function readJson({ jsonPath, tokens, themes, project, overrides }: ProcessJsonP
 
   return jsonContent;
 }
+// 1. Listen for a message from the main application thread
+// You can use self.addEventListener or the shorter self.onmessage
+self.onmessage = (event) => {
+  // Run the script
+  const params = event.data;
 
-// Run the script
-try {
-  const { bundledJson, srcPath, project, iconsJson, overrides, iconsConfig } = loadConfig();
+  try {
+    const { bundledJson, srcPath, project, iconsJson, overrides, iconsConfig } = params;
 
-  if (iconsJson) {
-    const iconsJsonContent: JsonContentIcons = JSON.parse(
-      fs.readFileSync(iconsJson, 'utf-8')
-    ) as JsonContentIcons;
-    for (const [iconName, iconPath] of Object.entries(iconsJsonContent)) {
-      icons[iconName] = iconPath;
+    if (iconsJson) {
+      const iconsJsonContent: JsonContentIcons = JSON.parse(params.iconsJson) as JsonContentIcons;
+      for (const [iconName, iconPath] of Object.entries(iconsJsonContent)) {
+        icons[iconName] = iconPath;
+      }
     }
+
+    if (!bundledJson) throw new Error('bundledJson not found');
+    readJson(params.bundledJson, { tokens, themes, project, overrides });
+
+    const files = runAdapter({
+      overrides,
+      srcPath,
+      tokens,
+      icons,
+      colors: colorTokens,
+      breakpoints,
+      themes,
+      uiKit,
+      project,
+      iconsConfig,
+    });
+    // 3. Send the response back to the main thread
+    console.log('...Worker sending response back:', files);
+    self.postMessage(files);
+  } catch (error) {
+    console.error('Error generating theme:', error);
   }
-
-  if (!bundledJson) throw new Error('bundledJson not found');
-  readJson({ jsonPath: bundledJson, tokens, themes, project, overrides });
-
-  const files = runAdapter({
-    overrides,
-    srcPath,
-    tokens,
-    icons,
-    colors: colorTokens,
-    breakpoints,
-    themes,
-    uiKit,
-    project,
-    iconsConfig,
-  });
-  const {
-    recursicaTokens,
-    vanillaExtractThemes,
-    mantineTheme,
-    uiKitObject,
-    recursicaObject,
-    colorsType,
-    iconsObject,
-  } = files;
-
-  fs.writeFileSync(recursicaTokens.path, recursicaTokens.content);
-
-  const {
-    availableThemes,
-    themeContract,
-    themesFileContent,
-    vanillaExtractThemes: subThemes,
-  } = vanillaExtractThemes;
-  fs.writeFileSync(availableThemes.path, availableThemes.content);
-  fs.writeFileSync(themeContract.path, themeContract.content);
-  fs.writeFileSync(themesFileContent.path, themesFileContent.content);
-  for (const theme of subThemes) {
-    fs.writeFileSync(theme.path, theme.content);
-  }
-
-  fs.writeFileSync(mantineTheme.mantineTheme.path, mantineTheme.mantineTheme.content);
-  fs.writeFileSync(mantineTheme.postCss.path, mantineTheme.postCss.content);
-
-  fs.writeFileSync(uiKitObject.path, uiKitObject.content);
-
-  fs.writeFileSync(recursicaObject.path, recursicaObject.content);
-
-  fs.writeFileSync(colorsType.path, colorsType.content);
-
-  if (iconsObject) {
-    fs.writeFileSync(iconsObject.iconExports.path, iconsObject.iconExports.content);
-    fs.writeFileSync(iconsObject.iconResourceMap.path, iconsObject.iconResourceMap.content);
-    for (const icon of iconsObject.exportedIcons) {
-      fs.writeFileSync(icon.path, icon.content);
-    }
-  }
-  console.log('Theme generated successfully');
-} catch (error) {
-  console.error('Error generating theme:', error);
-  process.exit(1);
-}
+};

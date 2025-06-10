@@ -1,13 +1,20 @@
-import path from 'path';
-import fs from 'fs';
-import type { Themes, ThemeTokens, RecursicaConfigOverrides, RecursicaConfigIcons } from '../types';
-import { generateVanillaExtractThemes } from './generateVanillaExtractThemes';
+import type {
+  Themes,
+  ThemeTokens,
+  RecursicaConfigOverrides,
+  RecursicaConfigIcons,
+  ExportingResult,
+} from '../types';
+import {
+  generateVanillaExtractThemes,
+  VanillaExtractThemesOutput,
+} from './generateVanillaExtractThemes';
 import { generateRecursicaTokens } from './generateRecursicaTokens';
 import { generateUiKit } from './generateUiKit';
-import { generateMantineTheme } from './generateMantineTheme';
+import { generateMantineTheme, GenerateMantineThemeOutput } from './generateMantineTheme';
 import { createRecursicaObject } from './generateRecursicaObject';
 import { generateColorsType } from './generateColorTypes';
-import { generateIcons } from './generateIcons';
+import { generateIcons, GenerateIconsOutput } from './generateIcons';
 
 interface GenerateThemeFileParams {
   overrides: RecursicaConfigOverrides | undefined;
@@ -35,6 +42,15 @@ interface GenerateThemeFileParams {
  * @param themes - Theme variants
  * @param project - Project name
  */
+interface RunAdapterOutput {
+  recursicaTokens: ExportingResult;
+  vanillaExtractThemes: VanillaExtractThemesOutput;
+  mantineTheme: GenerateMantineThemeOutput;
+  uiKitObject: ExportingResult;
+  recursicaObject: ExportingResult;
+  colorsType: ExportingResult;
+  iconsObject: GenerateIconsOutput | undefined;
+}
 export function runAdapter({
   overrides,
   srcPath,
@@ -46,41 +62,41 @@ export function runAdapter({
   icons,
   breakpoints,
   iconsConfig,
-}: GenerateThemeFileParams) {
-  const outputPath = path.join(srcPath, 'recursica');
+}: GenerateThemeFileParams): RunAdapterOutput {
+  const outputPath = srcPath + '/recursica';
 
-  // Ensure directory exists
-  if (!fs.existsSync(outputPath)) {
-    fs.mkdirSync(outputPath, { recursive: true });
-  }
+  const recursicaTokens = generateRecursicaTokens(tokens, { outputPath, project });
 
-  const recursicaTokensFilename = generateRecursicaTokens(tokens, { outputPath, project });
-
-  const { themesFilename, themeContractFilename, contractTokens } = generateVanillaExtractThemes(
+  const vanillaExtractThemes = generateVanillaExtractThemes(
     tokens,
     themes,
-    recursicaTokensFilename,
-    { outputPath, project }
+    recursicaTokens.filename,
+    {
+      outputPath,
+      project,
+    }
   );
 
-  const mantineThemeFilename = generateMantineTheme({
+  const mantineTheme = generateMantineTheme({
     mantineThemeOverride: overrides?.mantineTheme,
     tokens,
     breakpoints,
     contractTokens: {
-      tokens: contractTokens,
-      filename: themeContractFilename,
+      tokens: vanillaExtractThemes.contractTokens,
+      filename: vanillaExtractThemes.themeContract.filename,
     },
     exportingProps: {
       outputPath,
       project,
-      rootPath: path.join(srcPath, '..'),
     },
   });
 
-  const uiKitFilename = generateUiKit(
+  const uiKitObject = generateUiKit(
     uiKit,
-    { recursicaTokensFilename, themeContractFilename },
+    {
+      recursicaTokensFilename: recursicaTokens.filename,
+      themeContractFilename: vanillaExtractThemes.themeContract.filename,
+    },
     { outputPath, project }
   );
 
@@ -88,20 +104,19 @@ export function runAdapter({
 
   const colorsType = generateColorsType(colors, outputPath);
 
-  let iconsPath: string;
+  let iconsObject: GenerateIconsOutput | undefined;
   if (icons) {
-    iconsPath = generateIcons(icons, srcPath, iconsConfig);
+    iconsObject = generateIcons(icons, srcPath, iconsConfig);
   }
 
-  console.warn(
-    `Theme files generated:
-    Tokens: ${recursicaTokensFilename}
-    Themes: ${themesFilename}
-    Contract: ${themeContractFilename}
-    UI Kit: ${uiKitFilename}
-    Mantine Theme: ${mantineThemeFilename}
-    Recursica: ${recursicaObject}
-    Colors Type: ${colorsType}
-    Icons: ${iconsPath}`
-  );
+  const fileContents = {
+    recursicaTokens,
+    vanillaExtractThemes,
+    mantineTheme,
+    uiKitObject,
+    recursicaObject,
+    colorsType,
+    iconsObject,
+  };
+  return fileContents;
 }

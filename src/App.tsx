@@ -1,12 +1,12 @@
 import { FigmaProvider } from '@/context';
 import {
   SelectProject,
-  SelectBranch,
   Home,
   RepositoryConnection,
   PublishFiles,
   SelectSources,
   FetchSources,
+  RunAdapter,
 } from './pages';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { Themes } from './recursica/RecursicaRecursicaThemes.css';
@@ -30,7 +30,7 @@ function App() {
                 <Route path='recursica'>
                   <Route path='token' element={<RepositoryConnection />} />
                   <Route path='select-project' element={<SelectProject />} />
-                  <Route path='select-branch' element={<SelectBranch />} />
+                  <Route path='run-adapter' element={<RunAdapter />} />
                   <Route path='publish-files' element={<PublishFiles />} />
                   {/* <Route path='success' element={<RecursicaSuccess />} /> */}
                   {/* <Route path='error' element={<RecursicaError />} /> */}

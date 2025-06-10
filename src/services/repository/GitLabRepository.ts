@@ -10,6 +10,15 @@ import {
   PullRequest,
 } from './BaseRepository';
 
+interface GitLabProject {
+  name: string;
+  id: number;
+  namespace: {
+    path: string;
+    kind: string;
+  };
+  default_branch: string;
+}
 export class GitLabRepository extends BaseRepository {
   private readonly baseUrl = 'https://gitlab.com/api/v4';
 
@@ -25,19 +34,24 @@ export class GitLabRepository extends BaseRepository {
 
   async getUserProjects(): Promise<Project[]> {
     const userInfo = await this.getUserInfo();
-    const response = await this.httpClient.get<{ name: string; id: number }[]>(
+    const response = await this.httpClient.get<GitLabProject[]>(
       `${this.baseUrl}/users/${userInfo.id}/contributed_projects`
     );
 
-    return response.data.map((project: { name: string; id: number }) => ({
-      label: project.name,
-      value: project.id.toString(),
+    return response.data.map((project: GitLabProject) => ({
+      name: project.name,
+      id: project.id.toString(),
+      owner: {
+        name: project.namespace.path,
+        type: project.namespace.kind,
+      },
+      defaultBranch: project.default_branch,
     }));
   }
 
-  async getProjectBranches(projectId: string): Promise<Branch[]> {
+  async getProjectBranches(selectedProject: Project): Promise<Branch[]> {
     const response = await this.httpClient.get<{ name: string; id: number }[]>(
-      `${this.baseUrl}/projects/${projectId}/repository/branches`
+      `${this.baseUrl}/projects/${selectedProject.id}/repository/branches`
     );
 
     return response.data.map((branch: { name: string; id: number }) => ({
@@ -60,10 +74,10 @@ export class GitLabRepository extends BaseRepository {
     }));
   }
 
-  async getSingleFile(projectId: string, filePath: string, branch: string): Promise<FileContent> {
+  async getSingleFile(project: Project, filePath: string, branch: string): Promise<FileContent> {
     const encodedFilePath = encodeURIComponent(filePath);
     const response = await this.httpClient.get(
-      `${this.baseUrl}/projects/${projectId}/repository/files/${encodedFilePath}`,
+      `${this.baseUrl}/projects/${project.id}/repository/files/${encodedFilePath}`,
       {
         params: { ref: branch },
       }
@@ -78,9 +92,9 @@ export class GitLabRepository extends BaseRepository {
     };
   }
 
-  async createBranch(projectId: string, branchName: string, sourceBranch: string): Promise<Branch> {
+  async createBranch(project: Project, branchName: string, sourceBranch: string): Promise<Branch> {
     const response = await this.httpClient.post(
-      `${this.baseUrl}/projects/${projectId}/repository/branches`,
+      `${this.baseUrl}/projects/${project.id}/repository/branches`,
       {
         branch: branchName,
         ref: sourceBranch,
@@ -93,13 +107,26 @@ export class GitLabRepository extends BaseRepository {
     };
   }
 
+  async fileExists(project: Project, filePath: string, branch: string): Promise<boolean> {
+    try {
+      const response = await this.httpClient.head(
+        `${this.baseUrl}/projects/${project.id}/repository/files/${encodeURIComponent(filePath)}`,
+        { params: { ref: branch } }
+      );
+      return response.status === 200;
+    } catch (error) {
+      console.error('Error checking if file exists:', error);
+      return false;
+    }
+  }
+
   async commitFiles(
-    projectId: string,
+    project: Project,
     branch: string,
     message: string,
     actions: CommitAction[]
   ): Promise<void> {
-    await this.httpClient.post(`${this.baseUrl}/projects/${projectId}/repository/commits`, {
+    await this.httpClient.post(`${this.baseUrl}/projects/${project.id}/repository/commits`, {
       branch: branch,
       commit_message: message,
       actions: actions,
@@ -107,14 +134,14 @@ export class GitLabRepository extends BaseRepository {
   }
 
   async createPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string,
     title: string
   ): Promise<PullRequest> {
     try {
       const response = await this.httpClient.post(
-        `${this.baseUrl}/projects/${projectId}/merge_requests`,
+        `${this.baseUrl}/projects/${project.id}/merge_requests`,
         {
           source_branch: sourceBranch,
           target_branch: targetBranch,
@@ -131,11 +158,7 @@ export class GitLabRepository extends BaseRepository {
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 409) {
         // Merge request already exists, fetch it
-        const existingMR = await this.getExistingMergeRequest(
-          projectId,
-          sourceBranch,
-          targetBranch
-        );
+        const existingMR = await this.getExistingMergeRequest(project, sourceBranch, targetBranch);
         if (existingMR) {
           return existingMR;
         }
@@ -145,13 +168,13 @@ export class GitLabRepository extends BaseRepository {
   }
 
   async hasOpenPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string
   ): Promise<boolean> {
     try {
       const response = await this.httpClient.get(
-        `${this.baseUrl}/projects/${projectId}/merge_requests`,
+        `${this.baseUrl}/projects/${project.id}/merge_requests`,
         {
           params: {
             source_branch: sourceBranch,
@@ -169,13 +192,13 @@ export class GitLabRepository extends BaseRepository {
   }
 
   private async getExistingMergeRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string
   ): Promise<PullRequest | null> {
     try {
       const response = await this.httpClient.get(
-        `${this.baseUrl}/projects/${projectId}/merge_requests`,
+        `${this.baseUrl}/projects/${project.id}/merge_requests`,
         {
           params: {
             source_branch: sourceBranch,
@@ -202,8 +225,8 @@ export class GitLabRepository extends BaseRepository {
   }
 
   // Override calculateMainBranch to set it immediately after getting branches
-  protected async calculateMainBranch(projectId: string): Promise<string> {
-    const mainBranch = await super.calculateMainBranch(projectId);
+  protected async calculateMainBranch(project: Project): Promise<string> {
+    const mainBranch = await super.calculateMainBranch(project);
     return mainBranch;
   }
 }

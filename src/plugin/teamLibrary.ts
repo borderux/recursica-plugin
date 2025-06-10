@@ -1,5 +1,4 @@
 import { GenericVariables } from './exportToJSON';
-
 import { VariableCastedValue } from './types';
 import { rgbToHex } from './utils/rgbToHex';
 

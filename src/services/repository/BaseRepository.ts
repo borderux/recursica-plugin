@@ -14,14 +14,25 @@ export interface UserInfo {
   email?: string;
 }
 
+export interface ProjectOwner {
+  /** Owner name (e.g., 'recursica') */
+  name: string;
+  /** Owner type (e.g., 'user', 'organization') */
+  type: string;
+}
+
 /**
  * Represents a project/repository for selection in UI components
  */
 export interface Project {
   /** Human-readable project name for display */
-  label: string;
+  name: string;
   /** Unique identifier used for API calls (project ID for GitLab, owner/repo for GitHub) */
-  value: string;
+  id: string;
+  /** Owner of the project */
+  owner: ProjectOwner;
+  /** Default branch name (e.g., 'main', 'master') */
+  defaultBranch: string;
 }
 
 /**
@@ -96,35 +107,36 @@ export abstract class BaseRepository {
   // Abstract methods that must be implemented by concrete classes
   abstract getUserInfo(): Promise<UserInfo>;
   abstract getUserProjects(): Promise<Project[]>;
-  abstract getProjectBranches(projectId: string): Promise<Branch[]>;
+  abstract getProjectBranches(selectedProject: Project): Promise<Branch[]>;
   abstract getRepositoryFiles(projectId: string, branch: string): Promise<FileInfo[]>;
-  abstract getSingleFile(projectId: string, filePath: string, branch: string): Promise<FileContent>;
+  abstract getSingleFile(project: Project, filePath: string, branch: string): Promise<FileContent>;
   abstract createBranch(
-    projectId: string,
+    project: Project,
     branchName: string,
     sourceBranch: string
   ): Promise<Branch>;
   abstract commitFiles(
-    projectId: string,
+    project: Project,
     branch: string,
     message: string,
     actions: CommitAction[]
   ): Promise<void>;
   abstract createPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string,
     title: string
   ): Promise<PullRequest>;
   abstract hasOpenPullRequest(
-    projectId: string,
+    project: Project,
     sourceBranch: string,
     targetBranch: string
   ): Promise<boolean>;
+  abstract fileExists(project: Project, filePath: string, branch: string): Promise<boolean>;
 
   // Common method to calculate main branch
-  protected async calculateMainBranch(projectId: string): Promise<string> {
-    const branches = await this.getProjectBranches(projectId);
+  protected async calculateMainBranch(project: Project): Promise<string> {
+    const branches = await this.getProjectBranches(project);
     const mainBranch = branches.find(
       (branch) => branch.name === 'main' || branch.name === 'master'
     );
