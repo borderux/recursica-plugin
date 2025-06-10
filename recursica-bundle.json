@@ -2,6 +2,681 @@
   "projectId": "recursica",
   "pluginVersion": "0.0.1",
   "tokens": {
+    "overline": {
+      "variableName": "overline",
+      "fontFamily": "Inter",
+      "fontSize": 10,
+      "fontWeight": {
+        "value": 700,
+        "alias": "Semi Bold"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 1.5
+      },
+      "textCase": "UPPER",
+      "textDecoration": "NONE"
+    },
+    "subtitle-2/normal": {
+      "variableName": "subtitle-2/normal",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": {
+        "value": 500,
+        "alias": "Medium"
+      },
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 130
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "subtitle-2/strong": {
+      "variableName": "subtitle-2/strong",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": {
+        "value": 700,
+        "alias": "Semi Bold"
+      },
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 130
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "body-1/normal": {
+      "variableName": "body-1/normal",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "body-2/strong": {
+      "variableName": "body-2/strong",
+      "fontFamily": "Inter",
+      "fontSize": 14,
+      "fontWeight": {
+        "value": 700,
+        "alias": "Semi Bold"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0.25
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "button": {
+      "variableName": "button",
+      "fontFamily": "Inter",
+      "fontSize": 14,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0.25
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "h2": {
+      "variableName": "h2",
+      "fontFamily": "Inter",
+      "fontSize": 30,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "h1": {
+      "variableName": "h1",
+      "fontFamily": "Inter",
+      "fontSize": 36,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "h6": {
+      "variableName": "h6",
+      "fontFamily": "Inter",
+      "fontSize": 20,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "body-2/normal": {
+      "variableName": "body-2/normal",
+      "fontFamily": "Inter",
+      "fontSize": 14,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0.25
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "caption": {
+      "variableName": "caption",
+      "fontFamily": "Inter",
+      "fontSize": 12,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0.25
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "subtitle-1/strong": {
+      "variableName": "subtitle-1/strong",
+      "fontFamily": "Inter",
+      "fontSize": 18,
+      "fontWeight": {
+        "value": 700,
+        "alias": "Semi Bold"
+      },
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 130
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "h3": {
+      "variableName": "h3",
+      "fontFamily": "Inter",
+      "fontSize": 26,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "subtitle-1/normal": {
+      "variableName": "subtitle-1/normal",
+      "fontFamily": "Inter",
+      "fontSize": 18,
+      "fontWeight": {
+        "value": 500,
+        "alias": "Medium"
+      },
+      "lineHeight": {
+        "unit": "PERCENT",
+        "value": 130
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "h5": {
+      "variableName": "h5",
+      "fontFamily": "Inter",
+      "fontSize": 22,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "body-1/strong": {
+      "variableName": "body-1/strong",
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": {
+        "value": 700,
+        "alias": "Semi Bold"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "h4": {
+      "variableName": "h4",
+      "fontFamily": "Inter",
+      "fontSize": 24,
+      "fontWeight": {
+        "value": 400,
+        "alias": "Regular"
+      },
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    "elevation/elevation-12": {
+      "variableName": "elevation/elevation-12",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.10000000149011612
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 8,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.11999999731779099
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 24,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.14000000059604645
+          },
+          "offset": {
+            "x": 0,
+            "y": 12
+          },
+          "radius": 16,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-02": {
+      "variableName": "elevation/elevation-02",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.20000000298023224
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 8,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-03": {
+      "variableName": "elevation/elevation-03",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.07999999821186066
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 32,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.20000000298023224
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 8,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-04": {
+      "variableName": "elevation/elevation-04",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.20000000298023224
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 8,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.07999999821186066
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 24,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-08": {
+      "variableName": "elevation/elevation-08",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.20000000298023224
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 12,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.11999999731779099
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 24,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.14000000059604645
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 16,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-06": {
+      "variableName": "elevation/elevation-06",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.18000000715255737
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 8,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.14000000059604645
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 16,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-16": {
+      "variableName": "elevation/elevation-16",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.20000000298023224
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 8,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.11999999731779099
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 32,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.14000000059604645
+          },
+          "offset": {
+            "x": 0,
+            "y": 16
+          },
+          "radius": 24,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-01": {
+      "variableName": "elevation/elevation-01",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.10000000149011612
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 4,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-00": {
+      "variableName": "elevation/elevation-00",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.25
+          },
+          "offset": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0,
+          "spread": 0
+        }
+      ]
+    },
+    "elevation/elevation-24": {
+      "variableName": "elevation/elevation-24",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.20000000298023224
+          },
+          "offset": {
+            "x": 0,
+            "y": 12
+          },
+          "radius": 16,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.11999999731779099
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 48,
+          "spread": 0
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.14000000059604645
+          },
+          "offset": {
+            "x": 0,
+            "y": 24
+          },
+          "radius": 40,
+          "spread": 0
+        }
+      ]
+    },
     "[Tokens][Mode-1][color/orchid/800]": {
       "collection": "Tokens",
       "mode": "Mode 1",
@@ -1181,6 +1856,681 @@
   },
   "themes": {
     "default": {
+      "caption": {
+        "variableName": "caption",
+        "fontFamily": "Lexend",
+        "fontSize": 12,
+        "fontWeight": {
+          "value": 400,
+          "alias": "Regular"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0.25
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "h1": {
+        "variableName": "h1",
+        "fontFamily": "Lexend",
+        "fontSize": 40,
+        "fontWeight": {
+          "value": 700,
+          "alias": "Bold"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "h2": {
+        "variableName": "h2",
+        "fontFamily": "Lexend",
+        "fontSize": 36,
+        "fontWeight": {
+          "value": 600,
+          "alias": "SemiBold"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "h4": {
+        "variableName": "h4",
+        "fontFamily": "Lexend",
+        "fontSize": 28,
+        "fontWeight": {
+          "value": 300,
+          "alias": "Light"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "h3": {
+        "variableName": "h3",
+        "fontFamily": "Lexend",
+        "fontSize": 32,
+        "fontWeight": {
+          "value": 400,
+          "alias": "Regular"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "h5": {
+        "variableName": "h5",
+        "fontFamily": "Lexend",
+        "fontSize": 24,
+        "fontWeight": {
+          "value": 500,
+          "alias": "Medium"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "subtitle-1/strong": {
+        "variableName": "subtitle-1/strong",
+        "fontFamily": "Lexend",
+        "fontSize": 18,
+        "fontWeight": {
+          "value": 700,
+          "alias": "Bold"
+        },
+        "lineHeight": {
+          "unit": "PERCENT",
+          "value": 130
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "body-1/normal": {
+        "variableName": "body-1/normal",
+        "fontFamily": "Lexend",
+        "fontSize": 16,
+        "fontWeight": {
+          "value": 400,
+          "alias": "Regular"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "h6": {
+        "variableName": "h6",
+        "fontFamily": "Lexend",
+        "fontSize": 20,
+        "fontWeight": {
+          "value": 400,
+          "alias": "Regular"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "subtitle-2/normal": {
+        "variableName": "subtitle-2/normal",
+        "fontFamily": "Lexend",
+        "fontSize": 16,
+        "fontWeight": {
+          "value": 400,
+          "alias": "Regular"
+        },
+        "lineHeight": {
+          "unit": "PERCENT",
+          "value": 130
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "body-1/strong": {
+        "variableName": "body-1/strong",
+        "fontFamily": "Lexend",
+        "fontSize": 16,
+        "fontWeight": {
+          "value": 600,
+          "alias": "SemiBold"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "subtitle-2/strong": {
+        "variableName": "subtitle-2/strong",
+        "fontFamily": "Lexend",
+        "fontSize": 16,
+        "fontWeight": {
+          "value": 600,
+          "alias": "SemiBold"
+        },
+        "lineHeight": {
+          "unit": "PERCENT",
+          "value": 130
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "body-2/normal": {
+        "variableName": "body-2/normal",
+        "fontFamily": "Lexend",
+        "fontSize": 14,
+        "fontWeight": {
+          "value": 400,
+          "alias": "Regular"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0.25
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "button": {
+        "variableName": "button",
+        "fontFamily": "Lexend",
+        "fontSize": 14,
+        "fontWeight": {
+          "value": 400,
+          "alias": "Regular"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0.25
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "body-2/strong": {
+        "variableName": "body-2/strong",
+        "fontFamily": "Lexend",
+        "fontSize": 14,
+        "fontWeight": {
+          "value": 600,
+          "alias": "SemiBold"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0.25
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "subtitle-1/normal": {
+        "variableName": "subtitle-1/normal",
+        "fontFamily": "Lexend",
+        "fontSize": 18,
+        "fontWeight": {
+          "value": 300,
+          "alias": "Light"
+        },
+        "lineHeight": {
+          "unit": "PERCENT",
+          "value": 130
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 0
+        },
+        "textCase": "ORIGINAL",
+        "textDecoration": "NONE"
+      },
+      "overline": {
+        "variableName": "overline",
+        "fontFamily": "Lexend",
+        "fontSize": 10,
+        "fontWeight": {
+          "value": 500,
+          "alias": "Medium"
+        },
+        "lineHeight": {
+          "unit": "AUTO"
+        },
+        "letterSpacing": {
+          "unit": "PIXELS",
+          "value": 1.5
+        },
+        "textCase": "UPPER",
+        "textDecoration": "NONE"
+      },
+      "elevation/elevation-02": {
+        "variableName": "elevation/elevation-02",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.20000000298023224
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 8,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-01": {
+        "variableName": "elevation/elevation-01",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.10000000149011612
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 4,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-24": {
+        "variableName": "elevation/elevation-24",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.20000000298023224
+            },
+            "offset": {
+              "x": 0,
+              "y": 12
+            },
+            "radius": 16,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.11999999731779099
+            },
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "radius": 48,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.14000000059604645
+            },
+            "offset": {
+              "x": 0,
+              "y": 24
+            },
+            "radius": 40,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-08": {
+        "variableName": "elevation/elevation-08",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.20000000298023224
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 12,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.11999999731779099
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 24,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.14000000059604645
+            },
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "radius": 16,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-04": {
+        "variableName": "elevation/elevation-04",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.20000000298023224
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 8,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.07999999821186066
+            },
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "radius": 24,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-12": {
+        "variableName": "elevation/elevation-12",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.10000000149011612
+            },
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "radius": 8,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.11999999731779099
+            },
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "radius": 24,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.14000000059604645
+            },
+            "offset": {
+              "x": 0,
+              "y": 12
+            },
+            "radius": 16,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-00": {
+        "variableName": "elevation/elevation-00",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.25
+            },
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "radius": 0,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-16": {
+        "variableName": "elevation/elevation-16",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.20000000298023224
+            },
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "radius": 8,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.11999999731779099
+            },
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "radius": 32,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.14000000059604645
+            },
+            "offset": {
+              "x": 0,
+              "y": 16
+            },
+            "radius": 24,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-03": {
+        "variableName": "elevation/elevation-03",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.07999999821186066
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 32,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.20000000298023224
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 8,
+            "spread": 0
+          }
+        ]
+      },
+      "elevation/elevation-06": {
+        "variableName": "elevation/elevation-06",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.18000000715255737
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 8,
+            "spread": 0
+          },
+          {
+            "type": "DROP_SHADOW",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0.14000000059604645
+            },
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "radius": 16,
+            "spread": 0
+          }
+        ]
+      },
       "[Themes][Light][color-on/3-scale/200/high-emphasis]": {
         "collection": "Themes",
         "mode": "Light",
