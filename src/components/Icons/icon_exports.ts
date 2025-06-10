@@ -8,12 +8,4 @@ Do NOT edit these files directly
 For more information about Recursica, go to https://recursica.com
 */
 
-module.exports = {
-  plugins: {
-    'postcss-preset-mantine': {},
-    'postcss-simple-vars': {
-      variables: {
-      }
-    }
-  }
-}
+/// <reference types="vite-plugin-svgr/client" />
