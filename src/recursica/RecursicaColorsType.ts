@@ -634,8 +634,8 @@ export type RecursicaColors =
 	"panel/color/background" |
 	"pagination/color/text-default" |
 	"pagination/color/text-selected" |
-	"panel/color/title" |
 	"pagination/color/text-secondary" |
+	"panel/color/title" |
 	"pagination/color/text-disabled" |
 	"radio/color/selected" |
 	"radio/color/selected-disabled" |
