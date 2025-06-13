@@ -8,12 +8,12 @@ Do NOT edit these files directly
 For more information about Recursica, go to https://recursica.com
 */
 
-import { RecursicarecursicaTokens } from './RecursicarecursicaTokens';
-import { themeVars } from './RecursicarecursicaContractTheme.css';
-import { uiKit } from './RecursicarecursicaUiKit';
+import { RecursicaRecursicaTokens } from './RecursicaRecursicaTokens';
+import { themeVars } from './RecursicaRecursicaContractTheme.css';
+import { uiKit } from './RecursicaRecursicaUiKit';
 
 export const recursica = {
   ...uiKit,
   ...themeVars,
-  ...RecursicarecursicaTokens,
+  ...RecursicaRecursicaTokens,
 }
