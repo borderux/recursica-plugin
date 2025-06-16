@@ -1,682 +1,7 @@
 {
-  "projectId": "recursica",
+  "projectId": "Recursica",
   "pluginVersion": "0.0.1",
   "tokens": {
-    "overline": {
-      "variableName": "overline",
-      "fontFamily": "Inter",
-      "fontSize": 10,
-      "fontWeight": {
-        "value": 700,
-        "alias": "Semi Bold"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 1.5
-      },
-      "textCase": "UPPER",
-      "textDecoration": "NONE"
-    },
-    "subtitle-2/normal": {
-      "variableName": "subtitle-2/normal",
-      "fontFamily": "Inter",
-      "fontSize": 16,
-      "fontWeight": {
-        "value": 500,
-        "alias": "Medium"
-      },
-      "lineHeight": {
-        "unit": "PERCENT",
-        "value": 130
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "subtitle-2/strong": {
-      "variableName": "subtitle-2/strong",
-      "fontFamily": "Inter",
-      "fontSize": 16,
-      "fontWeight": {
-        "value": 700,
-        "alias": "Semi Bold"
-      },
-      "lineHeight": {
-        "unit": "PERCENT",
-        "value": 130
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "body-1/normal": {
-      "variableName": "body-1/normal",
-      "fontFamily": "Inter",
-      "fontSize": 16,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "body-2/strong": {
-      "variableName": "body-2/strong",
-      "fontFamily": "Inter",
-      "fontSize": 14,
-      "fontWeight": {
-        "value": 700,
-        "alias": "Semi Bold"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0.25
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "button": {
-      "variableName": "button",
-      "fontFamily": "Inter",
-      "fontSize": 14,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0.25
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "h2": {
-      "variableName": "h2",
-      "fontFamily": "Inter",
-      "fontSize": 30,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "h1": {
-      "variableName": "h1",
-      "fontFamily": "Inter",
-      "fontSize": 36,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "h6": {
-      "variableName": "h6",
-      "fontFamily": "Inter",
-      "fontSize": 20,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "body-2/normal": {
-      "variableName": "body-2/normal",
-      "fontFamily": "Inter",
-      "fontSize": 14,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0.25
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "caption": {
-      "variableName": "caption",
-      "fontFamily": "Inter",
-      "fontSize": 12,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0.25
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "subtitle-1/strong": {
-      "variableName": "subtitle-1/strong",
-      "fontFamily": "Inter",
-      "fontSize": 18,
-      "fontWeight": {
-        "value": 700,
-        "alias": "Semi Bold"
-      },
-      "lineHeight": {
-        "unit": "PERCENT",
-        "value": 130
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "h3": {
-      "variableName": "h3",
-      "fontFamily": "Inter",
-      "fontSize": 26,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "subtitle-1/normal": {
-      "variableName": "subtitle-1/normal",
-      "fontFamily": "Inter",
-      "fontSize": 18,
-      "fontWeight": {
-        "value": 500,
-        "alias": "Medium"
-      },
-      "lineHeight": {
-        "unit": "PERCENT",
-        "value": 130
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "h5": {
-      "variableName": "h5",
-      "fontFamily": "Inter",
-      "fontSize": 22,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "body-1/strong": {
-      "variableName": "body-1/strong",
-      "fontFamily": "Inter",
-      "fontSize": 16,
-      "fontWeight": {
-        "value": 700,
-        "alias": "Semi Bold"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "h4": {
-      "variableName": "h4",
-      "fontFamily": "Inter",
-      "fontSize": 24,
-      "fontWeight": {
-        "value": 400,
-        "alias": "Regular"
-      },
-      "lineHeight": {
-        "unit": "AUTO"
-      },
-      "letterSpacing": {
-        "unit": "PIXELS",
-        "value": 0
-      },
-      "textCase": "ORIGINAL",
-      "textDecoration": "NONE"
-    },
-    "elevation/elevation-12": {
-      "variableName": "elevation/elevation-12",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.10000000149011612
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 8,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.11999999731779099
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 24,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.14000000059604645
-          },
-          "offset": {
-            "x": 0,
-            "y": 12
-          },
-          "radius": 16,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-02": {
-      "variableName": "elevation/elevation-02",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.20000000298023224
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 8,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-03": {
-      "variableName": "elevation/elevation-03",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.07999999821186066
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 32,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.20000000298023224
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 8,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-04": {
-      "variableName": "elevation/elevation-04",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.20000000298023224
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 8,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.07999999821186066
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 24,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-08": {
-      "variableName": "elevation/elevation-08",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.20000000298023224
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 12,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.11999999731779099
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 24,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.14000000059604645
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 16,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-06": {
-      "variableName": "elevation/elevation-06",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.18000000715255737
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 8,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.14000000059604645
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 16,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-16": {
-      "variableName": "elevation/elevation-16",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.20000000298023224
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 8,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.11999999731779099
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 32,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.14000000059604645
-          },
-          "offset": {
-            "x": 0,
-            "y": 16
-          },
-          "radius": 24,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-01": {
-      "variableName": "elevation/elevation-01",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.10000000149011612
-          },
-          "offset": {
-            "x": 0,
-            "y": 4
-          },
-          "radius": 4,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-00": {
-      "variableName": "elevation/elevation-00",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.25
-          },
-          "offset": {
-            "x": 0,
-            "y": 0
-          },
-          "radius": 0,
-          "spread": 0
-        }
-      ]
-    },
-    "elevation/elevation-24": {
-      "variableName": "elevation/elevation-24",
-      "effects": [
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.20000000298023224
-          },
-          "offset": {
-            "x": 0,
-            "y": 12
-          },
-          "radius": 16,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.11999999731779099
-          },
-          "offset": {
-            "x": 0,
-            "y": 8
-          },
-          "radius": 48,
-          "spread": 0
-        },
-        {
-          "type": "DROP_SHADOW",
-          "color": {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-            "a": 0.14000000059604645
-          },
-          "offset": {
-            "x": 0,
-            "y": 24
-          },
-          "radius": 40,
-          "spread": 0
-        }
-      ]
-    },
     "[Tokens][Mode-1][color/orchid/800]": {
       "collection": "Tokens",
       "mode": "Mode 1",
@@ -1852,684 +1177,441 @@
       "type": "float",
       "description": "",
       "value": 16
+    },
+    "[style-variables-keys][Mode-1][c7ec3605569b97549685e09e556c29e0e6a08195]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "c7ec3605569b97549685e09e556c29e0e6a08195",
+      "type": "string",
+      "description": "",
+      "value": "c7ec3605569b97549685e09e556c29e0e6a08195"
+    },
+    "[style-variables-keys][Mode-1][a858a70a9826ff43569fd6e06f0f0dfd3ebdaf16]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "a858a70a9826ff43569fd6e06f0f0dfd3ebdaf16",
+      "type": "string",
+      "description": "",
+      "value": "a858a70a9826ff43569fd6e06f0f0dfd3ebdaf16"
+    },
+    "[style-variables-keys][Mode-1][d6d9158d55209d8731e716325f9b04235699923b]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "d6d9158d55209d8731e716325f9b04235699923b",
+      "type": "string",
+      "description": "",
+      "value": "d6d9158d55209d8731e716325f9b04235699923b"
+    },
+    "[style-variables-keys][Mode-1][3f59e2f9df78ccb515c53c97816f7ae27da5d067]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "3f59e2f9df78ccb515c53c97816f7ae27da5d067",
+      "type": "string",
+      "description": "",
+      "value": "3f59e2f9df78ccb515c53c97816f7ae27da5d067"
+    },
+    "[style-variables-keys][Mode-1][d3019b4582c92dc6cfc0428bcaec71ce06c6c8b0]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "d3019b4582c92dc6cfc0428bcaec71ce06c6c8b0",
+      "type": "string",
+      "description": "",
+      "value": "d3019b4582c92dc6cfc0428bcaec71ce06c6c8b0"
+    },
+    "[style-variables-keys][Mode-1][458cbb67abeff87f77a6f7e088e2497c01e703e5]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "458cbb67abeff87f77a6f7e088e2497c01e703e5",
+      "type": "string",
+      "description": "",
+      "value": "458cbb67abeff87f77a6f7e088e2497c01e703e5"
+    },
+    "[style-variables-keys][Mode-1][63472aeae506d3c9b9f8de5bd36c1b3cd251f0dd]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "63472aeae506d3c9b9f8de5bd36c1b3cd251f0dd",
+      "type": "string",
+      "description": "",
+      "value": "63472aeae506d3c9b9f8de5bd36c1b3cd251f0dd"
+    },
+    "[style-variables-keys][Mode-1][4d78876d55de414d22650d69d85474724e31b1fe]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "4d78876d55de414d22650d69d85474724e31b1fe",
+      "type": "string",
+      "description": "",
+      "value": "4d78876d55de414d22650d69d85474724e31b1fe"
+    },
+    "[style-variables-keys][Mode-1][4b77fe4dc43f05b0e1dceb71df611b714a10ae80]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "4b77fe4dc43f05b0e1dceb71df611b714a10ae80",
+      "type": "string",
+      "description": "",
+      "value": "4b77fe4dc43f05b0e1dceb71df611b714a10ae80"
+    },
+    "[style-variables-keys][Mode-1][d4c7ee80d477598bb84248bd123456a77ea50d5d]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "d4c7ee80d477598bb84248bd123456a77ea50d5d",
+      "type": "string",
+      "description": "",
+      "value": "d4c7ee80d477598bb84248bd123456a77ea50d5d"
+    },
+    "[style-variables-keys][Mode-1][e2d6e925bfaa154a2d1733a7946e9e91ff5a2461]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "e2d6e925bfaa154a2d1733a7946e9e91ff5a2461",
+      "type": "string",
+      "description": "",
+      "value": "e2d6e925bfaa154a2d1733a7946e9e91ff5a2461"
+    },
+    "[style-variables-keys][Mode-1][ecfaa310367cc3554bd49c9a238a47a1f36b9859]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "ecfaa310367cc3554bd49c9a238a47a1f36b9859",
+      "type": "string",
+      "description": "",
+      "value": "ecfaa310367cc3554bd49c9a238a47a1f36b9859"
+    },
+    "[style-variables-keys][Mode-1][697e890a1a86aaf1009ab292586b269894368564]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "697e890a1a86aaf1009ab292586b269894368564",
+      "type": "string",
+      "description": "",
+      "value": "697e890a1a86aaf1009ab292586b269894368564"
+    },
+    "[style-variables-keys][Mode-1][4abe41af48501bf6507133217e9eec88507ced64]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "4abe41af48501bf6507133217e9eec88507ced64",
+      "type": "string",
+      "description": "",
+      "value": "4abe41af48501bf6507133217e9eec88507ced64"
+    },
+    "[style-variables-keys][Mode-1][1467af30b80b5f99aacd971f2e8b6ad26894d7f2]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "1467af30b80b5f99aacd971f2e8b6ad26894d7f2",
+      "type": "string",
+      "description": "",
+      "value": "1467af30b80b5f99aacd971f2e8b6ad26894d7f2"
+    },
+    "[style-variables-keys][Mode-1][75f4aaa60bda20dc4bcee1412a67399afbdccad4]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "75f4aaa60bda20dc4bcee1412a67399afbdccad4",
+      "type": "string",
+      "description": "",
+      "value": "75f4aaa60bda20dc4bcee1412a67399afbdccad4"
+    },
+    "[style-variables-keys][Mode-1][243c548c0d8819f1fe2141b4acd4ae6e5095cb18]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "243c548c0d8819f1fe2141b4acd4ae6e5095cb18",
+      "type": "string",
+      "description": "",
+      "value": "243c548c0d8819f1fe2141b4acd4ae6e5095cb18"
+    },
+    "[style-variables-keys][Mode-1][a92930bb8a6cb343a7cdfff69e952aeae6a64326]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "a92930bb8a6cb343a7cdfff69e952aeae6a64326",
+      "type": "string",
+      "description": "",
+      "value": "a92930bb8a6cb343a7cdfff69e952aeae6a64326"
+    },
+    "[style-variables-keys][Mode-1][5f5d97072000673ef0fe924b8eca102af2f5023d]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "5f5d97072000673ef0fe924b8eca102af2f5023d",
+      "type": "string",
+      "description": "",
+      "value": "5f5d97072000673ef0fe924b8eca102af2f5023d"
+    },
+    "[style-variables-keys][Mode-1][aa25f68424417e7639d89d13f98e213e5893689c]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "aa25f68424417e7639d89d13f98e213e5893689c",
+      "type": "string",
+      "description": "",
+      "value": "aa25f68424417e7639d89d13f98e213e5893689c"
+    },
+    "[style-variables-keys][Mode-1][ac578bbb334d8c2b5447315ef8fd8cb60f041a72]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "ac578bbb334d8c2b5447315ef8fd8cb60f041a72",
+      "type": "string",
+      "description": "",
+      "value": "ac578bbb334d8c2b5447315ef8fd8cb60f041a72"
+    },
+    "[style-variables-keys][Mode-1][56111132f06aaee745a47210864bb67b0e544d08]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "56111132f06aaee745a47210864bb67b0e544d08",
+      "type": "string",
+      "description": "",
+      "value": "56111132f06aaee745a47210864bb67b0e544d08"
+    },
+    "[style-variables-keys][Mode-1][713c29e41d0e909799dc0190a63ea593be01ebc5]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "713c29e41d0e909799dc0190a63ea593be01ebc5",
+      "type": "string",
+      "description": "",
+      "value": "713c29e41d0e909799dc0190a63ea593be01ebc5"
+    },
+    "[style-variables-keys][Mode-1][b6b5842a1e1ba7fd41020b8c2d002cec490ce195]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "b6b5842a1e1ba7fd41020b8c2d002cec490ce195",
+      "type": "string",
+      "description": "",
+      "value": "b6b5842a1e1ba7fd41020b8c2d002cec490ce195"
+    },
+    "[style-variables-keys][Mode-1][d27db73783814add66cdbcdfa8dee20007d1ef04]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "d27db73783814add66cdbcdfa8dee20007d1ef04",
+      "type": "string",
+      "description": "",
+      "value": "d27db73783814add66cdbcdfa8dee20007d1ef04"
+    },
+    "[style-variables-keys][Mode-1][00830351f3b0e4aa4dbb9653eb1cb6ca27d58c4d]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "00830351f3b0e4aa4dbb9653eb1cb6ca27d58c4d",
+      "type": "string",
+      "description": "",
+      "value": "00830351f3b0e4aa4dbb9653eb1cb6ca27d58c4d"
+    },
+    "[style-variables-keys][Mode-1][036cd1a02863e86945dabe85d8f4a7edd64ec0fa]": {
+      "collection": "style-variables-keys",
+      "mode": "Mode 1",
+      "name": "036cd1a02863e86945dabe85d8f4a7edd64ec0fa",
+      "type": "string",
+      "description": "",
+      "value": "036cd1a02863e86945dabe85d8f4a7edd64ec0fa"
     }
   },
   "themes": {
     "default": {
-      "caption": {
-        "variableName": "caption",
-        "fontFamily": "Lexend",
-        "fontSize": 12,
-        "fontWeight": {
-          "value": 400,
-          "alias": "Regular"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0.25
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][1256ddbb36fd185a2b4eba042a2d7d522eb4103b]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "1256ddbb36fd185a2b4eba042a2d7d522eb4103b",
+        "type": "string",
+        "description": "",
+        "value": "1256ddbb36fd185a2b4eba042a2d7d522eb4103b"
       },
-      "h1": {
-        "variableName": "h1",
-        "fontFamily": "Lexend",
-        "fontSize": 40,
-        "fontWeight": {
-          "value": 700,
-          "alias": "Bold"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][91961fdd2b0d036f55b427d951433d92806af3b1]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "91961fdd2b0d036f55b427d951433d92806af3b1",
+        "type": "string",
+        "description": "",
+        "value": "91961fdd2b0d036f55b427d951433d92806af3b1"
       },
-      "h2": {
-        "variableName": "h2",
-        "fontFamily": "Lexend",
-        "fontSize": 36,
-        "fontWeight": {
-          "value": 600,
-          "alias": "SemiBold"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][f508af1e77a88bcbbda5f2fc797925f3766391e5]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "f508af1e77a88bcbbda5f2fc797925f3766391e5",
+        "type": "string",
+        "description": "",
+        "value": "f508af1e77a88bcbbda5f2fc797925f3766391e5"
       },
-      "h4": {
-        "variableName": "h4",
-        "fontFamily": "Lexend",
-        "fontSize": 28,
-        "fontWeight": {
-          "value": 300,
-          "alias": "Light"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][b3e9b27b2adacb203ba4ee1aee1d23c5b14dab1d]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "b3e9b27b2adacb203ba4ee1aee1d23c5b14dab1d",
+        "type": "string",
+        "description": "",
+        "value": "b3e9b27b2adacb203ba4ee1aee1d23c5b14dab1d"
       },
-      "h3": {
-        "variableName": "h3",
-        "fontFamily": "Lexend",
-        "fontSize": 32,
-        "fontWeight": {
-          "value": 400,
-          "alias": "Regular"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][7f14be51f71a56a6a8cf69d5bd53d4940f3bf60e]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "7f14be51f71a56a6a8cf69d5bd53d4940f3bf60e",
+        "type": "string",
+        "description": "",
+        "value": "7f14be51f71a56a6a8cf69d5bd53d4940f3bf60e"
       },
-      "h5": {
-        "variableName": "h5",
-        "fontFamily": "Lexend",
-        "fontSize": 24,
-        "fontWeight": {
-          "value": 500,
-          "alias": "Medium"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][e4f5cb4867b546f090cdd27d9c8d5ad86ce1f2fe]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "e4f5cb4867b546f090cdd27d9c8d5ad86ce1f2fe",
+        "type": "string",
+        "description": "",
+        "value": "e4f5cb4867b546f090cdd27d9c8d5ad86ce1f2fe"
       },
-      "subtitle-1/strong": {
-        "variableName": "subtitle-1/strong",
-        "fontFamily": "Lexend",
-        "fontSize": 18,
-        "fontWeight": {
-          "value": 700,
-          "alias": "Bold"
-        },
-        "lineHeight": {
-          "unit": "PERCENT",
-          "value": 130
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][f3184427c1534879fe55c6ab69bd3436e924fe54]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "f3184427c1534879fe55c6ab69bd3436e924fe54",
+        "type": "string",
+        "description": "",
+        "value": "f3184427c1534879fe55c6ab69bd3436e924fe54"
       },
-      "body-1/normal": {
-        "variableName": "body-1/normal",
-        "fontFamily": "Lexend",
-        "fontSize": 16,
-        "fontWeight": {
-          "value": 400,
-          "alias": "Regular"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][83bd574e031a56f9accb9b63775e1056db79713b]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "83bd574e031a56f9accb9b63775e1056db79713b",
+        "type": "string",
+        "description": "",
+        "value": "83bd574e031a56f9accb9b63775e1056db79713b"
       },
-      "h6": {
-        "variableName": "h6",
-        "fontFamily": "Lexend",
-        "fontSize": 20,
-        "fontWeight": {
-          "value": 400,
-          "alias": "Regular"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][b01922c5bcd4c5690507e9eeab3f5e8cc5589f81]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "b01922c5bcd4c5690507e9eeab3f5e8cc5589f81",
+        "type": "string",
+        "description": "",
+        "value": "b01922c5bcd4c5690507e9eeab3f5e8cc5589f81"
       },
-      "subtitle-2/normal": {
-        "variableName": "subtitle-2/normal",
-        "fontFamily": "Lexend",
-        "fontSize": 16,
-        "fontWeight": {
-          "value": 400,
-          "alias": "Regular"
-        },
-        "lineHeight": {
-          "unit": "PERCENT",
-          "value": 130
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][e9efb1b0c9d193afdc9da9a4f8d27bd540962ebf]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "e9efb1b0c9d193afdc9da9a4f8d27bd540962ebf",
+        "type": "string",
+        "description": "",
+        "value": "e9efb1b0c9d193afdc9da9a4f8d27bd540962ebf"
       },
-      "body-1/strong": {
-        "variableName": "body-1/strong",
-        "fontFamily": "Lexend",
-        "fontSize": 16,
-        "fontWeight": {
-          "value": 600,
-          "alias": "SemiBold"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][b432b4133257ae87c7d745464af21fea0dd304d5]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "b432b4133257ae87c7d745464af21fea0dd304d5",
+        "type": "string",
+        "description": "",
+        "value": "b432b4133257ae87c7d745464af21fea0dd304d5"
       },
-      "subtitle-2/strong": {
-        "variableName": "subtitle-2/strong",
-        "fontFamily": "Lexend",
-        "fontSize": 16,
-        "fontWeight": {
-          "value": 600,
-          "alias": "SemiBold"
-        },
-        "lineHeight": {
-          "unit": "PERCENT",
-          "value": 130
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][38b384eaaeb50ce0505166cf9ac510b786165ed8]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "38b384eaaeb50ce0505166cf9ac510b786165ed8",
+        "type": "string",
+        "description": "",
+        "value": "38b384eaaeb50ce0505166cf9ac510b786165ed8"
       },
-      "body-2/normal": {
-        "variableName": "body-2/normal",
-        "fontFamily": "Lexend",
-        "fontSize": 14,
-        "fontWeight": {
-          "value": 400,
-          "alias": "Regular"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0.25
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][ee2a91abd1045bcb8b3b4fd1e5760819f0bcbdaf]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "ee2a91abd1045bcb8b3b4fd1e5760819f0bcbdaf",
+        "type": "string",
+        "description": "",
+        "value": "ee2a91abd1045bcb8b3b4fd1e5760819f0bcbdaf"
       },
-      "button": {
-        "variableName": "button",
-        "fontFamily": "Lexend",
-        "fontSize": 14,
-        "fontWeight": {
-          "value": 400,
-          "alias": "Regular"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0.25
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][2660d7341343a3764c0865a3d4defb4d556d60fb]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "2660d7341343a3764c0865a3d4defb4d556d60fb",
+        "type": "string",
+        "description": "",
+        "value": "2660d7341343a3764c0865a3d4defb4d556d60fb"
       },
-      "body-2/strong": {
-        "variableName": "body-2/strong",
-        "fontFamily": "Lexend",
-        "fontSize": 14,
-        "fontWeight": {
-          "value": 600,
-          "alias": "SemiBold"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0.25
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][e4c699ac3a60848af0cfb23b282580a5258c673c]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "e4c699ac3a60848af0cfb23b282580a5258c673c",
+        "type": "string",
+        "description": "",
+        "value": "e4c699ac3a60848af0cfb23b282580a5258c673c"
       },
-      "subtitle-1/normal": {
-        "variableName": "subtitle-1/normal",
-        "fontFamily": "Lexend",
-        "fontSize": 18,
-        "fontWeight": {
-          "value": 300,
-          "alias": "Light"
-        },
-        "lineHeight": {
-          "unit": "PERCENT",
-          "value": 130
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 0
-        },
-        "textCase": "ORIGINAL",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][9adee57b2cea732565b205306da266db04624254]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "9adee57b2cea732565b205306da266db04624254",
+        "type": "string",
+        "description": "",
+        "value": "9adee57b2cea732565b205306da266db04624254"
       },
-      "overline": {
-        "variableName": "overline",
-        "fontFamily": "Lexend",
-        "fontSize": 10,
-        "fontWeight": {
-          "value": 500,
-          "alias": "Medium"
-        },
-        "lineHeight": {
-          "unit": "AUTO"
-        },
-        "letterSpacing": {
-          "unit": "PIXELS",
-          "value": 1.5
-        },
-        "textCase": "UPPER",
-        "textDecoration": "NONE"
+      "[style-variables-keys][Mode-1][a26536609961f78561097f9f6bad00d45cbf4521]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "a26536609961f78561097f9f6bad00d45cbf4521",
+        "type": "string",
+        "description": "",
+        "value": "a26536609961f78561097f9f6bad00d45cbf4521"
       },
-      "elevation/elevation-02": {
-        "variableName": "elevation/elevation-02",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.20000000298023224
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 8,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][9df184042b82e596e29bcc4f134fe5fe170cc71c]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "9df184042b82e596e29bcc4f134fe5fe170cc71c",
+        "type": "string",
+        "description": "",
+        "value": "9df184042b82e596e29bcc4f134fe5fe170cc71c"
       },
-      "elevation/elevation-01": {
-        "variableName": "elevation/elevation-01",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.10000000149011612
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 4,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][ac29b25c8b8f705df1cccfac6d31eec017585b7e]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "ac29b25c8b8f705df1cccfac6d31eec017585b7e",
+        "type": "string",
+        "description": "",
+        "value": "ac29b25c8b8f705df1cccfac6d31eec017585b7e"
       },
-      "elevation/elevation-24": {
-        "variableName": "elevation/elevation-24",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.20000000298023224
-            },
-            "offset": {
-              "x": 0,
-              "y": 12
-            },
-            "radius": 16,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.11999999731779099
-            },
-            "offset": {
-              "x": 0,
-              "y": 8
-            },
-            "radius": 48,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.14000000059604645
-            },
-            "offset": {
-              "x": 0,
-              "y": 24
-            },
-            "radius": 40,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][f9bd46c59f1c8a66e6f834b753765371f1c75454]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "f9bd46c59f1c8a66e6f834b753765371f1c75454",
+        "type": "string",
+        "description": "",
+        "value": "f9bd46c59f1c8a66e6f834b753765371f1c75454"
       },
-      "elevation/elevation-08": {
-        "variableName": "elevation/elevation-08",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.20000000298023224
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 12,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.11999999731779099
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 24,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.14000000059604645
-            },
-            "offset": {
-              "x": 0,
-              "y": 8
-            },
-            "radius": 16,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][6716cce3b8a30454e58552a7dbd290bab367ccee]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "6716cce3b8a30454e58552a7dbd290bab367ccee",
+        "type": "string",
+        "description": "",
+        "value": "6716cce3b8a30454e58552a7dbd290bab367ccee"
       },
-      "elevation/elevation-04": {
-        "variableName": "elevation/elevation-04",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.20000000298023224
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 8,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.07999999821186066
-            },
-            "offset": {
-              "x": 0,
-              "y": 8
-            },
-            "radius": 24,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][6e028d6fe23da30d74a52c2eadd96168b1e8c0ed]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "6e028d6fe23da30d74a52c2eadd96168b1e8c0ed",
+        "type": "string",
+        "description": "",
+        "value": "6e028d6fe23da30d74a52c2eadd96168b1e8c0ed"
       },
-      "elevation/elevation-12": {
-        "variableName": "elevation/elevation-12",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.10000000149011612
-            },
-            "offset": {
-              "x": 0,
-              "y": 8
-            },
-            "radius": 8,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.11999999731779099
-            },
-            "offset": {
-              "x": 0,
-              "y": 8
-            },
-            "radius": 24,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.14000000059604645
-            },
-            "offset": {
-              "x": 0,
-              "y": 12
-            },
-            "radius": 16,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][1443d80b1f6a8bebf7621e9bc9860c7ef06f1d6f]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "1443d80b1f6a8bebf7621e9bc9860c7ef06f1d6f",
+        "type": "string",
+        "description": "",
+        "value": "1443d80b1f6a8bebf7621e9bc9860c7ef06f1d6f"
       },
-      "elevation/elevation-00": {
-        "variableName": "elevation/elevation-00",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.25
-            },
-            "offset": {
-              "x": 0,
-              "y": 0
-            },
-            "radius": 0,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][8927cec73e847823162eb3531bd1c3dcab965aa1]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "8927cec73e847823162eb3531bd1c3dcab965aa1",
+        "type": "string",
+        "description": "",
+        "value": "8927cec73e847823162eb3531bd1c3dcab965aa1"
       },
-      "elevation/elevation-16": {
-        "variableName": "elevation/elevation-16",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.20000000298023224
-            },
-            "offset": {
-              "x": 0,
-              "y": 8
-            },
-            "radius": 8,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.11999999731779099
-            },
-            "offset": {
-              "x": 0,
-              "y": 8
-            },
-            "radius": 32,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.14000000059604645
-            },
-            "offset": {
-              "x": 0,
-              "y": 16
-            },
-            "radius": 24,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][7e15303de46f641306911f6928352e4e27f824fb]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "7e15303de46f641306911f6928352e4e27f824fb",
+        "type": "string",
+        "description": "",
+        "value": "7e15303de46f641306911f6928352e4e27f824fb"
       },
-      "elevation/elevation-03": {
-        "variableName": "elevation/elevation-03",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.07999999821186066
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 32,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.20000000298023224
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 8,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][c5d14d738aa06db4e0a4d6a9dfecd4cfdaa1d379]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "c5d14d738aa06db4e0a4d6a9dfecd4cfdaa1d379",
+        "type": "string",
+        "description": "",
+        "value": "c5d14d738aa06db4e0a4d6a9dfecd4cfdaa1d379"
       },
-      "elevation/elevation-06": {
-        "variableName": "elevation/elevation-06",
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.18000000715255737
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 8,
-            "spread": 0
-          },
-          {
-            "type": "DROP_SHADOW",
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.14000000059604645
-            },
-            "offset": {
-              "x": 0,
-              "y": 4
-            },
-            "radius": 16,
-            "spread": 0
-          }
-        ]
+      "[style-variables-keys][Mode-1][bb3a8ddc3914fca5e5c4ac3592e34bfe1fd92757]": {
+        "collection": "style-variables-keys",
+        "mode": "Mode 1",
+        "name": "bb3a8ddc3914fca5e5c4ac3592e34bfe1fd92757",
+        "type": "string",
+        "description": "",
+        "value": "bb3a8ddc3914fca5e5c4ac3592e34bfe1fd92757"
       },
       "[Themes][Light][color-on/3-scale/200/high-emphasis]": {
         "collection": "Themes",
@@ -4980,8 +4062,8 @@
         "type": "color",
         "description": "",
         "value": {
-          "collection": "Themes",
-          "name": "color/neutral/50"
+          "collection": "Tokens",
+          "name": "color/white/100"
         }
       },
       "[Themes][Dark][color/background/default]": {
@@ -13414,17 +12496,6 @@
       "description": "",
       "value": 200
     },
-    "[UI-Kit][Mode-1][modal/color/background]": {
-      "collection": "UI Kit",
-      "mode": "Mode 1",
-      "name": "modal/color/background",
-      "type": "color",
-      "description": "",
-      "value": {
-        "collection": "Themes",
-        "name": "color/surface/default"
-      }
-    },
     "[UI-Kit][Mode-1][form/icon/color/leading-icon-disabled]": {
       "collection": "UI Kit",
       "mode": "Mode 1",
@@ -13434,6 +12505,17 @@
       "value": {
         "collection": "Themes",
         "name": "color-on/background/disabled"
+      }
+    },
+    "[UI-Kit][Mode-1][modal/color/background]": {
+      "collection": "UI Kit",
+      "mode": "Mode 1",
+      "name": "modal/color/background",
+      "type": "color",
+      "description": "",
+      "value": {
+        "collection": "Themes",
+        "name": "color/surface/default"
       }
     },
     "[UI-Kit][Mode-1][modal/color/title]": {
@@ -13745,17 +12827,6 @@
         "name": "color-on/interactive/default"
       }
     },
-    "[UI-Kit][Mode-1][panel/color/title]": {
-      "collection": "UI Kit",
-      "mode": "Mode 1",
-      "name": "panel/color/title",
-      "type": "color",
-      "description": "",
-      "value": {
-        "collection": "Themes",
-        "name": "color-on/surface/high-emphasis"
-      }
-    },
     "[UI-Kit][Mode-1][pagination/color/text-secondary]": {
       "collection": "UI Kit",
       "mode": "Mode 1",
@@ -13765,6 +12836,17 @@
       "value": {
         "collection": "Themes",
         "name": "color-on/surface/medium-emphasis"
+      }
+    },
+    "[UI-Kit][Mode-1][panel/color/title]": {
+      "collection": "UI Kit",
+      "mode": "Mode 1",
+      "name": "panel/color/title",
+      "type": "color",
+      "description": "",
+      "value": {
+        "collection": "Themes",
+        "name": "color-on/surface/high-emphasis"
       }
     },
     "[UI-Kit][Mode-1][pagination/color/text-disabled]": {
@@ -14213,6 +13295,14 @@
       "description": "",
       "value": 874
     },
+    "[UI-Kit][Mode-1][slider/size/max-width-slider]": {
+      "collection": "UI Kit",
+      "mode": "Mode 1",
+      "name": "slider/size/max-width-slider",
+      "type": "float",
+      "description": "",
+      "value": 464
+    },
     "[UI-Kit][Mode-1][slider/color/handle-disabled]": {
       "collection": "UI Kit",
       "mode": "Mode 1",
@@ -14223,14 +13313,6 @@
         "collection": "Themes",
         "name": "color/interactive/disabled"
       }
-    },
-    "[UI-Kit][Mode-1][slider/size/max-width-slider]": {
-      "collection": "UI Kit",
-      "mode": "Mode 1",
-      "name": "slider/size/max-width-slider",
-      "type": "float",
-      "description": "",
-      "value": 464
     },
     "[UI-Kit][Mode-1][slider/size/min-width-slider]": {
       "collection": "UI Kit",
