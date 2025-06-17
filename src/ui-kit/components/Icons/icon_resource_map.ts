@@ -11,6 +11,6 @@ For more information about Recursica, go to https://recursica.com
 import * as IconExports from './icon_exports';
 
 export const IconResourceMap = {
-  cached_Filled: IconExports.cached_Filled,
-  cached_Outlined: IconExports.cached_Outlined,
+	'cached_Filled': IconExports.cached_Filled,
+	'cached_Outlined': IconExports.cached_Outlined,
 };
