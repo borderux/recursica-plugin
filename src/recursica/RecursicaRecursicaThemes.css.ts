@@ -13,8 +13,8 @@ export { DefaultDarkTheme } from './RecursicaRecursicaDefaultDarkTheme.css';
 import { DefaultDarkTheme } from './RecursicaRecursicaDefaultDarkTheme.css';
 
 export const Themes = {
-  Default: {
-    Light: DefaultLightTheme,
-    Dark: DefaultDarkTheme,
-  },
-};
+  'Default': {
+    'Light': DefaultLightTheme,
+		'Dark': DefaultDarkTheme
+  }
+}
