@@ -23,7 +23,7 @@ export type RecursicaColors =
 	"color/elevation/14" |
 	"color/salmon/300" |
 	"color/salmon/800" |
-	"color/black/100" |
+	"color/black/black" |
 	"color/cerise/800" |
 	"color/black/38" |
 	"color/mineshaft/300" |
@@ -46,12 +46,12 @@ export type RecursicaColors =
 	"color/orchid/600" |
 	"color/mineshaft/600" |
 	"color/greensheen/100" |
-	"color/white/100" |
+	"color/white/white" |
 	"color/cerise/400" |
 	"color/mandarin/200" |
 	"color/salmon/50" |
 	"color/mineshaft/900" |
-	"color/black/8" |
+	"color/black/08" |
 	"color/elevation/12" |
 	"color/cerise/100" |
 	"color/greensheen/400" |
@@ -65,7 +65,7 @@ export type RecursicaColors =
 	"color/cerise/300" |
 	"color/mineshaft/200" |
 	"color/orchid/900" |
-	"color/white/8" |
+	"color/white/08" |
 	"color/mineshaft/500" |
 	"color/greensheen/50" |
 	"color/cornflower/300" |
@@ -73,7 +73,7 @@ export type RecursicaColors =
 	"color/mandy/700" |
 	"color/cornflower/200" |
 	"color/cornflower/600" |
-	"color/black/4" |
+	"color/black/04" |
 	"color/cerise/700" |
 	"color/mandy/800" |
 	"color/cornflower/900" |
@@ -95,7 +95,7 @@ export type RecursicaColors =
 	"color/mandarin/600" |
 	"color/white/18" |
 	"color/salmon/500" |
-	"color/white/4" |
+	"color/white/04" |
 	"color/white/84" |
 	"color/greensheen/800" |
 	"color/mandy/100" |
@@ -116,6 +116,8 @@ export type RecursicaColors =
 	"color/salmon/400" |
 	"color/mandarin/900" |
 	"color/greensheen/900" |
+	"color/black/52" |
+	"color/white/52" |
 	"color-on/3-scale/200/high-emphasis" |
 	"color-on/surface/success" |
 	"color-on/3-scale/600/medium-emphasis" |
@@ -540,7 +542,7 @@ export type RecursicaColors =
 	"color-on/warning/default/interactive-text-pressed" |
 	"color-on/warning/default/disabled" |
 	"color-on/warning/default/medium-emphasis" |
-	"accordion/color/lavel" |
+	"accordion/color/label" |
 	"accordion/color/chevron" |
 	"accordion/color/stroke" |
 	"action-bar/color/background" |
@@ -631,11 +633,11 @@ export type RecursicaColors =
 	"pagination/color/background-hover-unselected" |
 	"pagination/color/background-selected" |
 	"pagination/color/background-hover-selected" |
-	"panel/color/background" |
 	"pagination/color/text-default" |
+	"panel/color/background" |
 	"pagination/color/text-selected" |
-	"panel/color/title" |
 	"pagination/color/text-secondary" |
+	"panel/color/title" |
 	"pagination/color/text-disabled" |
 	"radio/color/selected" |
 	"radio/color/selected-disabled" |
